@@ -9,6 +9,9 @@ const AppHeader = () => {
   const linkClassName = classNames(
     burgerConstructorStyles.link, 
     'p-5',
+    'mt-4',
+    'mb-4',
+    'mr-2'
   );
   const textClassName = classNames(
     'text',

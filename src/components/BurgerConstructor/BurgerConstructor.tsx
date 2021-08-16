@@ -1,12 +1,65 @@
-import React from 'react';
-import burgerConstructorStyles from './BurgerConstructor.module.css';
+import React from "react";
+import burgerConstructorStyles from "./BurgerConstructor.module.css";
+import {
+  ConstructorElement,
+  DragIcon,
+  CurrencyIcon,
+  Button,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { data } from "../../utils/data";
+import classNames from "classnames";
 
 const BurgerConstructor = () => {
-  return(
-    <div>
-      <h1>burger constructor</h1>
-    </div>
+  const image = data.filter((item) => item.type === "bun")[0].image;
+  const tempIngredients = data.filter(
+    (item) => item.type === "main" || item.type === "sauce"
   );
-}
+  const digitClassName = classNames("text text_type_digits-medium", "mr-2");
+  return (
+    <section className={burgerConstructorStyles.burgerConstructor}>
+      <div className={burgerConstructorStyles.topElement}>
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text="Краторная булка N-200i (верх)"
+          price={200}
+          thumbnail={image}
+        />
+      </div>
+      <ul className={burgerConstructorStyles.list}>
+        {tempIngredients.map((item) => {
+          return (
+            <li className={burgerConstructorStyles.constructorElement}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </li>
+          );
+        })}
+      </ul>
+      <div className={burgerConstructorStyles.topElement}>
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text="Краторная булка N-200i (верх)"
+          price={200}
+          thumbnail={image}
+        />
+      </div>
+      <div className={burgerConstructorStyles.makeOrderInfo}>
+        <div className={burgerConstructorStyles.price}>
+          <p className={digitClassName}>610</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <Button type="primary" size="large">
+          Оформить заказ
+        </Button>
+      </div>
+    </section>
+  );
+};
 
 export default BurgerConstructor;
