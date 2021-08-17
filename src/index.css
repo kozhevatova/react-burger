@@ -1,10 +1,6 @@
 @import url('./vendor/normalize.css');
 @import url('./vendor/fonts.css');
 
-/* * {
-  outline: 1px solid red;
-} */
-
 :root {
   --neon: #b5ff3d;
   --interface-bg: #131316;
@@ -25,4 +21,16 @@
     0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
   --effect-tab-active-shadow: inset 0px -2px 0px #4C4CFF;
   --effect-tab-inactive-shadow: inset 0px -1px 0px #2F2F37;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--interface-input);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--text-dark-grey);
 }

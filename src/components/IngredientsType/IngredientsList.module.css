@@ -1,13 +1,19 @@
+.ingredients:first-child + .title{
+  margin-top: 0;
+}
+
 .title {
-  margin: 40px 0 24px 0;
+  margin: 0 0 24px 0;
   padding: 0;
   text-align: start;
   color: var(--text-primary-light);
 }
 
+
+
 .list {
   list-style: none;
-  padding: 16px;
+  padding: 0 8px 0 16px ;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 32px;

@@ -2,10 +2,12 @@
   display: flex;
   flex-direction: column;
   margin-top: 100px;
+  /* width: 584px; */
 }
 
 .topElement {
   margin-left: 32px;
+  align-self: center;
 }
 .list {
   height: 560px;
@@ -17,10 +19,10 @@
 
 .constructorElement {
   display: grid;
-  column-gap: 8px;
+  grid-column-gap: 4px;
   grid-template-columns: min-content 1fr;
   align-items: center;
-  margin: 16px 16px 0;
+  margin: 16px 8px 0 16px;
 }
 
 .constructorElement:first-of-type {
@@ -38,5 +40,6 @@
 .price {
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin: 0 40px 0 0;
 }

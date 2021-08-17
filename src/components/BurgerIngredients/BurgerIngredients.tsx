@@ -1,89 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
-import classNames from 'classnames';
-import { data } from "../../utils/data";
+import classNames from "classnames";
+import PropTypes from "prop-types";
 import IngredientsList from "../IngredientsType/IngredientsList";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-
-const BurgerIngredients = () => {
+import {dataItemProptypes} from '../../utils/data';
+const BurgerIngredients = ({ data }: { data: any }) => {
   const [currentTab, setCurrentTab] = useState("bun");
-  const [anchorTarget, setAnchorTarget] = useState(null);
 
   const titleClassName = classNames(
     burgerIngredientsStyles.title,
-    'text text_type_main-large'
+    "text text_type_main-large"
   );
 
-  useEffect(() => {
-    setAnchorTarget(document.getElementById(`type-${currentTab}`));
-  }, [currentTab]);
-
-  const handleClick = (e) => {
+  const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
-    //document.getElementById('scrollable-list').scrollTop = 300;
-    anchorTarget.scrollIntoView({ behavior: "smooth", block: "start" });
+    const scrollableList = document.getElementById("scrollable-list");
+    const anchorTarget = document.getElementById(`type-${e.currentTarget.id}`);
+    if (scrollableList && anchorTarget) {
+      scrollableList.scrollTo({
+        top: anchorTarget.offsetTop,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
-    <section className={burgerIngredientsStyles.ingredients} id='scrolling-container'>
+    <section className={burgerIngredientsStyles.ingredients}>
       <h1 className={titleClassName}>Соберите бургер</h1>
       <nav>
         <ul className={burgerIngredientsStyles.tabs}>
-          <li className={burgerIngredientsStyles.tabsItem}>
-            <a href="#type-bun" className={burgerIngredientsStyles.tab} onClick={handleClick}>
-              <Tab
-                value="bun"
-                active={currentTab === "bun"}
-                onClick={setCurrentTab}
-              >
-                Булки
-              </Tab>
-            </a>
+          <li onClick={handleClick} id="bun">
+            <Tab
+              value="bun"
+              active={currentTab === "bun"}
+              onClick={setCurrentTab}
+            >
+              Булки
+            </Tab>
           </li>
-          <li className={burgerIngredientsStyles.tabsItem}>
-            <a href="#type-sauce" className={burgerIngredientsStyles.tab} onClick={handleClick}>
-              <Tab
-                value="sauce"
-                active={currentTab === "sauce"}
-                onClick={setCurrentTab}
-              >
-                Соусы
-              </Tab>
-            </a>
+          <li onClick={handleClick} id="sauce">
+            <Tab
+              value="sauce"
+              active={currentTab === "sauce"}
+              onClick={setCurrentTab}
+            >
+              Соусы
+            </Tab>
           </li>
-          <li className={burgerIngredientsStyles.tabsItem}>
-            <a href="#type-main" className={burgerIngredientsStyles.tab} onClick={handleClick}>
-              <Tab
-                value="main"
-                active={currentTab === "main"}
-                onClick={setCurrentTab}
-              >
-                Начинки
-              </Tab>
-            </a>
+          <li onClick={handleClick} id="main">
+            <Tab
+              value="main"
+              active={currentTab === "main"}
+              onClick={setCurrentTab}
+            >
+              Начинки
+            </Tab>
           </li>
         </ul>
       </nav>
-      <div className={burgerIngredientsStyles.scrollableList} id='scrollable-list'>
-        <IngredientsList
-        data={data.filter((item) => item.type === "bun")}
-        id="type-bun"
-        title="Булки"
-      />
-      <IngredientsList
-        data={data.filter((item) => item.type === "sauce")}
-        id="type-sauce"
-        title="Соусы"
-      />
-      <IngredientsList
-        data={data.filter((item) => item.type === "main")}
-        id="type-main"
-        title="Начинки"
-      />
-      </div>
-      
+      <ul
+        className={burgerIngredientsStyles.scrollableList}
+        id="scrollable-list"
+      >
+        <li className={burgerIngredientsStyles.scrollableListItem}>
+          <IngredientsList
+            data={data.filter((item: any) => item.type === "bun")}
+            anchorId="type-bun"
+            title="Булки"
+          />
+        </li>
+        <li className={burgerIngredientsStyles.scrollableListItem}>
+          <IngredientsList
+            data={data.filter((item: any) => item.type === "sauce")}
+            anchorId="type-sauce"
+            title="Соусы"
+          />
+        </li>
+        <li className={burgerIngredientsStyles.scrollableListItem}>
+          <IngredientsList
+            data={data.filter((item: any) => item.type === "main")}
+            anchorId="type-main"
+            title="Начинки"
+          />
+        </li>
+      </ul>
     </section>
   );
+};
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(dataItemProptypes).isRequired,
 };
 
 export default BurgerIngredients;

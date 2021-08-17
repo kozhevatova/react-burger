@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import itemStyles from "./IngredientItem.module.css";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const IngredientItem = ({ item }) => {
+const IngredientItem = ({ item }: { item: any }) => {
   const textClassName = classNames(
     itemStyles.text,
     "text text_type_main-default"
@@ -13,10 +13,11 @@ const IngredientItem = ({ item }) => {
   const digitClassName = classNames(
     "text text_type_digits-default",
     itemStyles.digit,
-    'mt-1 mb-1'
+    "mt-1 mb-1"
   );
   return (
     <div className={itemStyles.card}>
+      <Counter count={1} size="default" />
       <img src={item.image} alt={item.name} />
       <div className={itemStyles.price}>
         <p className={digitClassName}>{item.price}</p>
