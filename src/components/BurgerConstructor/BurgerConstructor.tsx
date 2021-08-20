@@ -11,11 +11,13 @@ import { dataItemProptypes } from "../../utils/data";
 import classNames from "classnames";
 
 const BurgerConstructor = ({ data }: { data: any }) => {
-  const image = data.filter((item: any) => item.type === "bun")[0].image;
+  const image = data.length>0 ? data.filter((item: any) => item.type === "bun")[0].image : '';
   const tempIngredients = data.filter(
     (item: any) => item.type === "main" || item.type === "sauce"
   );
+
   const digitClassName = classNames("text text_type_digits-medium", "mr-2");
+
   return (
     <section className={burgerConstructorStyles.burgerConstructor}>
       <div className={burgerConstructorStyles.topElement}>
@@ -28,11 +30,11 @@ const BurgerConstructor = ({ data }: { data: any }) => {
         />
       </div>
       <ul className={burgerConstructorStyles.list}>
-        {tempIngredients.map((item: any) => {
+        {tempIngredients.map((item: any, index: number) => {
           return (
             <li
               className={burgerConstructorStyles.constructorElement}
-              key={item._id}
+              key={item._id + index}
             >
               <DragIcon type="primary" />
               <ConstructorElement
