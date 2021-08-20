@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import IngredientItem from "../IngredientItem/IngredientItem";
 import listStyles from "./IngredientsList.module.css";
 import classNames from "classnames";
+import { dataItemProptypes } from "../../utils/data";
 
 const IngredientsList = ({
   anchorId,
@@ -21,8 +22,8 @@ const IngredientsList = ({
     <div className={listStyles.ingredients} id={anchorId}>
       <h2 className={titleClassName}>{title}</h2>
       <ul className={listStyles.list}>
-        {data.map((item: any) => {
-          return <IngredientItem item={item} key={item._id} />;
+        {data.map((item: any, index:number) => {
+          return <IngredientItem item={item} key={item._id + index} />;
         })}
       </ul>
     </div>
@@ -30,7 +31,7 @@ const IngredientsList = ({
 };
 
 IngredientsList.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.arrayOf(dataItemProptypes).isRequired,
   title: PropTypes.string.isRequired,
   anchorId: PropTypes.string.isRequired,
 };

@@ -1,8 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import itemStyles from "./IngredientItem.module.css";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
+import { dataItemProptypes } from "../../utils/data";
 
 const IngredientItem = ({ item }: { item: any }) => {
   const textClassName = classNames(
@@ -29,7 +29,7 @@ const IngredientItem = ({ item }: { item: any }) => {
 };
 
 IngredientItem.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: dataItemProptypes.isRequired,
 };
 
 export default IngredientItem;

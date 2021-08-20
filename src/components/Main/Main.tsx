@@ -3,8 +3,9 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import PropTypes from 'prop-types';
 import mainStyles from "./Main.module.css";
+import { dataItemProptypes } from "../../utils/data";
 
-const Main = ({data}:{data:Array<Object>}) => {
+const Main = ({data}:{data:any}) => {
   return (
     <main className={mainStyles.main}>
       <BurgerIngredients data={data}/>
@@ -14,7 +15,7 @@ const Main = ({data}:{data:Array<Object>}) => {
 };
 
 Main.propTypes = {
-  data: PropTypes.arrayOf(Object),
+  data: PropTypes.arrayOf(dataItemProptypes).isRequired,
 }
 
 export default Main;
