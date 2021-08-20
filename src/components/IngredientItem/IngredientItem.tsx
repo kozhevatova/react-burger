@@ -1,10 +1,20 @@
 import React from "react";
 import classNames from "classnames";
 import itemStyles from "./IngredientItem.module.css";
-import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import { dataItemProptypes } from "../../utils/data";
+import PropTypes from "prop-types";
+import {
+  CurrencyIcon,
+  Counter,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { dataItemProptypes } from "../../utils/utils";
 
-const IngredientItem = ({ item }: { item: any }) => {
+const IngredientItem = ({
+  item,
+  handleIngredientModalOpen,
+}: {
+  item: any;
+  handleIngredientModalOpen: any;
+}) => {
   const textClassName = classNames(
     itemStyles.text,
     "text text_type_main-default"
@@ -15,8 +25,12 @@ const IngredientItem = ({ item }: { item: any }) => {
     itemStyles.digit,
     "mt-1 mb-1"
   );
+  const handleCardClick = () => {
+    handleIngredientModalOpen(item);
+  };
+
   return (
-    <div className={itemStyles.card}>
+    <div className={itemStyles.card} onClick={handleCardClick}>
       <Counter count={1} size="default" />
       <img src={item.image} alt={item.name} />
       <div className={itemStyles.price}>
@@ -30,6 +44,7 @@ const IngredientItem = ({ item }: { item: any }) => {
 
 IngredientItem.propTypes = {
   item: dataItemProptypes.isRequired,
+  handleIngredientModalOpen: PropTypes.func.isRequired,
 };
 
 export default IngredientItem;

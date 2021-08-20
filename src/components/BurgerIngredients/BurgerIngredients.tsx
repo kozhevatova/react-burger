@@ -4,8 +4,9 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import IngredientsList from "../IngredientsType/IngredientsList";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import {dataItemProptypes} from '../../utils/data';
-const BurgerIngredients = ({ data }: { data: any }) => {
+import { dataItemProptypes } from "../../utils/utils";
+
+const BurgerIngredients = ({ data,handleIngredientModalOpen }: { data: any,handleIngredientModalOpen:any }) => {
   const [currentTab, setCurrentTab] = useState("bun");
 
   const titleClassName = classNames(
@@ -68,6 +69,7 @@ const BurgerIngredients = ({ data }: { data: any }) => {
             data={data.filter((item: any) => item.type === "bun")}
             anchorId="type-bun"
             title="Булки"
+            handleIngredientModalOpen={handleIngredientModalOpen}
           />
         </li>
         <li className={burgerIngredientsStyles.scrollableListItem}>
@@ -75,6 +77,7 @@ const BurgerIngredients = ({ data }: { data: any }) => {
             data={data.filter((item: any) => item.type === "sauce")}
             anchorId="type-sauce"
             title="Соусы"
+            handleIngredientModalOpen={handleIngredientModalOpen}
           />
         </li>
         <li className={burgerIngredientsStyles.scrollableListItem}>
@@ -82,6 +85,7 @@ const BurgerIngredients = ({ data }: { data: any }) => {
             data={data.filter((item: any) => item.type === "main")}
             anchorId="type-main"
             title="Начинки"
+            handleIngredientModalOpen={handleIngredientModalOpen}
           />
         </li>
       </ul>
@@ -91,6 +95,7 @@ const BurgerIngredients = ({ data }: { data: any }) => {
 
 BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(dataItemProptypes).isRequired,
+  handleIngredientModalOpen: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

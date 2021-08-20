@@ -7,7 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { dataItemProptypes } from "../../utils/data";
+import { dataItemProptypes } from "../../utils/utils";
 import classNames from "classnames";
 
 const BurgerConstructor = ({ data }: { data: any }) => {
