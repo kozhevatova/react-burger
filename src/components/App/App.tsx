@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import AppHeader from "../AppHeader/AppHeader";
 import Main from "../Main/Main";
 import appStyles from "./App.module.css";
@@ -38,6 +38,14 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
+  const setEscListener = () => {
+    document.addEventListener("keydown", handleEscClose);
+  };
+
+  const removeEscListener = () => {
+    document.removeEventListener("keydown", handleEscClose);
+  };
+
   //закрытие всех модальных окон, удаление слушателя события нажатия на Esc
   const handleModalsClose = () => {
     setIngredientModalVisible(false);
@@ -68,19 +76,15 @@ function App() {
   };
 
   //обработчик закрытия по нажатию Esc
-  const handleEscClose = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
-      handleModalsClose();
-    }
-  };
-
-  const setEscListener = () => {
-    document.addEventListener("keydown", handleEscClose);
-  };
-
-  const removeEscListener = () => {
-    document.removeEventListener("keydown", handleEscClose);
-  };
+  const handleEscClose = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleModalsClose();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className={appStyles.App}>
