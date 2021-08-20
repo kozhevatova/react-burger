@@ -1,24 +1,25 @@
-import classNames from 'classnames';
-import React from 'react';
-import detailsStyles from './IngredientDetails.module.css';
+import classNames from "classnames";
+import React from "react";
+import detailsStyles from "./IngredientDetails.module.css";
+import { dataItemProptypes } from "../../types/types";
 
-const IngredientDetails = ({item} : {item: any}) => {
+const IngredientDetails = ({ item }: { item: any }) => {
   const nameClassName = classNames(
     detailsStyles.name,
-    'text text_type_main-medium',
-    'mt-4'
-  )
+    "text text_type_main-medium",
+    "mt-4"
+  );
   const textClassName = classNames(
     detailsStyles.text,
-    'text text_type_main-default',
+    "text text_type_main-default"
   );
   const digitClassName = classNames(
     detailsStyles.text,
-    'text text_type_digits-default',
-  )
-  return(
+    "text text_type_digits-default"
+  );
+  return (
     <div className={detailsStyles.details}>
-      <img className={detailsStyles.image} src={item.image} alt={item.name}/>
+      <img className={detailsStyles.image} src={item.image} alt={item.name} />
       <p className={nameClassName}>{item.name}</p>
       <div className={detailsStyles.nutritionalValue}>
         <p className={textClassName}>Калории, ккал</p>
@@ -38,6 +39,10 @@ const IngredientDetails = ({item} : {item: any}) => {
       </div>
     </div>
   );
-}
+};
+
+IngredientDetails.propTypes = {
+  item: dataItemProptypes.isRequired,
+};
 
 export default IngredientDetails;

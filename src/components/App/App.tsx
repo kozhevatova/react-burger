@@ -11,8 +11,21 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 function App() {
   const [ingredients, setIngredients] = useState([]);
   const [ingredientModalVisible, setIngredientModalVisible] = useState(false);
-  const [orderModalVisible, setOrderModalVisible] = useState(true);
-  const [currentItem, setCurrentItem] = useState({});
+  const [orderModalVisible, setOrderModalVisible] = useState(false);
+  const [currentItem, setCurrentItem] = useState({
+    _id: "",
+    name: "",
+    type: "",
+    proteins: 0,
+    fat: 0,
+    carbohydrates: 0,
+    calories: 0,
+    price: 0,
+    image: "",
+    image_mobile: "",
+    image_large: "",
+  });
+  const [orderId, setOrderId] = useState(0);
 
   useEffect(() => {
     api
@@ -40,6 +53,7 @@ function App() {
   };
 
   const handleOrderModalOpen = () => {
+    setOrderId(24562);
     setOrderModalVisible(true);
     setEscListener();
   };
@@ -74,6 +88,7 @@ function App() {
       <Main
         data={ingredients}
         handleIngredientModalOpen={handleIngredientModalOpen}
+        handleOrderModalOpen={handleOrderModalOpen}
       />
       {ingredientModalVisible && (
         <Modal
@@ -90,7 +105,7 @@ function App() {
           handleModalClose={handleModalsClose}
           handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
         >
-          <OrderDetails />
+          <OrderDetails id={orderId} />
         </Modal>
       )}
     </div>

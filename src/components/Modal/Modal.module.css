@@ -30,4 +30,9 @@
   border: none;
   margin: 0;
   padding: 0;
+  width: 18px;
+}
+
+.closeButton:hover {
+  cursor: pointer;
 }

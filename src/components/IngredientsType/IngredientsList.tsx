@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import IngredientItem from "../IngredientItem/IngredientItem";
 import listStyles from "./IngredientsList.module.css";
 import classNames from "classnames";
-import { dataItemProptypes } from "../../utils/utils";
+import { dataItemProptypes } from "../../types/types";
 
 const IngredientsList = ({
   anchorId,

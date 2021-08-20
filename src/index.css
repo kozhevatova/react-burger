@@ -1,10 +1,6 @@
 @import url('./vendor/normalize.css');
 @import url('./vendor/fonts.css');
 
-* {
-  outline: 1px solid red;
-}
-
 :root {
   --neon: #b5ff3d;
   --interface-bg: #131316;
@@ -18,13 +14,6 @@
   --button-normal: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
   --button-active: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
     linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
-  --effect-bg: #c4c4c4;
-  --effect-button-glow-shadow: 0px 0px 16px 8px rgba(51, 51, 255, 0.25), 
-    0px 0px 8px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
-  --effect-card-large-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 
-    0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
-  --effect-tab-active-shadow: inset 0px -2px 0px #4C4CFF;
-  --effect-tab-inactive-shadow: inset 0px -1px 0px #2F2F37;
 }
 
 ::-webkit-scrollbar {

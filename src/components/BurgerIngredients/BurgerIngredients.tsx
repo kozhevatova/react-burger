@@ -4,9 +4,15 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import IngredientsList from "../IngredientsType/IngredientsList";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { dataItemProptypes } from "../../utils/utils";
+import { dataItemProptypes } from "../../types/types";
 
-const BurgerIngredients = ({ data,handleIngredientModalOpen }: { data: any,handleIngredientModalOpen:any }) => {
+const BurgerIngredients = ({
+  data,
+  handleIngredientModalOpen,
+}: {
+  data: any;
+  handleIngredientModalOpen: any;
+}) => {
   const [currentTab, setCurrentTab] = useState("bun");
 
   const titleClassName = classNames(

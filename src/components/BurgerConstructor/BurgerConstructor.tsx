@@ -7,11 +7,20 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { dataItemProptypes } from "../../utils/utils";
+import { dataItemProptypes } from "../../types/types";
 import classNames from "classnames";
 
-const BurgerConstructor = ({ data }: { data: any }) => {
-  const image = data.length>0 ? data.filter((item: any) => item.type === "bun")[0].image : '';
+const BurgerConstructor = ({
+  data,
+  handleOrderModalOpen,
+}: {
+  data: any;
+  handleOrderModalOpen: any;
+}) => {
+  const image =
+    data.length > 0
+      ? data.filter((item: any) => item.type === "bun")[0].image
+      : "";
   const tempIngredients = data.filter(
     (item: any) => item.type === "main" || item.type === "sauce"
   );
@@ -60,7 +69,7 @@ const BurgerConstructor = ({ data }: { data: any }) => {
           <p className={digitClassName}>610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={handleOrderModalOpen}>
           Оформить заказ
         </Button>
       </div>
@@ -70,6 +79,7 @@ const BurgerConstructor = ({ data }: { data: any }) => {
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(dataItemProptypes).isRequired,
+  handleOrderModalOpen: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

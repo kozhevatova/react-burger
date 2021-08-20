@@ -6,7 +6,7 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { dataItemProptypes } from "../../utils/utils";
+import { dataItemProptypes } from "../../types/types";
 
 const IngredientItem = ({
   item,
