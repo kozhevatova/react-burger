@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 1920px;
+  width: 100%;
+  background-color: var(--interface-modal-bg);
+}
+
+.link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: var(--text-dark-grey);
+  transition: var(--common-transition);
+}
+
+.link:hover {
+  color: var(--text-primary-light);
+  cursor: pointer;
+}
+
+.link:nth-of-type(2) {
+  margin-right: 112px;
+}
+
+.link:nth-of-type(3) {
+  margin-left: 289px;
+}

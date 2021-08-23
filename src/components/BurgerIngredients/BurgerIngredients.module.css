@@ -1,0 +1,36 @@
+.ingredients{
+  margin-right: 40px;
+}
+
+.title {
+  text-align: start;
+  margin: 40px 0 20px 0;
+  color: var(--text-primary-light);
+}
+
+.tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scrollableList {
+  overflow-y: scroll;
+  max-height: 756px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.scrollableListItem {
+  margin: 40px 0 0 0;
+}
+
+.scrollableListItem:first-child{
+  margin: 0;
+}
