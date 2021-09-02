@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import burgerConstructorStyles from "./BurgerConstructor.module.css";
 import {
   ConstructorElement,
@@ -7,25 +7,63 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { dataItemProptypes } from "../../types/types";
 import classNames from "classnames";
+import { ConstructorContext } from "../../contexts/ConstructorContext";
+import { topBunLabel, bottomBunLabel } from "../../utils/constants";
+import { ADD_ITEM, DELETE_ITEM } from "../../services/actions/order";
+import { totalPriceReducer } from "../../services/reducers/order";
 
-const BurgerConstructor = ({
-  data,
-  handleOrderModalOpen,
-}: {
-  data: any;
-  handleOrderModalOpen: any;
-}) => {
-  const image =
-    data.length > 0
-      ? data.filter((item: any) => item.type === "bun")[0].image
-      : "";
-  const tempIngredients = data.filter(
-    (item: any) => item.type === "main" || item.type === "sauce"
+const BurgerConstructor = ({ handleMakeOrder }: { handleMakeOrder: any }) => {
+  //все ингредиенты, полученные с api
+  const data = useContext(ConstructorContext);
+  const bun = data.filter((item: any) => item.type === "bun")[0];
+  const [fillingIngredients, setFillingIngredients] = useState(
+    data.filter((item: any) => item.type === "main" || item.type === "sauce")
+  );
+  const [orderedIngredients, setOrderedIngredients] = useState([]);
+  const digitClassName = classNames("text text_type_digits-medium", "mr-2");
+
+  const initialTotalPriceState = {
+    totalPrice: fillingIngredients.reduce(
+      (acc: any, item: any) => acc + item.price,
+      0
+    ),
+  };
+
+  const [totalPriceState, dispatch] = useReducer(
+    totalPriceReducer,
+    initialTotalPriceState
   );
 
-  const digitClassName = classNames("text text_type_digits-medium", "mr-2");
+  useEffect(() => {
+    console.log(totalPriceState.totalPrice);
+  }, [totalPriceState]);
+
+  // при монтировании добавляем булки и начинку в стейт заказа
+  // для расчета полной стоимости и отправки на сервер
+  useEffect(() => {
+    const order = fillingIngredients.slice();
+    for (let i = 0; i < 2; i++) {
+      order.push(bun);
+      dispatch({ type: ADD_ITEM, item: bun });
+    }
+    setOrderedIngredients(order);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleMakeOrderClick = () => {
+    handleMakeOrder(orderedIngredients);
+  };
+
+  const handleItemDelete = (deletedItem: any) => {
+    dispatch({ type: DELETE_ITEM, item: deletedItem });
+    setFillingIngredients(
+      fillingIngredients.filter((item: any) => item._id !== deletedItem._id)
+    );
+    setOrderedIngredients(
+      orderedIngredients.filter((item: any) => item._id !== deletedItem._id)
+    );
+  };
 
   return (
     <section className={burgerConstructorStyles.burgerConstructor}>
@@ -33,13 +71,13 @@ const BurgerConstructor = ({
         <ConstructorElement
           type="top"
           isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={image}
+          text={bun ? bun.name + topBunLabel : ""}
+          price={bun ? bun.price : 0}
+          thumbnail={bun ? bun.image : ""}
         />
       </div>
       <ul className={burgerConstructorStyles.list}>
-        {tempIngredients.map((item: any, index: number) => {
+        {fillingIngredients.map((item: any, index: number) => {
           return (
             <li
               className={burgerConstructorStyles.constructorElement}
@@ -50,6 +88,7 @@ const BurgerConstructor = ({
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
+                handleClose={() => handleItemDelete(item)}
               />
             </li>
           );
@@ -59,17 +98,17 @@ const BurgerConstructor = ({
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={image}
+          text={bun ? bun.name + bottomBunLabel : ""}
+          price={bun ? bun.price : 0}
+          thumbnail={bun ? bun.image : ""}
         />
       </div>
       <div className={burgerConstructorStyles.makeOrderInfo}>
         <div className={burgerConstructorStyles.price}>
-          <p className={digitClassName}>610</p>
+          <p className={digitClassName}>{totalPriceState.totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={handleOrderModalOpen}>
+        <Button type="primary" size="large" onClick={handleMakeOrderClick}>
           Оформить заказ
         </Button>
       </div>
@@ -78,8 +117,7 @@ const BurgerConstructor = ({
 };
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(dataItemProptypes).isRequired,
-  handleOrderModalOpen: PropTypes.func.isRequired,
+  handleMakeOrder: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

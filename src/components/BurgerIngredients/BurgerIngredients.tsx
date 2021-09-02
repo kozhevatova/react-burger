@@ -1,20 +1,18 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useState, useContext } from "react";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import IngredientsList from "../IngredientsType/IngredientsList";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { dataItemProptypes } from "../../types/types";
+import { ConstructorContext } from "../../contexts/ConstructorContext";
 
 const BurgerIngredients = ({
-  data,
   handleIngredientModalOpen,
 }: {
-  data: any;
   handleIngredientModalOpen: any;
 }) => {
   const [currentTab, setCurrentTab] = useState("bun");
-
+  const data = useContext(ConstructorContext);
   const titleClassName = classNames(
     burgerIngredientsStyles.title,
     "text text_type_main-large"
@@ -100,7 +98,6 @@ const BurgerIngredients = ({
 };
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(dataItemProptypes).isRequired,
   handleIngredientModalOpen: PropTypes.func.isRequired,
 };
 

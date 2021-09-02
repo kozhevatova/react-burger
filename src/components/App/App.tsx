@@ -7,11 +7,14 @@ import Modal from "../Modal/Modal";
 import { ingredientDetailsTitle } from "../../utils/constants";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import { ConstructorContext } from "../../contexts/ConstructorContext";
+import { OrderDetailContext } from "../../contexts/OrderDetailContext";
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
   const [ingredientModalVisible, setIngredientModalVisible] = useState(false);
   const [orderModalVisible, setOrderModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentItem, setCurrentItem] = useState({
     _id: "",
     name: "",
@@ -28,6 +31,7 @@ function App() {
   const [orderId, setOrderId] = useState(0);
 
   useEffect(() => {
+    setIsLoading(true);
     api
       .getIngredients()
       .then((data) => {
@@ -35,7 +39,10 @@ function App() {
           setIngredients(data.data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const setEscListener = () => {
@@ -61,7 +68,6 @@ function App() {
   };
 
   const handleOrderModalOpen = () => {
-    setOrderId(24562);
     setOrderModalVisible(true);
     setEscListener();
   };
@@ -86,14 +92,45 @@ function App() {
     []
   );
 
+  //обработка заказа 
+  const handleMakeOrder = (ingredients: any) => {
+    api
+      .makeOrder(ingredients.map((item: any) => item._id))
+      .then((res) => {
+        if (res && res.success) {
+          setOrderId(res.order.number);
+          handleOrderModalOpen();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className={appStyles.App}>
       <AppHeader />
-      <Main
-        data={ingredients}
-        handleIngredientModalOpen={handleIngredientModalOpen}
-        handleOrderModalOpen={handleOrderModalOpen}
-      />
+      <OrderDetailContext.Provider value={orderId}>
+        <ConstructorContext.Provider value={ingredients}>
+          {/* временная замена лоудеру */}
+          {isLoading && <p>Loading...</p>}
+          {!isLoading && (
+            <Main
+              handleIngredientModalOpen={handleIngredientModalOpen}
+              handleMakeOrder={handleMakeOrder}
+            />
+          )}
+        </ConstructorContext.Provider>
+        {orderModalVisible && (
+          <Modal
+            title=""
+            handleModalClose={handleModalsClose}
+            handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
+          >
+            <OrderDetails />
+          </Modal>
+        )}
+      </OrderDetailContext.Provider>
       {ingredientModalVisible && (
         <Modal
           title={ingredientDetailsTitle}
@@ -101,15 +138,6 @@ function App() {
           handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
         >
           <IngredientDetails item={currentItem} />
-        </Modal>
-      )}
-      {orderModalVisible && (
-        <Modal
-          title=""
-          handleModalClose={handleModalsClose}
-          handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
-        >
-          <OrderDetails id={orderId} />
         </Modal>
       )}
     </div>

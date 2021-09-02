@@ -3,35 +3,27 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import PropTypes from "prop-types";
 import mainStyles from "./Main.module.css";
-import { dataItemProptypes } from "../../types/types";
 
 const Main = ({
-  data,
   handleIngredientModalOpen,
-  handleOrderModalOpen,
+  handleMakeOrder,
 }: {
-  data: any;
   handleIngredientModalOpen: any;
-  handleOrderModalOpen: any;
+  handleMakeOrder: any;
 }) => {
   return (
     <main className={mainStyles.main}>
       <BurgerIngredients
-        data={data}
         handleIngredientModalOpen={handleIngredientModalOpen}
       />
-      <BurgerConstructor
-        data={data}
-        handleOrderModalOpen={handleOrderModalOpen}
-      />
+      <BurgerConstructor handleMakeOrder={handleMakeOrder} />
     </main>
   );
 };
 
 Main.propTypes = {
-  data: PropTypes.arrayOf(dataItemProptypes).isRequired,
   handleIngredientModalOpen: PropTypes.func.isRequired,
-  handleOrderModalOpen: PropTypes.func.isRequired,
+  handleMakeOrder: PropTypes.func.isRequired,
 };
 
 export default Main;

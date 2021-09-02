@@ -20,6 +20,18 @@ class Api {
       }
     }).then((res) => this._getResponseData(res));
   }
+
+  makeOrder(ingredients:any) {
+    return fetch(`${this.baseUrl}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        ingredients: ingredients,
+      })
+    }).then((res) => this._getResponseData(res));
+  }
 }
 
 const api = new Api({

@@ -1,10 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import orderStyles from "./OrderDetails.module.css";
 import classNames from "classnames";
 import done from "../../images/done.svg";
+import { OrderDetailContext } from '../../contexts/OrderDetailContext';
 
-const OrderDetails = ({ id }: { id: number }) => {
+const OrderDetails = () => {
+  const orderId = useContext(OrderDetailContext);
   const idClassName = classNames(
     orderStyles.id,
     "text text_type_digits-large",
@@ -21,7 +22,7 @@ const OrderDetails = ({ id }: { id: number }) => {
   );
   return (
     <div className={orderStyles.order}>
-      <p className={idClassName}>{id}</p>
+      <p className={idClassName}>{orderId}</p>
       <p className={titleClassName}>идентификатор заказа</p>
       <img className={orderStyles.image} src={done} alt="Готовность заказа." />
       <p className={textClassName}>Ваш заказ начали готовить</p>
@@ -30,10 +31,6 @@ const OrderDetails = ({ id }: { id: number }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  id: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;
