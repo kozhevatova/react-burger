@@ -9,6 +9,8 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { ConstructorContext } from "../../contexts/ConstructorContext";
 import { OrderDetailContext } from "../../contexts/OrderDetailContext";
+import { getAllIngredients } from "../../services/actions/ingredients";
+import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -29,21 +31,23 @@ function App() {
     image_large: "",
   });
   const [orderId, setOrderId] = useState(0);
-
+  const dispatch = useDispatch();
+  const isAppLoading = useSelector((store:any) => store.ingredients.ingredientsRequest);
   useEffect(() => {
     setIsLoading(true);
-    api
-      .getIngredients()
-      .then((data) => {
-        if (data.data) {
-          setIngredients(data.data);
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    // api
+    //   .getIngredients()
+    //   .then((data) => {
+    //     if (data.data) {
+    //       setIngredients(data.data);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
+    dispatch(getAllIngredients());
+  }, [dispatch]);
 
   const setEscListener = () => {
     document.addEventListener("keydown", handleEscClose);
@@ -92,7 +96,7 @@ function App() {
     []
   );
 
-  //обработка заказа 
+  //обработка заказа
   const handleMakeOrder = (ingredients: any) => {
     api
       .makeOrder(ingredients.map((item: any) => item._id))
@@ -113,13 +117,12 @@ function App() {
       <OrderDetailContext.Provider value={orderId}>
         <ConstructorContext.Provider value={ingredients}>
           {/* временная замена лоудеру */}
-          {isLoading && <p>Loading...</p>}
-          {!isLoading && (
+          {/* {isLoading && <p>Loading...</p>} */}
+          {!isAppLoading && (
             <Main
               handleIngredientModalOpen={handleIngredientModalOpen}
               handleMakeOrder={handleMakeOrder}
-            />
-          )}
+            />)}
         </ConstructorContext.Provider>
         {orderModalVisible && (
           <Modal

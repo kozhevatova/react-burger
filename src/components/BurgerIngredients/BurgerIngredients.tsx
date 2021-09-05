@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import IngredientsList from "../IngredientsType/IngredientsList";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ConstructorContext } from "../../contexts/ConstructorContext";
+import { useSelector } from 'react-redux';
 
 const BurgerIngredients = ({
   handleIngredientModalOpen,
@@ -12,11 +13,12 @@ const BurgerIngredients = ({
   handleIngredientModalOpen: any;
 }) => {
   const [currentTab, setCurrentTab] = useState("bun");
-  const data = useContext(ConstructorContext);
+  // const data = useContext(ConstructorContext);
   const titleClassName = classNames(
     burgerIngredientsStyles.title,
     "text text_type_main-large"
   );
+  const data = useSelector((store: any) => store.ingredients.ingredients);
 
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();

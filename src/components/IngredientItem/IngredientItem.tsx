@@ -7,6 +7,8 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { dataItemProptypes } from "../../types/types";
+import {useDispatch} from 'react-redux';
+import { ADD_ITEM } from "../../services/actions/order";
 
 const IngredientItem = ({
   item,
@@ -19,7 +21,7 @@ const IngredientItem = ({
     itemStyles.text,
     "text text_type_main-default"
   );
-
+  const dispatch = useDispatch();
   const digitClassName = classNames(
     "text text_type_digits-default",
     itemStyles.digit,
@@ -27,6 +29,7 @@ const IngredientItem = ({
   );
   const handleCardClick = () => {
     handleIngredientModalOpen(item);
+    dispatch({type: ADD_ITEM, item: item})
   };
 
   return (
