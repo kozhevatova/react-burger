@@ -22,9 +22,24 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
     console.log(currentTab)
   }, [currentTab])
 
-  const handleScroll = (e: SyntheticEvent) => {
-    console.log(e);
-    
+  const handleScroll = () => {
+    const scrollableList = document.getElementById("scrollable-list");
+    const bunArea = document.getElementById("type-bun");
+    const sauceArea = document.getElementById("type-sauce");
+    const mainArea = document.getElementById("type-main");
+
+    if(bunArea && mainArea && sauceArea && scrollableList) {
+      let value = scrollableList.getBoundingClientRect().top;
+      if(bunArea.getBoundingClientRect().top <= value &&  bunArea.getBoundingClientRect().top > 0){
+        dispatch({type: TAB_SWITCH, tab: "bun"});
+      }
+      if(mainArea.getBoundingClientRect().top <=value &&  mainArea.getBoundingClientRect().top > 0){
+        dispatch({type: TAB_SWITCH, tab: "main"});
+      }
+      if(sauceArea.getBoundingClientRect().top <=value &&  sauceArea.getBoundingClientRect().top > 0){
+        dispatch({type: TAB_SWITCH, tab: "sauce"});
+      }
+    }
   }
 
   const handleClick = (e: SyntheticEvent) => {
