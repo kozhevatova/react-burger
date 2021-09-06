@@ -11,8 +11,10 @@ export const MAKE_ORDER_FAILED = "MAKE_ORDER_FAILED";
 export const OPEN_ORDER_MODAL = "OPEN_ORDER_MODAL";
 export const CLOSE_ORDER_MODAL = "CLOSE_ORDER_MODAL";
 
-export const makeOrder = (orderedIngredients: any) => {
-  return (dispatch: any) => {
+export const SWAP_INGREDIENTS = "SWAP_INGREDIENTS";
+
+export const makeOrder = (orderedIngredients) => {
+  return (dispatch) => {
     dispatch({
       type: MAKE_ORDER_REQUEST,
     });
@@ -20,7 +22,7 @@ export const makeOrder = (orderedIngredients: any) => {
       .makeOrder(
         orderedIngredients.buns
           .concat(orderedIngredients.filling)
-          .map((item: any) => {
+          .map((item) => {
             return item._id;
           })
       )
@@ -33,13 +35,13 @@ export const makeOrder = (orderedIngredients: any) => {
         }
       })
       .catch((err) => {
-        dispatch({ type: MAKE_ORDER_FAILED, err });
+        dispatch({ type: MAKE_ORDER_FAILED, err: err.message });
       });
   };
 };
 
-export const closeOrderModal = (orderId: any) => {
-  return (dispatch: any) => {
+export const closeOrderModal = () => {
+  return (dispatch) => {
     dispatch({ type: CLOSE_ORDER_MODAL });
   };
 };

@@ -1,14 +1,4 @@
 import {
-  GET_INGREDIENTS_REQUEST,
-  GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED,
-  GET_INGREDIENT_DETAILS,
-  OPEN_INGREDIENT_MODAL,
-  CLOSE_INGREDIENT_MODAL,
-  TAB_SWITCH,
-} from "./../actions/ingredients";
-import { combineReducers } from "redux";
-import {
   ADD_ITEM,
   DELETE_ITEM,
   MAKE_ORDER_REQUEST,
@@ -16,29 +6,24 @@ import {
   MAKE_ORDER_FAILED,
   OPEN_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
-} from "./../actions/order";
+  SWAP_INGREDIENTS,
+} from "../actions/order";
+import { v4 } from "uuid";
 
 const initialState = {
-  ingredients: [],
-  currentIngredient: {},
   totalPrice: 0,
   orderedIngredients: {
     buns: [{ id: 0, price: 0 }],
     filling: [],
   },
-  ingredientsRequest: false,
-  ingredientsFailed: false,
   orderRequest: false,
   orderFailed: false,
   orderId: 0,
   isOrderModalOpen: false,
-  isIngredientModalOpen: false,
-  isLoading: false,
   err: "",
-  currentTab: 'bun',
 };
 
-const orderReducer = (state = initialState, action: any) => {
+export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ITEM: {
       return {
@@ -51,12 +36,16 @@ const orderReducer = (state = initialState, action: any) => {
         orderedIngredients: {
           ...state.orderedIngredients,
           buns:
-            action.item.type === "bun"
+            action.item.type === "bun" &&
+            state.orderedIngredients.buns[0]._id !== action.item._id
               ? [action.item, action.item]
               : [...state.orderedIngredients.buns],
           filling:
             action.item.type !== "bun"
-              ? [...state.orderedIngredients.filling, action.item]
+              ? [
+                  ...state.orderedIngredients.filling,
+                  { ...action.item, uid: v4() },
+                ]
               : [...state.orderedIngredients.filling],
         },
       };
@@ -70,7 +59,7 @@ const orderReducer = (state = initialState, action: any) => {
           filling:
             action.item.type !== "bun"
               ? [...state.orderedIngredients.filling].filter(
-                  (item: any) => item._id !== action.item._id
+                  (item) => item.uid !== action.item.uid
                 )
               : [...state.orderedIngredients.filling],
         },
@@ -114,70 +103,16 @@ const orderReducer = (state = initialState, action: any) => {
         isOrderModalOpen: false,
       };
     }
+    case SWAP_INGREDIENTS: {
+      return {
+        ...state,
+        orderedIngredients: {
+          ...state.orderedIngredients,
+          filling: [...action.filling],
+        },
+      };
+    }
     default:
       return state;
   }
 };
-
-const ingredientsReducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case GET_INGREDIENTS_REQUEST: {
-      return {
-        ...state,
-        ingredientsRequest: true,
-        ingredientsFailed: false,
-        err: initialState.err,
-      };
-    }
-    case GET_INGREDIENTS_SUCCESS: {
-      return {
-        ...state,
-        ingredientsRequest: false,
-        ingredientsFailed: false,
-        ingredients: action.ingredients,
-        err: initialState.err,
-      };
-    }
-    case GET_INGREDIENTS_FAILED: {
-      return {
-        ...state,
-        ingredientsRequest: false,
-        ingredientsFailed: true,
-        err: action.err,
-      };
-    }
-    case GET_INGREDIENT_DETAILS: {
-      return {
-        ...state,
-        currentIngredient: action.item,
-      };
-    }
-    case OPEN_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        isIngredientModalOpen: true,
-      };
-    }
-    case CLOSE_INGREDIENT_MODAL: {
-      return {
-        ...state,
-        currentIngredient: {},
-        isIngredientModalOpen: false,
-      };
-    }
-    case TAB_SWITCH: {
-      return {
-        ...state,
-        currentTab: action.tab,
-      }
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
-export const rootReducer = combineReducers({
-  order: orderReducer,
-  ingredients: ingredientsReducer,
-});

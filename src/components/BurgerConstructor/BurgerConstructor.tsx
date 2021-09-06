@@ -1,46 +1,62 @@
-import React, {
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-  useMemo,
-} from "react";
+import React, { useMemo, useCallback } from "react";
 import burgerConstructorStyles from "./BurgerConstructor.module.css";
 import {
-  ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { DELETE_ITEM, makeOrder } from "../../services/actions/order";
-// import { totalPriceReducer } from "../../services/reducers/order";
+import {
+  ADD_ITEM,
+  makeOrder,
+  SWAP_INGREDIENTS,
+} from "../../services/actions/order";
 import { useDispatch, useSelector } from "react-redux";
 import Bun from "../Bun/Bun";
+import { useDrop } from "react-dnd";
+import FillingItem from "../FillingItem/FillingItem";
+import {
+  INCREASE_COUNT,
+  RESET_COUNT,
+} from "../../services/actions/ingredients";
 
 const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
   const { orderedIngredients, totalPrice } = useSelector((store: any) => ({
     ...store.order,
   }));
-  const isAppLoading = useSelector(
-    (store: any) => store.ingredients.ingredientsRequest
-  );
   const dispatch = useDispatch();
+
+  const [{ isHover }, dropRef] = useDrop({
+    accept: "ingredient",
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      dispatch({ type: ADD_ITEM, item });
+      dispatch({ type: INCREASE_COUNT, item });
+    },
+  });
   const digitClassName = classNames("text text_type_digits-medium", "mr-2");
-
-  useEffect(() => {
-    console.log("data", orderedIngredients);
-  }, [orderedIngredients]);
-
+  const containerClassName = classNames(
+    burgerConstructorStyles.burgerConstructor,
+    `${isHover && burgerConstructorStyles.hoveredContainer}`
+  );
   const handleMakeOrderClick = () => {
     setEscListener();
+    dispatch({ type: RESET_COUNT });
     dispatch(makeOrder(orderedIngredients));
   };
 
-  const handleItemDelete = (deletedItem: any) => {
-    dispatch({ type: DELETE_ITEM, item: deletedItem });
-  };
+  const swapIngredients = useCallback(
+    (dragIndex: any, hoverIndex: any) => {
+      const draggedItem = orderedIngredients.filling[dragIndex];
+      const swappedFilling = [...orderedIngredients.filling];
+      swappedFilling.splice(dragIndex, 1);
+      swappedFilling.splice(hoverIndex, 0, draggedItem);
+      dispatch({ type: SWAP_INGREDIENTS, filling: swappedFilling });
+    },
+    [dispatch, orderedIngredients.filling]
+  );
 
   const content = useMemo(() => {
     return (
@@ -48,26 +64,20 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
       orderedIngredients.filling.length > 0 &&
       orderedIngredients.filling.map((item: any, index: number) => {
         return (
-          <li
-            className={burgerConstructorStyles.constructorElement}
-            key={item._id + index}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
-              handleClose={() => handleItemDelete(item)}
-            />
-          </li>
+          <FillingItem
+            key={item.uid}
+            index={index}
+            swapIngredients={swapIngredients}
+            {...item}
+          />
         );
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAppLoading, orderedIngredients]);
+  }, [orderedIngredients]);
 
   return (
-    <section className={burgerConstructorStyles.burgerConstructor}>
+    <section className={containerClassName} ref={dropRef}>
       <Bun top />
       <ul className={burgerConstructorStyles.list}>{content}</ul>
       <Bun top={false} />

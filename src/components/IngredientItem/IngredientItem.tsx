@@ -8,8 +8,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { dataItemProptypes } from "../../types/types";
 import { useDispatch } from "react-redux";
-import { ADD_ITEM } from "../../services/actions/order";
 import { GET_INGREDIENT_DETAILS, OPEN_INGREDIENT_MODAL } from "../../services/actions/ingredients";
+import { useDrag } from "react-dnd";
 
 const IngredientItem = ({
   item,
@@ -18,11 +18,25 @@ const IngredientItem = ({
   item: any;
   setEscListener: any;
 }) => {
+  const dispatch = useDispatch();
+  const [{isDragging},dragRef] = useDrag({
+    type: "ingredient",
+    item: () => {
+      return item ;
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    })
+  });
+
+  const cardClassName = classNames(
+    itemStyles.card,
+    `${isDragging && itemStyles.dragCard}`
+  )
   const textClassName = classNames(
     itemStyles.text,
     "text text_type_main-default"
   );
-  const dispatch = useDispatch();
   const digitClassName = classNames(
     "text text_type_digits-default",
     itemStyles.digit,
@@ -32,12 +46,12 @@ const IngredientItem = ({
     setEscListener();
     dispatch({type: OPEN_INGREDIENT_MODAL});
     dispatch({ type: GET_INGREDIENT_DETAILS, item });
-    dispatch({ type: ADD_ITEM, item });
   };
 
+
   return (
-    <div className={itemStyles.card} onClick={handleCardClick}>
-      <Counter count={1} size="default" />
+    <div className={cardClassName} onClick={handleCardClick} ref={dragRef} draggable>
+      {item.qty > 0 && <Counter count={item.qty} size="default" />}
       <img src={item.image} alt={item.name} />
       <div className={itemStyles.price}>
         <p className={digitClassName}>{item.price}</p>

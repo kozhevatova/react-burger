@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import orderStyles from "./OrderDetails.module.css";
 import classNames from "classnames";
 import done from "../../images/done.svg";
-import { OrderDetailContext } from '../../contexts/OrderDetailContext';
 import { useSelector } from "react-redux";
 
 const OrderDetails = () => {

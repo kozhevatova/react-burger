@@ -11,6 +11,10 @@
   0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
 }
 
+.dragCard {
+  opacity: 0.5;
+}
+
 .price {
   display: flex;
   flex-direction: row;

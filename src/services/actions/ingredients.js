@@ -11,8 +11,12 @@ export const CLOSE_INGREDIENT_MODAL = "CLOSE_INGREDIENT_MODAL";
 
 export const TAB_SWITCH = "TAB_SWITCH";
 
+export const INCREASE_COUNT = "INCREASE_COUNT";
+export const DECREASE_COUNT = "DECREASE_COUNT";
+export const RESET_COUNT = "RESET_COUNT";
+
 export const getAllIngredients = () => {
-  return (dispatch: any) => {
+  return (dispatch) => {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });
@@ -20,7 +24,7 @@ export const getAllIngredients = () => {
       if(res && res.success) {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
-          ingredients: res.data,
+          ingredients: res.data.map((item) => ({...item, qty: 0})),
         });
       } else {
         dispatch({

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect } from "react";
+import React, { SyntheticEvent, useMemo } from "react";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -8,19 +8,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { TAB_SWITCH } from "../../services/actions/ingredients";
 
 const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
-  // const [currentTab, setCurrentTab] = useState("bun");
   const dispatch = useDispatch();
   const titleClassName = classNames(
     burgerIngredientsStyles.title,
     "text text_type_main-large"
   );
-  const {data, currentTab} = useSelector((store: any) => ({
+  const { data, currentTab } = useSelector((store: any) => ({
     data: store.ingredients.ingredients,
     currentTab: store.ingredients.currentTab,
   }));
-  useEffect(() => {
-    console.log(currentTab)
-  }, [currentTab])
 
   const handleScroll = () => {
     const scrollableList = document.getElementById("scrollable-list");
@@ -28,19 +24,28 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
     const sauceArea = document.getElementById("type-sauce");
     const mainArea = document.getElementById("type-main");
 
-    if(bunArea && mainArea && sauceArea && scrollableList) {
+    if (bunArea && mainArea && sauceArea && scrollableList) {
       let value = scrollableList.getBoundingClientRect().top;
-      if(bunArea.getBoundingClientRect().top <= value &&  bunArea.getBoundingClientRect().top > 0){
-        dispatch({type: TAB_SWITCH, tab: "bun"});
+      if (
+        bunArea.getBoundingClientRect().top <= value &&
+        bunArea.getBoundingClientRect().top > 0
+      ) {
+        dispatch({ type: TAB_SWITCH, tab: "bun" });
       }
-      if(mainArea.getBoundingClientRect().top <=value &&  mainArea.getBoundingClientRect().top > 0){
-        dispatch({type: TAB_SWITCH, tab: "main"});
+      if (
+        mainArea.getBoundingClientRect().top <= value &&
+        mainArea.getBoundingClientRect().top > 0
+      ) {
+        dispatch({ type: TAB_SWITCH, tab: "main" });
       }
-      if(sauceArea.getBoundingClientRect().top <=value &&  sauceArea.getBoundingClientRect().top > 0){
-        dispatch({type: TAB_SWITCH, tab: "sauce"});
+      if (
+        sauceArea.getBoundingClientRect().top <= value &&
+        sauceArea.getBoundingClientRect().top > 0
+      ) {
+        dispatch({ type: TAB_SWITCH, tab: "sauce" });
       }
     }
-  }
+  };
 
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -54,9 +59,45 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
     }
   };
 
-  const setCurrentTab = (tab:any) => {
-    dispatch({type: TAB_SWITCH, tab})
-  }
+  const setCurrentTab = (tab: any) => {
+    dispatch({ type: TAB_SWITCH, tab });
+  };
+
+  const content = useMemo(() => {
+    return (
+      <ul
+        className={burgerIngredientsStyles.scrollableList}
+        id="scrollable-list"
+        onScroll={handleScroll}
+      >
+        <li className={burgerIngredientsStyles.scrollableListItem}>
+          <IngredientsList
+            data={data.filter((item: any) => item.type === "bun")}
+            anchorId="type-bun"
+            title="Булки"
+            setEscListener={setEscListener}
+          />
+        </li>
+        <li className={burgerIngredientsStyles.scrollableListItem}>
+          <IngredientsList
+            data={data.filter((item: any) => item.type === "sauce")}
+            anchorId="type-sauce"
+            title="Соусы"
+            setEscListener={setEscListener}
+          />
+        </li>
+        <li className={burgerIngredientsStyles.scrollableListItem}>
+          <IngredientsList
+            data={data.filter((item: any) => item.type === "main")}
+            anchorId="type-main"
+            title="Начинки"
+            setEscListener={setEscListener}
+          />
+        </li>
+      </ul>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <section className={burgerIngredientsStyles.ingredients}>
@@ -92,36 +133,7 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
           </li>
         </ul>
       </nav>
-      <ul
-        className={burgerIngredientsStyles.scrollableList}
-        id="scrollable-list"
-        onScroll={handleScroll}
-      >
-        <li className={burgerIngredientsStyles.scrollableListItem}>
-          <IngredientsList
-            data={data.filter((item: any) => item.type === "bun")}
-            anchorId="type-bun"
-            title="Булки"
-            setEscListener={setEscListener}
-          />
-        </li>
-        <li className={burgerIngredientsStyles.scrollableListItem}>
-          <IngredientsList
-            data={data.filter((item: any) => item.type === "sauce")}
-            anchorId="type-sauce"
-            title="Соусы"
-            setEscListener={setEscListener}
-          />
-        </li>
-        <li className={burgerIngredientsStyles.scrollableListItem}>
-          <IngredientsList
-            data={data.filter((item: any) => item.type === "main")}
-            anchorId="type-main"
-            title="Начинки"
-            setEscListener={setEscListener}
-          />
-        </li>
-      </ul>
+      {content}
     </section>
   );
 };
