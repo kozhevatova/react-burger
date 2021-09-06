@@ -9,17 +9,18 @@ const IngredientsList = ({
   anchorId,
   title,
   data,
-  handleIngredientModalOpen,
+  setEscListener,
 }: {
   anchorId: string;
   title: string;
   data: any;
-  handleIngredientModalOpen: any;
+  setEscListener: any;
 }) => {
   const titleClassName = classNames(
     "text text_type_main-medium",
     listStyles.title
   );
+
   return (
     <div className={listStyles.ingredients} id={anchorId}>
       <h2 className={titleClassName}>{title}</h2>
@@ -29,7 +30,7 @@ const IngredientsList = ({
             <IngredientItem
               item={item}
               key={item._id + index}
-              handleIngredientModalOpen={handleIngredientModalOpen}
+              setEscListener={setEscListener}
             />
           );
         })}
@@ -42,7 +43,7 @@ IngredientsList.propTypes = {
   data: PropTypes.arrayOf(dataItemProptypes).isRequired,
   title: PropTypes.string.isRequired,
   anchorId: PropTypes.string.isRequired,
-  handleIngredientModalOpen: PropTypes.func.isRequired,
+  setEscListener: PropTypes.func.isRequired,
 };
 
 export default IngredientsList;

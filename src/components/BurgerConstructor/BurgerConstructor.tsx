@@ -14,14 +14,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { ConstructorContext } from "../../contexts/ConstructorContext";
-import { topBunLabel, bottomBunLabel } from "../../utils/constants";
-import { ADD_ITEM, DELETE_ITEM } from "../../services/actions/order";
+import { DELETE_ITEM, makeOrder } from "../../services/actions/order";
 // import { totalPriceReducer } from "../../services/reducers/order";
 import { useDispatch, useSelector } from "react-redux";
-import Bun from '../Bun/Bun';
+import Bun from "../Bun/Bun";
 
-const BurgerConstructor = ({ handleMakeOrder }: { handleMakeOrder: any }) => {
+const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
   const { orderedIngredients, totalPrice } = useSelector((store: any) => ({
     ...store.order,
   }));
@@ -36,7 +34,8 @@ const BurgerConstructor = ({ handleMakeOrder }: { handleMakeOrder: any }) => {
   }, [orderedIngredients]);
 
   const handleMakeOrderClick = () => {
-    handleMakeOrder(orderedIngredients);
+    setEscListener();
+    dispatch(makeOrder(orderedIngredients));
   };
 
   const handleItemDelete = (deletedItem: any) => {
@@ -44,59 +43,34 @@ const BurgerConstructor = ({ handleMakeOrder }: { handleMakeOrder: any }) => {
   };
 
   const content = useMemo(() => {
-    console.log('lslsl')
-    return isAppLoading ? (
-      <p>loading</p>
-    ) : (
+    return (
       orderedIngredients.filling &&
-        orderedIngredients.filling.length > 0 &&
-        orderedIngredients.filling.map((item: any, index: number) => {
-          return (
-            <li
-              className={burgerConstructorStyles.constructorElement}
-              key={item._id + index}
-            >
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={() => handleItemDelete(item)}
-              />
-            </li>
-          );
-        })
+      orderedIngredients.filling.length > 0 &&
+      orderedIngredients.filling.map((item: any, index: number) => {
+        return (
+          <li
+            className={burgerConstructorStyles.constructorElement}
+            key={item._id + index}
+          >
+            <DragIcon type="primary" />
+            <ConstructorElement
+              text={item.name}
+              price={item.price}
+              thumbnail={item.image}
+              handleClose={() => handleItemDelete(item)}
+            />
+          </li>
+        );
+      })
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAppLoading, orderedIngredients]);
 
   return (
     <section className={burgerConstructorStyles.burgerConstructor}>
-      {/*<div className={burgerConstructorStyles.topElement}>
-         {orderedIngredients.buns[0].name && (
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={orderedIngredients.buns[0].name + topBunLabel}
-            price={orderedIngredients.buns[0].price}
-            thumbnail={orderedIngredients.buns[0].image}
-          />
-        )} 
-      </div>*/}
-      <Bun top/>
+      <Bun top />
       <ul className={burgerConstructorStyles.list}>{content}</ul>
-      <Bun top={false}/>
-      {/* <div className={burgerConstructorStyles.topElement}>
-        {orderedIngredients.buns[0].name && (
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={orderedIngredients.buns[0].name + bottomBunLabel}
-            price={orderedIngredients.buns[0].price}
-            thumbnail={orderedIngredients.buns[0].image}
-          />
-        )}
-      </div> */}
+      <Bun top={false} />
       <div className={burgerConstructorStyles.makeOrderInfo}>
         <div className={burgerConstructorStyles.price}>
           <p className={digitClassName}>{totalPrice}</p>
@@ -111,7 +85,7 @@ const BurgerConstructor = ({ handleMakeOrder }: { handleMakeOrder: any }) => {
 };
 
 BurgerConstructor.propTypes = {
-  handleMakeOrder: PropTypes.func.isRequired,
+  setEscListener: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

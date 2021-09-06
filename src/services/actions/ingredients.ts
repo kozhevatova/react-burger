@@ -6,6 +6,11 @@ export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
 export const GET_INGREDIENT_DETAILS = "GET_INGREDIENT_DETAILS";
 export const RESET_INGREDIENT_DETAILS = "RESET_INGREDIENT_DETAILS";
 
+export const OPEN_INGREDIENT_MODAL = "OPEN_INGREDIENT_MODAL";
+export const CLOSE_INGREDIENT_MODAL = "CLOSE_INGREDIENT_MODAL";
+
+export const TAB_SWITCH = "TAB_SWITCH";
+
 export const getAllIngredients = () => {
   return (dispatch: any) => {
     dispatch({

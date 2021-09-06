@@ -1,24 +1,31 @@
-import React, { SyntheticEvent, useState, useContext } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import IngredientsList from "../IngredientsType/IngredientsList";
+import IngredientsList from "../IngredientsList/IngredientsList";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ConstructorContext } from "../../contexts/ConstructorContext";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
+import { TAB_SWITCH } from "../../services/actions/ingredients";
 
-const BurgerIngredients = ({
-  handleIngredientModalOpen,
-}: {
-  handleIngredientModalOpen: any;
-}) => {
-  const [currentTab, setCurrentTab] = useState("bun");
-  // const data = useContext(ConstructorContext);
+const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
+  // const [currentTab, setCurrentTab] = useState("bun");
+  const dispatch = useDispatch();
   const titleClassName = classNames(
     burgerIngredientsStyles.title,
     "text text_type_main-large"
   );
-  const data = useSelector((store: any) => store.ingredients.ingredients);
+  const {data, currentTab} = useSelector((store: any) => ({
+    data: store.ingredients.ingredients,
+    currentTab: store.ingredients.currentTab,
+  }));
+  useEffect(() => {
+    console.log(currentTab)
+  }, [currentTab])
+
+  const handleScroll = (e: SyntheticEvent) => {
+    console.log(e);
+    
+  }
 
   const handleClick = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -32,6 +39,10 @@ const BurgerIngredients = ({
     }
   };
 
+  const setCurrentTab = (tab:any) => {
+    dispatch({type: TAB_SWITCH, tab})
+  }
+
   return (
     <section className={burgerIngredientsStyles.ingredients}>
       <h1 className={titleClassName}>Соберите бургер</h1>
@@ -41,7 +52,7 @@ const BurgerIngredients = ({
             <Tab
               value="bun"
               active={currentTab === "bun"}
-              onClick={setCurrentTab}
+              onClick={() => setCurrentTab("bun")}
             >
               Булки
             </Tab>
@@ -50,7 +61,7 @@ const BurgerIngredients = ({
             <Tab
               value="sauce"
               active={currentTab === "sauce"}
-              onClick={setCurrentTab}
+              onClick={() => setCurrentTab("sauce")}
             >
               Соусы
             </Tab>
@@ -59,7 +70,7 @@ const BurgerIngredients = ({
             <Tab
               value="main"
               active={currentTab === "main"}
-              onClick={setCurrentTab}
+              onClick={() => setCurrentTab("main")}
             >
               Начинки
             </Tab>
@@ -69,13 +80,14 @@ const BurgerIngredients = ({
       <ul
         className={burgerIngredientsStyles.scrollableList}
         id="scrollable-list"
+        onScroll={handleScroll}
       >
         <li className={burgerIngredientsStyles.scrollableListItem}>
           <IngredientsList
             data={data.filter((item: any) => item.type === "bun")}
             anchorId="type-bun"
             title="Булки"
-            handleIngredientModalOpen={handleIngredientModalOpen}
+            setEscListener={setEscListener}
           />
         </li>
         <li className={burgerIngredientsStyles.scrollableListItem}>
@@ -83,7 +95,7 @@ const BurgerIngredients = ({
             data={data.filter((item: any) => item.type === "sauce")}
             anchorId="type-sauce"
             title="Соусы"
-            handleIngredientModalOpen={handleIngredientModalOpen}
+            setEscListener={setEscListener}
           />
         </li>
         <li className={burgerIngredientsStyles.scrollableListItem}>
@@ -91,7 +103,7 @@ const BurgerIngredients = ({
             data={data.filter((item: any) => item.type === "main")}
             anchorId="type-main"
             title="Начинки"
-            handleIngredientModalOpen={handleIngredientModalOpen}
+            setEscListener={setEscListener}
           />
         </li>
       </ul>
@@ -100,7 +112,7 @@ const BurgerIngredients = ({
 };
 
 BurgerIngredients.propTypes = {
-  handleIngredientModalOpen: PropTypes.func.isRequired,
+  setEscListener: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

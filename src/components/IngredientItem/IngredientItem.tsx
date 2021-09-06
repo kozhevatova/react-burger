@@ -7,15 +7,16 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { dataItemProptypes } from "../../types/types";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from "react-redux";
 import { ADD_ITEM } from "../../services/actions/order";
+import { GET_INGREDIENT_DETAILS, OPEN_INGREDIENT_MODAL } from "../../services/actions/ingredients";
 
 const IngredientItem = ({
   item,
-  handleIngredientModalOpen,
+  setEscListener,
 }: {
   item: any;
-  handleIngredientModalOpen: any;
+  setEscListener: any;
 }) => {
   const textClassName = classNames(
     itemStyles.text,
@@ -28,8 +29,10 @@ const IngredientItem = ({
     "mt-1 mb-1"
   );
   const handleCardClick = () => {
-    handleIngredientModalOpen(item);
-    dispatch({type: ADD_ITEM, item: item})
+    setEscListener();
+    dispatch({type: OPEN_INGREDIENT_MODAL});
+    dispatch({ type: GET_INGREDIENT_DETAILS, item });
+    dispatch({ type: ADD_ITEM, item });
   };
 
   return (
@@ -47,7 +50,7 @@ const IngredientItem = ({
 
 IngredientItem.propTypes = {
   item: dataItemProptypes.isRequired,
-  handleIngredientModalOpen: PropTypes.func.isRequired,
+  setEscListener: PropTypes.func.isRequired,
 };
 
 export default IngredientItem;

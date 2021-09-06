@@ -3,9 +3,10 @@ import orderStyles from "./OrderDetails.module.css";
 import classNames from "classnames";
 import done from "../../images/done.svg";
 import { OrderDetailContext } from '../../contexts/OrderDetailContext';
+import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  const orderId = useContext(OrderDetailContext);
+  const orderId = useSelector((store:any) => store.order.orderId);
   const idClassName = classNames(
     orderStyles.id,
     "text text_type_digits-large",

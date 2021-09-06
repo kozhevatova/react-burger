@@ -1,9 +1,10 @@
 import classNames from "classnames";
 import React from "react";
 import detailsStyles from "./IngredientDetails.module.css";
-import { dataItemProptypes } from "../../types/types";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ item }: { item: any }) => {
+const IngredientDetails = () => {
+  const item = useSelector((store: any) => store.ingredients.currentIngredient);
   const nameClassName = classNames(
     detailsStyles.name,
     "text text_type_main-medium",
@@ -39,10 +40,6 @@ const IngredientDetails = ({ item }: { item: any }) => {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  item: dataItemProptypes.isRequired,
 };
 
 export default IngredientDetails;

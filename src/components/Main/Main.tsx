@@ -4,26 +4,17 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import PropTypes from "prop-types";
 import mainStyles from "./Main.module.css";
 
-const Main = ({
-  handleIngredientModalOpen,
-  handleMakeOrder,
-}: {
-  handleIngredientModalOpen: any;
-  handleMakeOrder: any;
-}) => {
+const Main = ({ setEscListener }: { setEscListener: any }) => {
   return (
     <main className={mainStyles.main}>
-      <BurgerIngredients
-        handleIngredientModalOpen={handleIngredientModalOpen}
-      />
-      <BurgerConstructor handleMakeOrder={handleMakeOrder} />
+      <BurgerIngredients setEscListener={setEscListener} />
+      <BurgerConstructor setEscListener={setEscListener} />
     </main>
   );
 };
 
 Main.propTypes = {
-  handleIngredientModalOpen: PropTypes.func.isRequired,
-  handleMakeOrder: PropTypes.func.isRequired,
+  setEscListener: PropTypes.func.isRequired,
 };
 
 export default Main;
