@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { DECREASE_COUNT } from "../../services/actions/ingredients";
 import { DELETE_ITEM } from "../../services/actions/order";
 import fillingStyles from "./FillingItem.module.css";
+import PropTypes from 'prop-types';
 
 const FillingItem = ({
   index,
@@ -97,5 +98,15 @@ const FillingItem = ({
     </li>
   );
 };
+
+FillingItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  swapIngredients: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
+  uid: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+}
 
 export default FillingItem;
