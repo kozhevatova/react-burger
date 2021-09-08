@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useMemo } from "react";
 import styles from "./burger-ingredients.module.css";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import IngredientsList from "../IngredientsList/ingredients-list";
+import IngredientsList from "../ingredients-list/ingredients-list";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
 import { TAB_SWITCH } from "../../services/actions/ingredients";
