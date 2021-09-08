@@ -2,7 +2,7 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { DECREASE_COUNT } from "../../services/actions/ingredients";
@@ -29,11 +29,14 @@ const FillingItem = ({
 }) => {
   const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
-  const [, drag] = useDrag({
+  const [{isDragging}, drag] = useDrag({
     type: "ingredient1",
     item: () => {
       return { _id, index };
     },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
   const [{ isHover }, drop] = useDrop({
     accept: "ingredient1",
@@ -49,26 +52,7 @@ const FillingItem = ({
       if (dragIndex === hoverIndex) {
         return;
       }
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
-      // Get pixels to the top
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
+
       swapIngredients(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
@@ -76,6 +60,9 @@ const FillingItem = ({
 
   drag(drop(ref));
 
+  useEffect(() => {
+    console.log('item filling')
+  },[])
   const handleItemDelete = (deletedItem: any) => {
     dispatch({ type: DELETE_ITEM, item: deletedItem });
     dispatch({type: DECREASE_COUNT, item: deletedItem});
@@ -85,7 +72,7 @@ const FillingItem = ({
     <li
       className={fillingStyles.constructorElement}
       ref={ref}
-      style={isHover ? { opacity: 0 } : { opacity: 1 }}
+      style={isHover || isDragging ? { opacity: 0 } : { opacity: 1 }}
       draggable
     >
       <DragIcon type="primary" />
