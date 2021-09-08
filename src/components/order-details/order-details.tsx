@@ -5,7 +5,7 @@ import done from "../../images/done.svg";
 import { useSelector } from "react-redux";
 
 const OrderDetails = () => {
-  const orderId = useSelector((store:any) => store.order.orderId);
+  const orderId = useSelector((store: any) => store.order.orderId);
   const idClassName = classNames(
     styles.id,
     "text text_type_digits-large",
@@ -16,10 +16,7 @@ const OrderDetails = () => {
     "mb-2",
     "text text_type_main-default"
   );
-  const titleClassName = classNames(
-    styles.title,
-    "text text_type_main-medium"
-  );
+  const titleClassName = classNames(styles.title, "text text_type_main-medium");
   return (
     <div className={styles.order}>
       <p className={idClassName}>{orderId}</p>

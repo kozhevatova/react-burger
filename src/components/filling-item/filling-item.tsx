@@ -2,13 +2,13 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { DECREASE_COUNT } from "../../services/actions/ingredients";
 import { DELETE_ITEM } from "../../services/actions/order";
 import styles from "./filling-item.module.css";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const FillingItem = ({
   index,
@@ -29,7 +29,7 @@ const FillingItem = ({
 }) => {
   const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
-  const [{isDragging}, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     type: "ingredient1",
     item: () => {
       return { _id, index };
@@ -52,7 +52,7 @@ const FillingItem = ({
       if (dragIndex === hoverIndex) {
         return;
       }
-      
+
       swapIngredients(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
@@ -60,12 +60,9 @@ const FillingItem = ({
 
   drag(drop(ref));
 
-  useEffect(() => {
-    console.log('item filling')
-  },[])
   const handleItemDelete = (deletedItem: any) => {
     dispatch({ type: DELETE_ITEM, item: deletedItem });
-    dispatch({type: DECREASE_COUNT, item: deletedItem});
+    dispatch({ type: DECREASE_COUNT, item: deletedItem });
   };
 
   return (
@@ -94,6 +91,6 @@ FillingItem.propTypes = {
   uid: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-}
+};
 
 export default FillingItem;

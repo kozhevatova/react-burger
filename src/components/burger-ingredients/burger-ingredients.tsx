@@ -9,10 +9,7 @@ import { TAB_SWITCH } from "../../services/actions/ingredients";
 
 const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
   const dispatch = useDispatch();
-  const titleClassName = classNames(
-    styles.title,
-    "text text_type_main-large"
-  );
+  const titleClassName = classNames(styles.title, "text text_type_main-large");
   const { data, currentTab } = useSelector((store: any) => ({
     data: store.ingredients.ingredients,
     currentTab: store.ingredients.currentTab,

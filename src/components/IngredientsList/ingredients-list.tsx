@@ -16,10 +16,7 @@ const IngredientsList = ({
   data: any;
   setEscListener: any;
 }) => {
-  const titleClassName = classNames(
-    "text text_type_main-medium",
-    styles.title
-  );
+  const titleClassName = classNames("text text_type_main-medium", styles.title);
 
   return (
     <div className={styles.ingredients} id={anchorId}>

@@ -12,7 +12,7 @@ import {
   SWAP_INGREDIENTS,
 } from "../../services/actions/order";
 import { useDispatch, useSelector } from "react-redux";
-import Bun from '../bun/bun';
+import Bun from "../bun/bun";
 import { useDrop } from "react-dnd";
 import FillingItem from "../filling-item/filling-item";
 import {

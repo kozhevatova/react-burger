@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import bunStyles from "./bun.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { bottomBunLabel, topBunLabel } from "../../utils/constants";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const Bun = ({ top }: { top: any }) => {
   const bun = useSelector(
@@ -26,6 +26,6 @@ const Bun = ({ top }: { top: any }) => {
 
 Bun.propTypes = {
   top: PropTypes.bool.isRequired,
-}
+};
 
 export default Bun;

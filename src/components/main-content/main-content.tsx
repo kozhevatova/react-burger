@@ -13,7 +13,6 @@ const MainContent = ({ setEscListener }: { setEscListener: any }) => {
         <BurgerIngredients setEscListener={setEscListener} />
         <BurgerConstructor setEscListener={setEscListener} />
       </DndProvider>
-      
     </main>
   );
 };

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
-
 import styles from "./app-header.module.css";
 import {
   Logo,
@@ -16,13 +15,7 @@ const AppHeader = () => {
     list: "secondary",
     profile: "secondary",
   });
-  const linkClassName = classNames(
-    styles.link,
-    "p-5",
-    "mt-4",
-    "mb-4",
-    "mr-2"
-  );
+  const linkClassName = classNames(styles.link, "p-5", "mt-4", "mb-4", "mr-2");
   const textClassName = classNames("text", "text_type_main-default", "ml-2");
 
   type IconType = { burger: string; list: string; profile: string };

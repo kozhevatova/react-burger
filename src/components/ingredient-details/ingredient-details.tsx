@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import styles from './ingredient-details.module.css';
+import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
 
 const IngredientDetails = () => {
@@ -10,10 +10,7 @@ const IngredientDetails = () => {
     "text text_type_main-medium",
     "mt-4"
   );
-  const textClassName = classNames(
-    styles.text,
-    "text text_type_main-default"
-  );
+  const textClassName = classNames(styles.text, "text text_type_main-default");
   const digitClassName = classNames(
     styles.text,
     "text text_type_digits-default"

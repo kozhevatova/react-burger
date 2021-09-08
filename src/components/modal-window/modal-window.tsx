@@ -10,10 +10,7 @@ const ModalWindow = (props: any) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const modalRoot = document.getElementById("react-modals");
-  const titleClassName = classNames(
-    styles.title,
-    "text text_type_main-large"
-  );
+  const titleClassName = classNames(styles.title, "text text_type_main-large");
   const changeIconType = () => {
     setIsHovered(!isHovered);
   };
