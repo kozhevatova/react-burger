@@ -1,8 +1,8 @@
 import React, { SyntheticEvent, useMemo } from "react";
-import burgerIngredientsStyles from "./BurgerIngredients.module.css";
+import styles from "./burger-ingredients.module.css";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import IngredientsList from "../IngredientsList/IngredientsList";
+import IngredientsList from "../IngredientsList/ingredients-list";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
 import { TAB_SWITCH } from "../../services/actions/ingredients";
@@ -10,7 +10,7 @@ import { TAB_SWITCH } from "../../services/actions/ingredients";
 const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
   const dispatch = useDispatch();
   const titleClassName = classNames(
-    burgerIngredientsStyles.title,
+    styles.title,
     "text text_type_main-large"
   );
   const { data, currentTab } = useSelector((store: any) => ({
@@ -66,11 +66,11 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
   const content = useMemo(() => {
     return (
       <ul
-        className={burgerIngredientsStyles.scrollableList}
+        className={styles.scrollableList}
         id="scrollable-list"
         onScroll={handleScroll}
       >
-        <li className={burgerIngredientsStyles.scrollableListItem}>
+        <li className={styles.scrollableListItem}>
           <IngredientsList
             data={data.filter((item: any) => item.type === "bun")}
             anchorId="type-bun"
@@ -78,7 +78,7 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
             setEscListener={setEscListener}
           />
         </li>
-        <li className={burgerIngredientsStyles.scrollableListItem}>
+        <li className={styles.scrollableListItem}>
           <IngredientsList
             data={data.filter((item: any) => item.type === "sauce")}
             anchorId="type-sauce"
@@ -86,7 +86,7 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
             setEscListener={setEscListener}
           />
         </li>
-        <li className={burgerIngredientsStyles.scrollableListItem}>
+        <li className={styles.scrollableListItem}>
           <IngredientsList
             data={data.filter((item: any) => item.type === "main")}
             anchorId="type-main"
@@ -100,10 +100,10 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
   }, [data]);
 
   return (
-    <section className={burgerIngredientsStyles.ingredients}>
+    <section className={styles.ingredients}>
       <h1 className={titleClassName}>Соберите бургер</h1>
       <nav>
-        <ul className={burgerIngredientsStyles.tabs}>
+        <ul className={styles.tabs}>
           <li onClick={handleClick} id="bun">
             <Tab
               value="bun"

@@ -20,11 +20,11 @@ export const getAllIngredients = () => {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });
-    api.getIngredients().then((res) => {
-      if(res && res.success) {
+    api.getIngredients().then((response) => {
+      if(response && response.success) {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
-          ingredients: res.data.map((item) => ({...item, qty: 0})),
+          ingredients: response.data.map((item) => ({...item, qty: 0})),
         });
       } else {
         dispatch({
@@ -32,10 +32,10 @@ export const getAllIngredients = () => {
         })
       }
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch({
         type: GET_INGREDIENTS_FAILED,
-        err: err,
+        error: error.message,
       })
     });
   };

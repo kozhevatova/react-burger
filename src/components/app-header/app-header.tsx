@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 
-import burgerConstructorStyles from "./AppHeader.module.css";
+import styles from "./app-header.module.css";
 import {
   Logo,
   BurgerIcon,
@@ -17,7 +17,7 @@ const AppHeader = () => {
     profile: "secondary",
   });
   const linkClassName = classNames(
-    burgerConstructorStyles.link,
+    styles.link,
     "p-5",
     "mt-4",
     "mb-4",
@@ -37,7 +37,7 @@ const AppHeader = () => {
   };
 
   return (
-    <header className={burgerConstructorStyles.header}>
+    <header className={styles.header}>
       <NavLink
         to="#"
         className={linkClassName}

@@ -1,14 +1,14 @@
 import React from "react";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import PropTypes from "prop-types";
-import mainStyles from "./Main.module.css";
+import styles from "./main-content.module.css";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-const Main = ({ setEscListener }: { setEscListener: any }) => {
+const MainContent = ({ setEscListener }: { setEscListener: any }) => {
   return (
-    <main className={mainStyles.main}>
+    <main className={styles.main}>
       <DndProvider backend={HTML5Backend}>
         <BurgerIngredients setEscListener={setEscListener} />
         <BurgerConstructor setEscListener={setEscListener} />
@@ -18,8 +18,8 @@ const Main = ({ setEscListener }: { setEscListener: any }) => {
   );
 };
 
-Main.propTypes = {
+MainContent.propTypes = {
   setEscListener: PropTypes.func.isRequired,
 };
 
-export default Main;
+export default MainContent;

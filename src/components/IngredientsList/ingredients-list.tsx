@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import IngredientItem from "../IngredientItem/IngredientItem";
-import listStyles from "./IngredientsList.module.css";
+import IngredientItem from "../ingredient-item/ingredient-item";
+import styles from "./ingredients-list.module.css";
 import classNames from "classnames";
 import { dataItemProptypes } from "../../types/types";
 
@@ -18,13 +18,13 @@ const IngredientsList = ({
 }) => {
   const titleClassName = classNames(
     "text text_type_main-medium",
-    listStyles.title
+    styles.title
   );
 
   return (
-    <div className={listStyles.ingredients} id={anchorId}>
+    <div className={styles.ingredients} id={anchorId}>
       <h2 className={titleClassName}>{title}</h2>
-      <ul className={listStyles.list}>
+      <ul className={styles.list}>
         {data.map((item: any, index: number) => {
           return (
             <IngredientItem

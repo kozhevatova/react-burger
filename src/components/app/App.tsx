@@ -1,17 +1,20 @@
 import React, { SyntheticEvent, useCallback, useEffect } from "react";
-import AppHeader from "../AppHeader/AppHeader";
-import Main from "../Main/Main";
-import appStyles from "./App.module.css";
-import Modal from "../Modal/Modal";
+import AppHeader from "../app-header/app-header";
+// import Main from "../main/Main";
+import appStyles from "./app.module.css";
+// import Modal from "../modal/Modal";
 import { ingredientDetailsTitle } from "../../utils/constants";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import OrderDetails from "../OrderDetails/OrderDetails";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
 import {
   CLOSE_INGREDIENT_MODAL,
   getAllIngredients,
 } from "../../services/actions/ingredients";
 import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_ORDER_MODAL } from "../../services/actions/order";
+import MainContent from "../main-content/main-content";
+import ModalWindow from "../modal-window/modal-window";
+
 
 function App() {
   const { isOrderModalOpen, isIngredientModalOpen } = useSelector(
@@ -69,24 +72,24 @@ function App() {
       <AppHeader />
       {/* временная замена лоудеру */}
       {isAppLoading && <p>Loading...</p>}
-      {!isAppLoading && <Main setEscListener={setEscListener} />}
+      {!isAppLoading && <MainContent setEscListener={setEscListener} />}
       {isOrderModalOpen && (
-        <Modal
+        <ModalWindow
           title=""
           handleModalClose={handleModalsClose}
           handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
         >
           <OrderDetails />
-        </Modal>
+        </ModalWindow>
       )}
       {isIngredientModalOpen && (
-        <Modal
+        <ModalWindow
           title={ingredientDetailsTitle}
           handleModalClose={handleModalsClose}
           handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
         >
           <IngredientDetails />
-        </Modal>
+        </ModalWindow>
       )}
     </div>
   );

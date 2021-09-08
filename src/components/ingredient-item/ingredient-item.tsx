@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import itemStyles from "./IngredientItem.module.css";
+import styles from "./ingredient-item.module.css";
 import PropTypes from "prop-types";
 import {
   CurrencyIcon,
@@ -30,16 +30,16 @@ const IngredientItem = ({
   });
 
   const cardClassName = classNames(
-    itemStyles.card,
-    `${isDragging && itemStyles.dragCard}`
+    styles.card,
+    `${isDragging && styles.dragCard}`
   )
   const textClassName = classNames(
-    itemStyles.text,
+    styles.text,
     "text text_type_main-default"
   );
   const digitClassName = classNames(
     "text text_type_digits-default",
-    itemStyles.digit,
+    styles.digit,
     "mt-1 mb-1"
   );
   const handleCardClick = () => {
@@ -53,7 +53,7 @@ const IngredientItem = ({
     <div className={cardClassName} onClick={handleCardClick} ref={dragRef} draggable>
       {item.qty > 0 && <Counter count={item.qty} size="default" />}
       <img src={item.image} alt={item.name} />
-      <div className={itemStyles.price}>
+      <div className={styles.price}>
         <p className={digitClassName}>{item.price}</p>
         <CurrencyIcon type="primary" />
       </div>

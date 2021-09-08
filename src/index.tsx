@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
-import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers';
 import thunk from 'redux-thunk';
+import App from "./components/app/App";
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;

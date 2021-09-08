@@ -6,11 +6,11 @@ class Api {
     this.baseUrl = options.baseUrl;
   }
 
-  _getResponseData(res: Response) {
-    if (res.ok) {
-      return res.json();
+  _getResponseData(response: Response) {
+    if (response.ok) {
+      return response.json();
     }
-    return Promise.reject(new Error(`Ошибка: ${res.status}`));
+    return Promise.reject(new Error(`Ошибка: ${response.status}`));
   }
 
   getIngredients() {
@@ -18,7 +18,7 @@ class Api {
       headers: {
         'Content-Type' : 'application/json'
       }
-    }).then((res) => this._getResponseData(res));
+    }).then((response) => this._getResponseData(response));
   }
 
   makeOrder(ingredients:any) {
@@ -30,7 +30,7 @@ class Api {
       body: JSON.stringify({
         ingredients: ingredients,
       })
-    }).then((res) => this._getResponseData(res));
+    }).then((response) => this._getResponseData(response));
   }
 }
 

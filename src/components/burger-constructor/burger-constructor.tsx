@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from "react";
-import burgerConstructorStyles from "./BurgerConstructor.module.css";
+import styles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
   Button,
@@ -12,9 +12,9 @@ import {
   SWAP_INGREDIENTS,
 } from "../../services/actions/order";
 import { useDispatch, useSelector } from "react-redux";
-import Bun from "../Bun/Bun";
+import Bun from '../bun/bun';
 import { useDrop } from "react-dnd";
-import FillingItem from "../FillingItem/FillingItem";
+import FillingItem from "../filling-item/filling-item";
 import {
   INCREASE_COUNT,
   RESET_COUNT,
@@ -38,8 +38,8 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
   });
   const digitClassName = classNames("text text_type_digits-medium", "mr-2");
   const containerClassName = classNames(
-    burgerConstructorStyles.burgerConstructor,
-    `${isHover && burgerConstructorStyles.hoveredContainer}`
+    styles.burgerConstructor,
+    `${isHover && styles.hoveredContainer}`
   );
   const handleMakeOrderClick = () => {
     setEscListener();
@@ -79,10 +79,10 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
   return (
     <section className={containerClassName} ref={dropRef}>
       <Bun top />
-      <ul className={burgerConstructorStyles.list}>{content}</ul>
+      <ul className={styles.list}>{content}</ul>
       <Bun top={false} />
-      <div className={burgerConstructorStyles.makeOrderInfo}>
-        <div className={burgerConstructorStyles.price}>
+      <div className={styles.makeOrderInfo}>
+        <div className={styles.price}>
           <p className={digitClassName}>{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>

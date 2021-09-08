@@ -26,16 +26,16 @@ export const makeOrder = (orderedIngredients) => {
             return item._id;
           })
       )
-      .then((res) => {
-        if (res && res.success) {
-          dispatch({ type: MAKE_ORDER_SUCCESS, orderId: res.order.number });
+      .then((response) => {
+        if (response && response.success) {
+          dispatch({ type: MAKE_ORDER_SUCCESS, orderId: response.order.number });
           dispatch({ type: OPEN_ORDER_MODAL });
         } else {
           dispatch({ type: MAKE_ORDER_FAILED });
         }
       })
-      .catch((err) => {
-        dispatch({ type: MAKE_ORDER_FAILED, err: err.message });
+      .catch((error) => {
+        dispatch({ type: MAKE_ORDER_FAILED, err: error.message });
       });
   };
 };

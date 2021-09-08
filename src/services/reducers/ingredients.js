@@ -18,7 +18,7 @@ const initialState = {
   ingredientsFailed: false,
   isIngredientModalOpen: false,
   isLoading: false,
-  err: "",
+  error: "",
   currentTab: "bun",
 };
 

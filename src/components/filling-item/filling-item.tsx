@@ -7,7 +7,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { DECREASE_COUNT } from "../../services/actions/ingredients";
 import { DELETE_ITEM } from "../../services/actions/order";
-import fillingStyles from "./FillingItem.module.css";
+import styles from "./filling-item.module.css";
 import PropTypes from 'prop-types';
 
 const FillingItem = ({
@@ -52,7 +52,7 @@ const FillingItem = ({
       if (dragIndex === hoverIndex) {
         return;
       }
-
+      
       swapIngredients(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
@@ -70,7 +70,7 @@ const FillingItem = ({
 
   return (
     <li
-      className={fillingStyles.constructorElement}
+      className={styles.constructorElement}
       ref={ref}
       style={isHover || isDragging ? { opacity: 0 } : { opacity: 1 }}
       draggable

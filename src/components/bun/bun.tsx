@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import bunStyles from "./Bun.module.css";
+import bunStyles from "./bun.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { bottomBunLabel, topBunLabel } from "../../utils/constants";
 import PropTypes from 'prop-types';
