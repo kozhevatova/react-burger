@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import styles from "./modal-window.module.css";
+import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 
-const ModalWindow = (props: any) => {
+const Modal = (props: any) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const modalRoot = document.getElementById("react-modals");
@@ -45,11 +45,11 @@ const ModalWindow = (props: any) => {
     : null;
 };
 
-ModalWindow.propTypes = {
+Modal.propTypes = {
   handleModalClose: PropTypes.func.isRequired,
   handleCloseByClickOnOverlay: PropTypes.func.isRequired,
   children: PropTypes.element,
   title: PropTypes.string.isRequired,
 };
 
-export default ModalWindow;
+export default Modal;

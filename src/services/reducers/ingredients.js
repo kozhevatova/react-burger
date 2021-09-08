@@ -29,7 +29,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         ingredientsRequest: true,
         ingredientsFailed: false,
-        err: initialState.err,
+        error: initialState.error,
       };
     }
     case GET_INGREDIENTS_SUCCESS: {
@@ -38,7 +38,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         ingredientsRequest: false,
         ingredientsFailed: false,
         ingredients: action.ingredients,
-        err: initialState.err,
+        error: initialState.error,
       };
     }
     case GET_INGREDIENTS_FAILED: {
@@ -46,7 +46,7 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         ingredientsRequest: false,
         ingredientsFailed: true,
-        err: action.err,
+        error: action.error,
       };
     }
     case GET_INGREDIENT_DETAILS: {

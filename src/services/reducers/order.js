@@ -20,7 +20,7 @@ const initialState = {
   orderFailed: false,
   orderId: 0,
   isOrderModalOpen: false,
-  err: "",
+  error: "",
 };
 
 export const orderReducer = (state = initialState, action) => {
@@ -88,7 +88,7 @@ export const orderReducer = (state = initialState, action) => {
         orderRequest: false,
         orderFailed: true,
         orderId: initialState.orderId,
-        err: action.err,
+        error: action.error,
       };
     }
     case OPEN_ORDER_MODAL: {

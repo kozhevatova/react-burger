@@ -35,7 +35,7 @@ export const makeOrder = (orderedIngredients) => {
         }
       })
       .catch((error) => {
-        dispatch({ type: MAKE_ORDER_FAILED, err: error.message });
+        dispatch({ type: MAKE_ORDER_FAILED, error: error.message });
       });
   };
 };

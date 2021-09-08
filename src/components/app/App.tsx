@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useEffect } from "react";
 import AppHeader from "../app-header/app-header";
-import appStyles from "./app.module.css";
+import styles from "./app.module.css";
 import { ingredientDetailsTitle } from "../../utils/constants";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_ORDER_MODAL } from "../../services/actions/order";
 import MainContent from "../main-content/main-content";
-import ModalWindow from "../modal-window/modal-window";
+import Modal from "../modal/modal";
 
 function App() {
   const { isOrderModalOpen, isIngredientModalOpen } = useSelector(
@@ -65,28 +65,28 @@ function App() {
   );
 
   return (
-    <div className={appStyles.App}>
+    <div className={styles.App}>
       <AppHeader />
       {/* временная замена лоудеру */}
       {isAppLoading && <p>Loading...</p>}
       {!isAppLoading && <MainContent setEscListener={setEscListener} />}
       {isOrderModalOpen && (
-        <ModalWindow
+        <Modal
           title=""
           handleModalClose={handleModalsClose}
           handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
         >
           <OrderDetails />
-        </ModalWindow>
+        </Modal>
       )}
       {isIngredientModalOpen && (
-        <ModalWindow
+        <Modal
           title={ingredientDetailsTitle}
           handleModalClose={handleModalsClose}
           handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
         >
           <IngredientDetails />
-        </ModalWindow>
+        </Modal>
       )}
     </div>
   );
