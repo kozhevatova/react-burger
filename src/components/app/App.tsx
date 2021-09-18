@@ -12,6 +12,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_ORDER_MODAL } from "../../services/actions/order";
 import MainContent from "../main-content/main-content";
 import Modal from "../modal/modal";
+import { Route, Switch } from "react-router-dom";
+import Login from "../login/login";
+import Register from "../register/register";
+import ForgotPassword from "../forgot-password/forgot-password";
+import Profile from "../profile/profile";
+import ResetPassword from "../reset-password/reset-password";
 
 function App() {
   const { isOrderModalOpen, isIngredientModalOpen } = useSelector(
@@ -67,18 +73,37 @@ function App() {
   return (
     <div className={styles.App}>
       <AppHeader />
+      <Switch>
+        <Route exact path="/">
+          {isAppLoading && <p>Loading...</p>}
+          {!isAppLoading && <MainContent setEscListener={setEscListener} />}
+          {isOrderModalOpen && (
+            <Modal
+              title=""
+              handleModalClose={handleModalsClose}
+              handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
+            >
+              <OrderDetails />
+            </Modal>
+          )}
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/register">
+          <Register/>
+        </Route>
+        <Route exact path="/forgot-password">
+          <ForgotPassword/>
+        </Route>
+        <Route exact path="/profile">
+          <Profile/>
+        </Route>
+        <Route exact path="/reset-password">
+          <ResetPassword/>
+        </Route>
+      </Switch>
       {/* временная замена лоудеру */}
-      {isAppLoading && <p>Loading...</p>}
-      {!isAppLoading && <MainContent setEscListener={setEscListener} />}
-      {isOrderModalOpen && (
-        <Modal
-          title=""
-          handleModalClose={handleModalsClose}
-          handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
-        >
-          <OrderDetails />
-        </Modal>
-      )}
       {isIngredientModalOpen && (
         <Modal
           title={ingredientDetailsTitle}

@@ -57,9 +57,11 @@ const AppHeader = () => {
         )}
         <p className={textClassName}>Лента заказов</p>
       </NavLink>
-      <Logo />
+      <NavLink to="/" className={linkClassName}>
+        <Logo />
+      </NavLink>
       <NavLink
-        to="#"
+        to="/profile"
         className={linkClassName}
         onMouseOver={() => changeIconType("profile", false)}
         onMouseLeave={() => changeIconType("profile", true)}

@@ -1,0 +1,49 @@
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-width: 1260px;
+  margin: auto;
+  padding: 120px 0 0 0;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkListItem {
+  min-height: 64px;
+  width: 320px;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  color: var(--text-dark-grey);
+  text-decoration: none;
+}
+
+.activeLink {
+  color: var(--text-primary-light);
+}
+
+.inputList {
+  list-style: none;
+  width: 480px;
+  padding: 0;
+  margin: 0 0 0 60px;
+}
+
+.inputListItem {
+  margin: 0 0 24px 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
