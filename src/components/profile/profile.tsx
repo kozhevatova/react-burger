@@ -1,11 +1,11 @@
-import React, {useCallback, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from "./profile.module.css";
 import { profileMenuLinks } from "../../utils/constants";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
-import { setProfileFormValue } from "../../services/actions/form";
+import { profileFormSubmit, setProfileFormValue } from "../../services/actions/form";
 
 const Profile = () => {
   const user = useSelector((store:any) => store.form.user);
@@ -23,12 +23,10 @@ const Profile = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
-  const buttonClassName = classNames(
-    styles.button,
-    'text_type_main-default'
-  )
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   const onChange = (e: any) => {
     dispatch(setProfileFormValue(e.target.name, e.target.value));
@@ -48,14 +46,15 @@ const Profile = () => {
     }, 0);
   };
 
-  const resetChanges = () => {
+  const resetChanges = (e:any) => {
+    e.preventDefault();
     console.log('reset')
   }
 
-  const onSubmit = useCallback((e:any) => {
+  const onSubmit = (e:any) => {
     e.preventDefault();
-    console.log('submit', email, name, password);
-  }, [email,password,name]);
+    dispatch(profileFormSubmit());
+  }
 
   const linkClassName = classNames(styles.link, "text text_type_main-medium");
   return (
@@ -75,7 +74,7 @@ const Profile = () => {
           );
         })}
       </ul>
-      <form onSubmit={onSubmit} ref={formRef}>
+      <form onSubmit={onSubmit}>
         <ul className={styles.inputList}>
           <li className={styles.inputListItem}>
             <Input

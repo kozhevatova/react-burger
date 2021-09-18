@@ -127,6 +127,7 @@ class Api {
   }
 
   resetPassword(password: string, token: string) {
+    console.log('reset')
     return fetch(`${this.baseUrl}/password-reset/reset`, {
       method: "POST",
       headers: {

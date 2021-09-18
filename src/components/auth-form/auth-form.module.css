@@ -4,6 +4,7 @@
   justify-content: center;
   max-width: 480px;
   margin: 180px auto 0;
+  align-items: center;
 }
 
 .title {

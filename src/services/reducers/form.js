@@ -9,7 +9,16 @@ import {
   REGISTER_FORM_SUBMIT_FAILED,
   LOGIN_FORM_SUBMIT,
   LOGIN_FORM_SUBMIT_SUCCESS,
-  LOGIN_FORM_SUBMIT_FAILED
+  LOGIN_FORM_SUBMIT_FAILED,
+  FORGOT_PASSWORD_FORM_SUBMIT,
+  FORGOT_PASSWORD_FORM_SUBMIT_SUCCESS,
+  FORGOT_PASSWORD_FORM_SUBMIT_FAILED,
+  RESET_PASSWORD_FORM_SUBMIT,
+  RESET_PASSWORD_FORM_SUBMIT_SUCCESS,
+  RESET_PASSWORD_FORM_SUBMIT_FAILED,
+  PROFILE_FORM_SUBMIT,
+  PROFILE_FORM_SUBMIT_SUCCESS,
+  PROFILE_FORM_SUBMIT_FAILED
 } from "../actions/form";
 
 const initialState = {
@@ -35,15 +44,15 @@ const initialState = {
     password: "",
     name: "",
   },
-  registrationRequest: true,
+  registrationRequest: false,
   registrationFailed: false,
-  loginRequest: true,
+  loginRequest: false,
   loginFailed: false,
-  forgotPasswordRequest: true,
+  forgotPasswordRequest: false,
   forgotPasswordFailed: false,
-  resetPasswordRequest: true,
+  resetPasswordRequest: false,
   resetPasswordFailed: false,
-  profileRequest: true,
+  profileRequest: false,
   profileFailed: false,
 };
 
@@ -133,7 +142,7 @@ export const formReducer = (state = initialState, action) => {
         loginForm: {
           ...initialState.loginForm
         },
-        user: action.user,
+        user: action.data.user,
       }
     }
     case LOGIN_FORM_SUBMIT_FAILED: {
@@ -141,6 +150,76 @@ export const formReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: false,
+      }
+    }
+    case FORGOT_PASSWORD_FORM_SUBMIT: {
+      return {
+        ...state,
+        forgotPasswordRequest: true,
+        forgotPasswordFailed: false,
+      }
+    }
+    case FORGOT_PASSWORD_FORM_SUBMIT_SUCCESS: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: false,
+        forgotPasswordForm: {
+          ...initialState.forgotPasswordForm
+        },
+      }
+    }
+    case FORGOT_PASSWORD_FORM_SUBMIT_FAILED: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: false,
+      }
+    }
+    case RESET_PASSWORD_FORM_SUBMIT: {
+      return {
+        ...state,
+        resetPasswordRequest: true,
+        resetPasswordFailed: false,
+      }
+    }
+    case RESET_PASSWORD_FORM_SUBMIT_SUCCESS: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordFailed: false,
+        resetPasswordForm: {
+          ...initialState.resetPasswordForm
+        },
+      }
+    }
+    case RESET_PASSWORD_FORM_SUBMIT_FAILED: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordFailed: false,
+      }
+    }
+    case PROFILE_FORM_SUBMIT: {
+      return {
+        ...state,
+        profileRequest: true,
+        profileFailed: false,
+      }
+    }
+    case PROFILE_FORM_SUBMIT_SUCCESS: {
+      return {
+        ...state,
+        profileRequest: true,
+        profileFailed: false,
+        user: action.data.user,
+      }
+    }
+    case PROFILE_FORM_SUBMIT_FAILED: {
+      return {
+        ...state,
+        profileRequest: false,
+        profileFailed: false,
       }
     }
     default: {

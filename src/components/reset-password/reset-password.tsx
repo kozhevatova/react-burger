@@ -6,7 +6,7 @@ import {
 import AuthForm from "../auth-form/auth-form";
 import { useSelector, useDispatch } from "react-redux";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { setResetPasswordFormValue } from "../../services/actions/form";
+import { resetPasswordFormSubmit, setResetPasswordFormValue } from "../../services/actions/form";
 
 const ResetPassword = () => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -24,16 +24,22 @@ const ResetPassword = () => {
     setIsPasswordShown(!isPasswordShown);
   }
 
+  const onSubmit = (e:any) => {
+    e.preventDefault();
+    dispatch(resetPasswordFormSubmit());
+  }
+
   return (
     <AuthForm
       title={formTitle}
       buttonTitle={buttonTitle}
       links={forgotPasswordLinks}
+      onSubmit={onSubmit}
     >
       <Input
         type={isPasswordShown ? "text" : "password"}
         value={newPassword}
-        name={"newPassword"}
+        name="newPassword"
         onChange={onChange}
         size="default"
         icon={isPasswordShown ? "HideIcon" : "ShowIcon"}
@@ -43,7 +49,7 @@ const ResetPassword = () => {
       <Input
         type="text"
         value={token}
-        name={"code"}
+        name="token"
         onChange={onChange}
         size="default"
         placeholder="Введите код из письма"

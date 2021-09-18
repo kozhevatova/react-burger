@@ -63,7 +63,7 @@ export const registerFormSubmit = () => {
     dispatch({
       type: REGISTER_FORM_SUBMIT,
     });
-    const {name, email, password} = getState().form.registerForm;
+    const { name, email, password } = getState().form.registerForm;
     api
       .register(name, email, password)
       .then((data) => {
@@ -87,15 +87,73 @@ export const loginFormSubmit = () => {
     dispatch({
       type: LOGIN_FORM_SUBMIT,
     });
-    const {email, password} = getState().form.loginForm;
-    api.login(email,password)
-    .then((data) => {
-      console.log('action', data)
-      dispatch({type: LOGIN_FORM_SUBMIT_SUCCESS, data})
-    })
-    .catch((error) => {
-      console.log(error);
-      dispatch({type: LOGIN_FORM_SUBMIT_FAILED});
-    })
-  }
+    const { email, password } = getState().form.loginForm;
+    api
+      .login(email, password)
+      .then((data) => {
+        console.log("action", data);
+        dispatch({ type: LOGIN_FORM_SUBMIT_SUCCESS, data });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: LOGIN_FORM_SUBMIT_FAILED });
+      });
+  };
+};
+
+export const forgotPasswordFormSubmit = () => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: FORGOT_PASSWORD_FORM_SUBMIT
+    });
+    const { email } = getState().form.forgotPasswordForm;
+    api
+      .requestResetPassword(email)
+      .then((data) => {
+        console.log("action", data);
+        dispatch({ type: FORGOT_PASSWORD_FORM_SUBMIT_SUCCESS });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: FORGOT_PASSWORD_FORM_SUBMIT_FAILED });
+      });
+  };
+};
+
+export const resetPasswordFormSubmit = () => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: RESET_PASSWORD_FORM_SUBMIT
+    });
+    const { newPassword, token } = getState().form.resetPasswordForm;
+    api
+      .resetPassword(newPassword, token)
+      .then((data) => {
+        console.log("reset", data);
+        dispatch({ type: RESET_PASSWORD_FORM_SUBMIT_SUCCESS });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: RESET_PASSWORD_FORM_SUBMIT_FAILED });
+      });
+  };
+};
+
+export const profileFormSubmit = () => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: PROFILE_FORM_SUBMIT
+    });
+    const { name,email,password } = getState().form.profilePasswordForm;
+    api
+      .requestResetPassword(name, email, password)
+      .then((data) => {
+        console.log("action", data);
+        dispatch({ type: PROFILE_FORM_SUBMIT_SUCCESS, data });
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: PROFILE_FORM_SUBMIT_FAILED });
+      });
+  };
 }
