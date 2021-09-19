@@ -24,7 +24,8 @@ import {
   LOGOUT_REQUEST_FAILED,
   UPDATE_USER_INFO_REQUEST,
   UPDATE_USER_INFO_SUCCESS,
-  UPDATE_USER_INFO_FAILED
+  UPDATE_USER_INFO_FAILED,
+  CLOSE_UPDATE_INFO_MODAL
 } from "../actions/user";
 
 const initialState = {
@@ -63,6 +64,7 @@ const initialState = {
   resetSuccess: false,
   userInfoRequest: false,
   userInfoFailed: false,
+  updateSuccess: false,
   updateUserInfoRequest: false,
   updateUserInfoRequestFailed: false,
   logoutRequest: false,
@@ -252,6 +254,7 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         updateUserInfoFailed: false,
         updateUserInfoRequest: true,
+        updateSuccess: false,
       }
     }
     case UPDATE_USER_INFO_SUCCESS: {
@@ -264,7 +267,8 @@ export const userInfoReducer = (state = initialState, action) => {
           ...state.profileForm,
           name: action.user.name,
           email: action.user.email,
-        }
+        },
+        updateSuccess: true,
       }
     }
     case UPDATE_USER_INFO_FAILED: {
@@ -272,6 +276,13 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         updateUserInfoFailed: true,
         updateUserInfoRequest: false,
+        updateSuccess: false,
+      }
+    }
+    case CLOSE_UPDATE_INFO_MODAL: {
+      return {
+        ...state,
+        updateSuccess: false,
       }
     }
     case LOGOUT_REQUEST: {
@@ -279,7 +290,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         logoutRequest: true,
         logoutRequestFailed: false,
-        logoutSuccess: false,
       }
     }
     case LOGOUT_REQUEST_SUCCESS: {
@@ -288,8 +298,6 @@ export const userInfoReducer = (state = initialState, action) => {
         user: {},
         logoutRequest: false,
         logoutRequestFailed: false,
-        logoutSuccess: true,
-        loginSuccess: false,
       }
     }
     case LOGOUT_REQUEST_FAILED: {
@@ -297,7 +305,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         logoutRequest: false,
         logoutRequestFailed: true,
-        logoutSuccess: false,
       }
     }
     default: {

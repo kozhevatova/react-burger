@@ -22,9 +22,11 @@ import {
 import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
-  const { orderedIngredients, totalPrice } = useSelector((store: any) => ({
-    ...store.order,
-  }));
+  const { orderedIngredients, totalPrice, orderRequest } = useSelector(
+    (store: any) => ({
+      ...store.order,
+    })
+  );
   const user = useSelector((store: any) => store.user.user);
   const history = useHistory();
 
@@ -84,21 +86,38 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderedIngredients]);
 
-  return (
+  return !orderRequest ? (
     <section className={containerClassName} ref={dropRef}>
       <Bun top />
       <ul className={styles.list}>{content}</ul>
       <Bun top={false} />
-      <div className={styles.makeOrderInfo}>
-        <div className={styles.price}>
-          <p className={digitClassName}>{totalPrice}</p>
-          <CurrencyIcon type="primary" />
+      {(orderedIngredients.filling.length ||
+        orderedIngredients.buns.length > 1) && (
+        <div className={styles.makeOrderInfo}>
+          <div className={styles.price}>
+            <p className={digitClassName}>{totalPrice}</p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button type="primary" size="large" onClick={handleMakeOrderClick}>
+            Оформить заказ
+          </Button>
         </div>
-        <Button type="primary" size="large" onClick={handleMakeOrderClick}>
-          Оформить заказ
-        </Button>
-      </div>
+      )}
     </section>
+  ) : (
+    // временная замена лоудеру
+    <p
+      style={{
+        minHeight: 760,
+        marginTop: 100,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 600,
+      }}
+    >
+      Loading...
+    </p>
   );
 };
 

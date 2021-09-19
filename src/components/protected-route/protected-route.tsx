@@ -40,10 +40,10 @@ const ProtectedRoute = ({ children, ...rest }: any) => {
   );
 };
 
-ProtectedRoute.propTypes ={
-  children : PropTypes.element.isRequired,
+ProtectedRoute.propTypes = {
+  children: PropTypes.element.isRequired,
   exact: PropTypes.bool,
-  path: PropTypes.string.isRequired
-}
+  path: PropTypes.string.isRequired,
+};
 
 export default ProtectedRoute;

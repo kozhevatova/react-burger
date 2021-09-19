@@ -70,3 +70,7 @@ export const profileMenuLinks = [
     id: 'logout'
   }
 ]
+
+  export const profileCaption = 'В этом разделе вы можете изменить свои персональные данные';
+ 
+  export const ordersCaption = 'В этом разделе вы можете просмотреть свою историю заказов';

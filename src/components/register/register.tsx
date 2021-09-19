@@ -6,7 +6,10 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { registerFormSubmit, setRegisterFormValue } from "../../services/actions/user";
+import {
+  registerFormSubmit,
+  setRegisterFormValue,
+} from "../../services/actions/user";
 
 const Register = () => {
   const { email, password, name } = useSelector((store: any) => ({
@@ -18,13 +21,18 @@ const Register = () => {
     dispatch(setRegisterFormValue(e.target.name, e.target.value));
   };
 
-  const onSubmit = (e:any) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
     dispatch(registerFormSubmit());
-  }
+  };
 
   return (
-    <AuthForm title={formTitle} buttonTitle={buttonTitle} links={registerLinks} onSubmit={onSubmit}>
+    <AuthForm
+      title={formTitle}
+      buttonTitle={buttonTitle}
+      links={registerLinks}
+      onSubmit={onSubmit}
+    >
       <Input
         type="text"
         onChange={onChange}
@@ -32,7 +40,13 @@ const Register = () => {
         name={"name"}
         placeholder={"Имя"}
       />
-      <Input type="email" onChange={onChange} value={email} name={"email"} placeholder="E-mail"/>
+      <Input
+        type="email"
+        onChange={onChange}
+        value={email}
+        name={"email"}
+        placeholder="E-mail"
+      />
       <PasswordInput
         value={password}
         name={"password"}

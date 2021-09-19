@@ -27,7 +27,7 @@ const ResetPassword = () => {
     if (resetSuccess) {
       history.replace({ pathname: "/login" });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetSuccess]);
 
   if (!localStorage.getItem("emailSent")) {

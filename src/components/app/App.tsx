@@ -18,12 +18,16 @@ import Register from "../register/register";
 import ForgotPassword from "../forgot-password/forgot-password";
 import Profile from "../profile/profile";
 import ResetPassword from "../reset-password/reset-password";
-import { getUserInfo } from "../../services/actions/user";
+import {
+  CLOSE_UPDATE_INFO_MODAL,
+  getUserInfo,
+} from "../../services/actions/user";
 import IngredientItemPage from "../ingredient-item-page/ingredient-item-page";
 import ProtectedRoute from "../protected-route/protected-route";
 import { getCookie } from "../../utils/utils";
 import ProfileForm from "../profile-form/profile-form";
 import ProfileOrders from "../profile-orders/profile-orders";
+import NotFoundPage from "../not-found-page/not-found-page";
 
 function App() {
   const history = useHistory();
@@ -36,6 +40,7 @@ function App() {
   const isAppLoading = useSelector(
     (store: any) => store.ingredients.ingredientsRequest
   );
+  const updateSuccess = useSelector((store: any) => store.user.updateSuccess);
 
   const dispatch = useDispatch();
 
@@ -61,6 +66,7 @@ function App() {
   const handleModalsClose = () => {
     dispatch({ type: CLOSE_ORDER_MODAL });
     dispatch({ type: CLOSE_INGREDIENT_MODAL });
+    dispatch({ type: CLOSE_UPDATE_INFO_MODAL });
     removeEscListener();
     history.replace({ pathname: "/" });
   };
@@ -101,7 +107,7 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile/orders">
           <Profile>
-            <ProfileOrders/>
+            <ProfileOrders />
           </Profile>
         </ProtectedRoute>
         <Route exact path="/login">
@@ -129,6 +135,9 @@ function App() {
             <IngredientItemPage />
           )}
         </Route>
+        <Route path="*">
+          <NotFoundPage />
+        </Route>
       </Switch>
 
       {isOrderModalOpen && (
@@ -140,15 +149,15 @@ function App() {
           <OrderDetails />
         </Modal>
       )}
-      {/* {isIngredientModalOpen && (
+      {updateSuccess && (
         <Modal
-          title={ingredientDetailsTitle}
+          title="Уведомление"
           handleModalClose={handleModalsClose}
           handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
         >
-          <IngredientDetails />
+          <p className="text text_type_main-medium">Данные успешно обновлены</p>
         </Modal>
-      )} */}
+      )}
     </div>
   );
 }

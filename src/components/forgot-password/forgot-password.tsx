@@ -29,7 +29,7 @@ const ForgotPassword = () => {
     if (emailSent) {
       history.replace({ pathname: "/reset-password" });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailSent]);
 
   const onSubmit = (e: any) => {

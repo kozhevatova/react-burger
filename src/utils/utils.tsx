@@ -1,3 +1,5 @@
+import {profileCaption, ordersCaption} from './constants';
+
 export const setCookie = (name: string, value: any, props?: any) => {
   props = props || {};
   let exp = props.expires;
@@ -46,3 +48,15 @@ export const setTokens = (data: any) => {
     setCookie("refreshToken", refreshToken);
   }
 };
+
+
+export const chooseMenuCaption = (path: string) => {
+  switch(path) {
+    case '/profile': {
+      return profileCaption;
+    }
+    case '/profile/orders': {
+      return ordersCaption;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 import {
   Button,
   Input,
@@ -9,7 +9,7 @@ import {
   setProfileFormValue,
   updateUserInfo,
 } from "../../services/actions/user";
-import styles from './profile-form.module.css';
+import styles from "./profile-form.module.css";
 
 const ProfileForm = () => {
   const { email, password, name } = useSelector((store: any) => ({
@@ -55,62 +55,62 @@ const ProfileForm = () => {
     dispatch(updateUserInfo());
   };
 
-  return( <form onSubmit={onSubmit}>
-    <ul className={styles.inputList}>
-      <li className={styles.inputListItem}>
-        <Input
-          type="text"
-          name={"name"}
-          value={name}
-          onChange={onChange}
-          placeholder="Имя"
-          ref={nameRef}
-          icon={isInputInFocus.name ? "CloseIcon" : "EditIcon"}
-          onIconClick={() =>
-            isInputInFocus.name ? clearField("name") : onIconClick(nameRef)
-          }
-        />
-      </li>
-      <li className={styles.inputListItem}>
-        <Input
-          type="email"
-          name={"email"}
-          value={email}
-          onChange={onChange}
-          placeholder="Логин"
-          ref={emailRef}
-          icon={isInputInFocus.email ? "CloseIcon" : "EditIcon"}
-          onIconClick={() =>
-            isInputInFocus.email
-              ? clearField("email")
-              : onIconClick(emailRef)
-          }
-        />
-      </li>
-      <li className={styles.inputListItem}>
-        <Input
-          type="password"
-          name={"password"}
-          value={password}
-          onChange={onChange}
-          placeholder="Пароль"
-          ref={passwordRef}
-          icon={isInputInFocus.password ? "CloseIcon" : "EditIcon"}
-          onIconClick={() =>
-            isInputInFocus.password
-              ? clearField("password")
-              : onIconClick(passwordRef)
-          }
-        />
-      </li>
-    </ul>
-    <div className={styles.buttons}>
-      <Button type="secondary" onClick={resetChanges}>
-        Отменить
-      </Button>
-      <Button type="primary">Сохранить</Button>
-    </div>
-  </form>)
-}
+  return (
+    <form onSubmit={onSubmit}>
+      <ul className={styles.inputList}>
+        <li className={styles.inputListItem}>
+          <Input
+            type="text"
+            name={"name"}
+            value={name}
+            onChange={onChange}
+            placeholder="Имя"
+            ref={nameRef}
+            icon={isInputInFocus.name ? "CloseIcon" : "EditIcon"}
+            onIconClick={() =>
+              isInputInFocus.name ? clearField("name") : onIconClick(nameRef)
+            }
+          />
+        </li>
+        <li className={styles.inputListItem}>
+          <Input
+            type="email"
+            name={"email"}
+            value={email}
+            onChange={onChange}
+            placeholder="Логин"
+            ref={emailRef}
+            icon={isInputInFocus.email ? "CloseIcon" : "EditIcon"}
+            onIconClick={() =>
+              isInputInFocus.email ? clearField("email") : onIconClick(emailRef)
+            }
+          />
+        </li>
+        <li className={styles.inputListItem}>
+          <Input
+            type="password"
+            name={"password"}
+            value={password}
+            onChange={onChange}
+            placeholder="Пароль"
+            ref={passwordRef}
+            icon={isInputInFocus.password ? "CloseIcon" : "EditIcon"}
+            onIconClick={() =>
+              isInputInFocus.password
+                ? clearField("password")
+                : onIconClick(passwordRef)
+            }
+          />
+        </li>
+      </ul>
+      <div className={styles.buttons}>
+        <Button type="secondary" onClick={resetChanges}>
+          Отменить
+        </Button>
+        <Button type="primary">Сохранить</Button>
+      </div>
+    </form>
+  );
+};
 
 export default ProfileForm;

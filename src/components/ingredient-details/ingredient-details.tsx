@@ -49,6 +49,6 @@ const IngredientDetails = ({ itemId }: { itemId?: string }) => {
 
 IngredientDetails.propTypes = {
   itemId: PropTypes.string,
-}
+};
 
 export default IngredientDetails;
