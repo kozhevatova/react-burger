@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 const IngredientDetails = ({ itemId }: { itemId?: string }) => {
   const selectedItem = useSelector(
@@ -45,5 +46,9 @@ const IngredientDetails = ({ itemId }: { itemId?: string }) => {
     </div>
   );
 };
+
+IngredientDetails.propTypes = {
+  itemId: PropTypes.string,
+}
 
 export default IngredientDetails;

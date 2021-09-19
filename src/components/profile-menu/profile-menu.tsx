@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { profileMenuLinks } from "../../utils/constants";
 import { NavLink, useRouteMatch } from "react-router-dom";
 import styles from './profile-menu.module.css';
@@ -8,12 +8,8 @@ import classNames from 'classnames';
 
 const ProfileMenu = () => {
   const dispatch = useDispatch();
-  const {path, url} = useRouteMatch();
+  const {path} = useRouteMatch();
   const linkClassName = classNames(styles.link, "text text_type_main-medium");
-
-  useEffect(()=> {
-    console.log(path, url)
-  }, [path, url])
 
   const onClick = (e:any) => {
     if(e.target.id === 'logout') {
