@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useMemo } from "react";
+import React, { SyntheticEvent, useEffect, useMemo } from "react";
 import styles from "./burger-ingredients.module.css";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -14,6 +14,10 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
     data: store.ingredients.ingredients,
     currentTab: store.ingredients.currentTab,
   }));
+
+  useEffect(() => {
+    localStorage.setItem('ingredients', JSON.stringify(data));
+  }, [data])
 
   const handleScroll = () => {
     const scrollableList = document.getElementById("scrollable-list");

@@ -25,12 +25,10 @@
 }
 
 .closeButton {
-  background: none;
-  box-shadow: none;
-  border: none;
   margin: 0;
   padding: 0;
   width: 18px;
+  text-decoration: none;
 }
 
 .closeButton:hover {

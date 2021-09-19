@@ -3,6 +3,8 @@
   position: relative;
   border-radius: 40px;
   transition: var(--common-transition);
+  text-decoration: none;
+  color: var(--text-primary-light);
 }
 
 .card:hover {

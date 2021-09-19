@@ -56,14 +56,17 @@ export const resetPasswordTitles = {
 export const profileMenuLinks = [
   {
     text: 'Профиль',
-    link: '/profile'
+    link: '/profile',
+    id: 'profile',
   },
   {
     text: 'История заказов',
-    link: '/'
+    link: '/',
+    id: 'orders'
   },
   {
     text: 'Выход',
-    link: '/profile'
+    link: '/profile',
+    id: 'logout'
   }
 ]

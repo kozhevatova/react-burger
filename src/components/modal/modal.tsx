@@ -5,27 +5,34 @@ import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import { NavLink, useHistory } from "react-router-dom";
 
 const Modal = (props: any) => {
   const [isHovered, setIsHovered] = useState(false);
+  const history = useHistory();
 
   const modalRoot = document.getElementById("react-modals");
   const titleClassName = classNames(styles.title, "text text_type_main-large");
+
   const changeIconType = () => {
     setIsHovered(!isHovered);
   };
 
+  const handleClickOnOverlay = (e:any) => {
+    props.handleCloseByClickOnOverlay(e);
+    history.replace({pathname: '/'})
+  }
   return modalRoot
     ? ReactDOM.createPortal(
         <ModalOverlay
-          handleCloseByClickOnOverlay={props.handleCloseByClickOnOverlay}
+          handleCloseByClickOnOverlay={handleClickOnOverlay}
         >
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
               <h2 className={titleClassName}>{props.title}</h2>
-              <button
+              <NavLink
+                to="/"
                 className={styles.closeButton}
-                type="button"
                 onMouseOver={changeIconType}
                 onMouseLeave={changeIconType}
                 onClick={props.handleModalClose}
@@ -35,7 +42,7 @@ const Modal = (props: any) => {
                 ) : (
                   <CloseIcon type="primary" />
                 )}
-              </button>
+              </NavLink>
             </div>
             {props.children}
           </div>

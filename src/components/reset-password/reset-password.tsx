@@ -6,13 +6,13 @@ import {
 import AuthForm from "../auth-form/auth-form";
 import { useSelector, useDispatch } from "react-redux";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { resetPasswordFormSubmit, setResetPasswordFormValue } from "../../services/actions/form";
+import { resetPasswordFormSubmit, setResetPasswordFormValue } from "../../services/actions/user";
 
 const ResetPassword = () => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   const { token, newPassword } = useSelector((store: any) => ({
-    ...store.form.resetPasswordForm,
+    ...store.user.resetPasswordForm,
   }));
 
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import { BASE_URL } from "./constants";
-import { setCookie, getCookie } from "./utils";
+import { getCookie } from "./utils";
 
 class Api {
   baseUrl: any;
@@ -46,22 +46,7 @@ class Api {
         email,
         password,
       }),
-    }).then((response) => {
-      let authToken;
-      // Ищем интересующий нас заголовок
-      response.headers.forEach((header) => {
-        if (header.indexOf("Bearer") === 0) {
-          // Отделяем схему авторизации от "полезной нагрузки токена",
-          // Стараемся экономить память в куках (доступно 4кб)
-          authToken = header.split("Bearer ")[1];
-        }
-      });
-      if (authToken) {
-        // Сохраняем токен в куку token
-        setCookie("token", authToken, {});
-      }
-      return this._getResponseData(response);
-    });
+    }).then((response) => this._getResponseData(response));
   }
 
   register(name: string, email: string, password: string) {
@@ -86,7 +71,7 @@ class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: "",
+        token: getCookie('refreshToken'),
       }),
     }).then((response) => this._getResponseData(response));
   }
@@ -98,13 +83,13 @@ class Api {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        token: "",
+        token: getCookie('refreshToken'),
       }),
     }).then((response) => this._getResponseData(response));
   }
 
   getUserInfo() {
-    return fetch(`${this.baseUrl}/orders`, {
+    return fetch(`${this.baseUrl}/auth/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -113,12 +98,24 @@ class Api {
     }).then((response) => this._getResponseData(response));
   }
 
+  updateUserInfo(name:string, email:string, password:string) {
+    return fetch(`${this.baseUrl}/auth/user`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: 'Bearer ' + getCookie('token')
+      },
+      body: JSON.stringify({
+        name, email, password,
+      }),
+    }).then((response) => this._getResponseData(response));
+  }
+
   requestResetPassword(email: string) {
     return fetch(`${this.baseUrl}/password-reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: 'Bearer ' + getCookie('token')
       },
       body: JSON.stringify({
         email,
@@ -127,12 +124,10 @@ class Api {
   }
 
   resetPassword(password: string, token: string) {
-    console.log('reset')
     return fetch(`${this.baseUrl}/password-reset/reset`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: 'Bearer ' + getCookie('token')
       },
       body: JSON.stringify({
         password,

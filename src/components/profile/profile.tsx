@@ -1,18 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
 import styles from "./profile.module.css";
 import { profileMenuLinks } from "../../utils/constants";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import classNames from "classnames";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
-import { profileFormSubmit, setProfileFormValue } from "../../services/actions/form";
+import { getUserInfo, logout, setProfileFormValue, updateUserInfo } from "../../services/actions/user";
 
 const Profile = () => {
-  const user = useSelector((store:any) => store.form.user);
+  const history = useHistory();
+  const user = useSelector((store:any) => store.user.user);
   const { email, password, name } = useSelector((store: any) => ({
-    ...store.form.profileForm,
+    ...store.user.profileForm,
   }));
-  
+  const logoutSuccess = useSelector((store:any) => store.user.logoutSuccess);
   const initialIconState = {
     name: false,
     email: false,
@@ -25,8 +26,12 @@ const Profile = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    console.log(user)
-  }, [user])
+    console.log('logout suc', logoutSuccess)
+    if(logoutSuccess) {
+      history.replace({pathname:'/login'})
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logoutSuccess])
 
   const onChange = (e: any) => {
     dispatch(setProfileFormValue(e.target.name, e.target.value));
@@ -48,15 +53,22 @@ const Profile = () => {
 
   const resetChanges = (e:any) => {
     e.preventDefault();
-    console.log('reset')
+    dispatch(getUserInfo());
   }
 
   const onSubmit = (e:any) => {
     e.preventDefault();
-    dispatch(profileFormSubmit());
+    dispatch(updateUserInfo());
   }
 
   const linkClassName = classNames(styles.link, "text text_type_main-medium");
+
+  const onClick = (e:any) => {
+    if(e.target.id === 'logout') {
+      dispatch(logout());
+    }
+  }
+
   return (
     <section className={styles.profile}>
       <ul className={styles.linkList}>
@@ -64,7 +76,9 @@ const Profile = () => {
           return (
             <li className={styles.linkListItem} key={index}>
               <NavLink
+                id={link.id}
                 to={link.link}
+                onClick={onClick}
                 className={linkClassName}
                 activeClassName={styles.activeLink}
               >

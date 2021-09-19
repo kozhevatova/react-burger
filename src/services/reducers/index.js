@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import {ingredientsReducer} from './ingredients';
 import {orderReducer} from './order';
-import {formReducer} from './form';
+import {userInfoReducer} from './user';
 
 export const rootReducer = combineReducers({
   order: orderReducer,
   ingredients: ingredientsReducer,
-  form: formReducer,
+  user: userInfoReducer,
 });

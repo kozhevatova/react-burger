@@ -12,14 +12,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { CLOSE_ORDER_MODAL } from "../../services/actions/order";
 import MainContent from "../main-content/main-content";
 import Modal from "../modal/modal";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import Login from "../login/login";
 import Register from "../register/register";
 import ForgotPassword from "../forgot-password/forgot-password";
 import Profile from "../profile/profile";
 import ResetPassword from "../reset-password/reset-password";
+import { getUserInfo } from "../../services/actions/user";
+import IngredientItemPage from "../ingredient-item-page/ingredient-item-page";
+import ProtectedRoute from "../protected-route/protected-route";
+import { getCookie } from "../../utils/utils";
 
 function App() {
+  const history = useHistory();
   const { isOrderModalOpen, isIngredientModalOpen } = useSelector(
     (store: any) => ({
       isOrderModalOpen: store.order.isOrderModalOpen,
@@ -29,10 +34,17 @@ function App() {
   const isAppLoading = useSelector(
     (store: any) => store.ingredients.ingredientsRequest
   );
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllIngredients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(getCookie('refreshToken')) {
+      dispatch(getUserInfo());
+    }
   }, [dispatch]);
 
   const setEscListener = () => {
@@ -48,6 +60,7 @@ function App() {
     dispatch({ type: CLOSE_ORDER_MODAL });
     dispatch({ type: CLOSE_INGREDIENT_MODAL });
     removeEscListener();
+    history.replace({pathname: '/'})
   };
 
   //обработчик закрытия модальных окон при нажатии на фон
@@ -69,42 +82,56 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-
+  
   return (
     <div className={styles.App}>
       <AppHeader />
       <Switch>
-        <Route exact path="/">
+        <ProtectedRoute exact path="/">
+          {/* временная замена лоудеру */}
           {isAppLoading && <p>Loading...</p>}
           {!isAppLoading && <MainContent setEscListener={setEscListener} />}
-          {isOrderModalOpen && (
-            <Modal
-              title=""
-              handleModalClose={handleModalsClose}
-              handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
-            >
-              <OrderDetails />
-            </Modal>
-          )}
-        </Route>
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/profile">
+          <Profile />
+        </ProtectedRoute>
         <Route exact path="/login">
           <Login />
         </Route>
         <Route exact path="/register">
-          <Register/>
+          <Register />
         </Route>
         <Route exact path="/forgot-password">
-          <ForgotPassword/>
-        </Route>
-        <Route exact path="/profile">
-          <Profile/>
+          <ForgotPassword />
         </Route>
         <Route exact path="/reset-password">
-          <ResetPassword/>
+          <ResetPassword />
+        </Route>
+        <Route path="/ingredients/:id">
+            {isIngredientModalOpen ? (
+              <Modal
+                title={ingredientDetailsTitle}
+                handleModalClose={handleModalsClose}
+                handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
+              >
+                <IngredientDetails />
+              </Modal>
+            ) : (
+            <IngredientItemPage />
+          )}
         </Route>
       </Switch>
-      {/* временная замена лоудеру */}
-      {isIngredientModalOpen && (
+
+      {isOrderModalOpen && (
+        <Modal
+          title=""
+          handleModalClose={handleModalsClose}
+          handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
+        >
+          <OrderDetails />
+        </Modal>
+      )}
+      {/* {isIngredientModalOpen && (
         <Modal
           title={ingredientDetailsTitle}
           handleModalClose={handleModalsClose}
@@ -112,7 +139,7 @@ function App() {
         >
           <IngredientDetails />
         </Modal>
-      )}
+      )} */}
     </div>
   );
 }

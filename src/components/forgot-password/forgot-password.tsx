@@ -3,10 +3,10 @@ import {forgotPasswordLinks, forgotPasswordTitles} from '../../utils/constants';
 import AuthForm from '../auth-form/auth-form';
 import { useSelector, useDispatch } from "react-redux";
 import {Input} from '@ya.praktikum/react-developer-burger-ui-components';
-import {forgotPasswordFormSubmit, setForgotPasswordFormValue} from '../../services/actions/form';
+import {forgotPasswordFormSubmit, setForgotPasswordFormValue} from '../../services/actions/user';
 
 const ForgotPassword = () => {
-  const { email } = useSelector((store: any) => ({ ...store.form.forgotPasswordForm }));
+  const { email } = useSelector((store: any) => ({ ...store.user.forgotPasswordForm }));
   const dispatch = useDispatch();
   const { formTitle, buttonTitle } = forgotPasswordTitles;
   const onChange = (e: any) => {
