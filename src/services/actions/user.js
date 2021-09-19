@@ -1,5 +1,5 @@
 import api from "../../utils/api";
-import { getCookie, setTokens, deleteCookie } from "../../utils/utils";
+import { setTokens, deleteCookie } from "../../utils/utils";
 
 export const LOGIN_FORM_SET_VALUE = "LOGIN_FORM_SET_VALUE";
 export const REGISTER_FORM_SET_VALUE = "REGISTER_FORM_SET_VALUE";
@@ -121,6 +121,7 @@ export const forgotPasswordFormSubmit = () => {
       .requestResetPassword(email)
       .then((data) => {
         dispatch({ type: FORGOT_PASSWORD_FORM_SUBMIT_SUCCESS });
+        localStorage.setItem('emailSent', JSON.stringify(true));
       })
       .catch((error) => {
         console.log(error);
@@ -139,6 +140,7 @@ export const resetPasswordFormSubmit = () => {
       .resetPassword(newPassword, token)
       .then((data) => {
         dispatch({ type: RESET_PASSWORD_FORM_SUBMIT_SUCCESS });
+        localStorage.removeItem('emailSent');
       })
       .catch((error) => {
         console.log(error);
@@ -167,11 +169,10 @@ export const logout = () => {
 }
 
 const handleTokenExpire = (error, dispatch, repeatRequestAfterRefresh) => {
-  if (error.message==='Ошибка: 403') {
+  if (error.message==='Ошибка: 403' || error.message==='Ошибка: 401') {
     api
       .refreshToken()
       .then((data) => {
-        console.log(data)
         setTokens(data);
         dispatch(repeatRequestAfterRefresh);
       })
@@ -180,7 +181,6 @@ const handleTokenExpire = (error, dispatch, repeatRequestAfterRefresh) => {
 }
 
 export const getUserInfo = () => {
-  console.log('getuserinfo',getCookie('token'))
   return (dispatch) => {
     dispatch({ type: GET_USER_INFO_REQUEST });
     api

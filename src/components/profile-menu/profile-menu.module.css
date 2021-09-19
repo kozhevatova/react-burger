@@ -1,0 +1,23 @@
+.linkList {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkListItem {
+  min-height: 64px;
+  width: 320px;
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  color: var(--text-dark-grey);
+  text-decoration: none;
+}
+
+.activeLink {
+  color: var(--text-primary-light);
+}

@@ -22,6 +22,8 @@ import { getUserInfo } from "../../services/actions/user";
 import IngredientItemPage from "../ingredient-item-page/ingredient-item-page";
 import ProtectedRoute from "../protected-route/protected-route";
 import { getCookie } from "../../utils/utils";
+import ProfileForm from "../profile-form/profile-form";
+import ProfileOrders from "../profile-orders/profile-orders";
 
 function App() {
   const history = useHistory();
@@ -34,7 +36,7 @@ function App() {
   const isAppLoading = useSelector(
     (store: any) => store.ingredients.ingredientsRequest
   );
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,7 +44,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if(getCookie('refreshToken')) {
+    if (getCookie("refreshToken")) {
       dispatch(getUserInfo());
     }
   }, [dispatch]);
@@ -60,7 +62,7 @@ function App() {
     dispatch({ type: CLOSE_ORDER_MODAL });
     dispatch({ type: CLOSE_INGREDIENT_MODAL });
     removeEscListener();
-    history.replace({pathname: '/'})
+    history.replace({ pathname: "/" });
   };
 
   //обработчик закрытия модальных окон при нажатии на фон
@@ -82,18 +84,25 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-  
+
   return (
     <div className={styles.App}>
       <AppHeader />
       <Switch>
-        <ProtectedRoute exact path="/">
+        <Route exact path="/">
           {/* временная замена лоудеру */}
           {isAppLoading && <p>Loading...</p>}
           {!isAppLoading && <MainContent setEscListener={setEscListener} />}
-        </ProtectedRoute>
+        </Route>
         <ProtectedRoute exact path="/profile">
-          <Profile />
+          <Profile>
+            <ProfileForm />
+          </Profile>
+        </ProtectedRoute>
+        <ProtectedRoute exact path="/profile/orders">
+          <Profile>
+            <ProfileOrders/>
+          </Profile>
         </ProtectedRoute>
         <Route exact path="/login">
           <Login />
@@ -108,15 +117,15 @@ function App() {
           <ResetPassword />
         </Route>
         <Route path="/ingredients/:id">
-            {isIngredientModalOpen ? (
-              <Modal
-                title={ingredientDetailsTitle}
-                handleModalClose={handleModalsClose}
-                handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
-              >
-                <IngredientDetails />
-              </Modal>
-            ) : (
+          {isIngredientModalOpen ? (
+            <Modal
+              title={ingredientDetailsTitle}
+              handleModalClose={handleModalsClose}
+              handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
+            >
+              <IngredientDetails />
+            </Modal>
+          ) : (
             <IngredientItemPage />
           )}
         </Route>

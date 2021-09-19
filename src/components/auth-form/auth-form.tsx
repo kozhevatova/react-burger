@@ -3,10 +3,22 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
 import styles from './auth-form.module.css';
 import classNames from "classnames";
+import { Redirect, useLocation } from "react-router";
+import {useSelector} from 'react-redux';
+import { LocationState} from '../../types/types';
+import PropTypes from 'prop-types';
 import './form.css';
 
 const AuthForm = (props: any) => {
   const { children, title, buttonTitle, links, onSubmit } = props;
+  const location = useLocation<LocationState>();
+  const user = useSelector((store: any) => store.user.user);
+
+  if (user.name) {
+    const { from } = location.state || { from: { pathname: "/" } };
+    return <Redirect to={from} />;
+  }
+
   const titleClassname = classNames(
     styles.title,
     'text text_type_main-medium',
@@ -39,5 +51,9 @@ const AuthForm = (props: any) => {
     </form>
   );
 };
+
+// AuthForm.propTypes = {
+
+// }
 
 export default AuthForm;

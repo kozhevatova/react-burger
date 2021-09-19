@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route } from "react-router";
 import { getUserInfo } from "../../services/actions/user";
@@ -7,14 +7,17 @@ import { getCookie } from "../../utils/utils";
 const ProtectedRoute = ({ children, path, ...rest }: any) => {
   const dispatch = useDispatch();
   const user = useSelector((store: any) => store.user.user);
+  const [isUserLoaded, setIsUserLoaded] = useState(false);
 
   useEffect(() => {
     if (getCookie("refreshToken")) {
       dispatch(getUserInfo());
     }
+    setIsUserLoaded(true);
   }, [dispatch]);
 
-  if (!user) {
+  if (!isUserLoaded) {
+    console.log("null");
     return null;
   }
 
@@ -23,7 +26,7 @@ const ProtectedRoute = ({ children, path, ...rest }: any) => {
       {...rest}
       path={path}
       render={({ location }) =>
-        user ? (
+        user.name ? (
           children
         ) : (
           <Redirect

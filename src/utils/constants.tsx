@@ -61,12 +61,12 @@ export const profileMenuLinks = [
   },
   {
     text: 'История заказов',
-    link: '/',
+    link: '/profile/orders',
     id: 'orders'
   },
   {
     text: 'Выход',
-    link: '/profile',
+    link: '/',
     id: 'logout'
   }
 ]

@@ -19,11 +19,15 @@ import {
   INCREASE_COUNT,
   RESET_COUNT,
 } from "../../services/actions/ingredients";
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
   const { orderedIngredients, totalPrice } = useSelector((store: any) => ({
     ...store.order,
   }));
+  const user = useSelector((store: any) => store.user.user);
+  const history = useHistory();
+
   const dispatch = useDispatch();
 
   const [{ isHover }, dropRef] = useDrop({
@@ -42,9 +46,13 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
     `${isHover && styles.hoveredContainer}`
   );
   const handleMakeOrderClick = () => {
-    setEscListener();
-    dispatch({ type: RESET_COUNT });
-    dispatch(makeOrder(orderedIngredients));
+    if (!user.name) {
+      history.replace({ pathname: "/login" });
+    } else {
+      setEscListener();
+      dispatch({ type: RESET_COUNT });
+      dispatch(makeOrder(orderedIngredients));
+    }
   };
 
   const swapIngredients = useCallback(

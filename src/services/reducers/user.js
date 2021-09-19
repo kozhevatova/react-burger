@@ -53,21 +53,20 @@ const initialState = {
   },
   registrationRequest: false,
   registrationFailed: false,
-  registrationSuccess: false,
   loginRequest: false,
   loginFailed: false,
-  loginSuccess: false,
   forgotPasswordRequest: false,
   forgotPasswordFailed: false,
+  emailSent: false,
   resetPasswordRequest: false,
   resetPasswordFailed: false,
+  resetSuccess: false,
   userInfoRequest: false,
   userInfoFailed: false,
   updateUserInfoRequest: false,
   updateUserInfoRequestFailed: false,
   logoutRequest: false,
   logoutRequestFailed: false,
-  logoutSuccess: false,
 };
 
 export const userInfoReducer = (state = initialState, action) => {
@@ -122,7 +121,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         registrationRequest: true,
         registrationFailed: false,
-        registrationSuccess: false,
       }
     }
     case REGISTER_FORM_SUBMIT_SUCCESS: {
@@ -130,7 +128,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         registrationRequest: false,
         registrationFailed: false,
-        registrationSuccess: true,
         registerForm: {
           ...initialState.registerForm
         },
@@ -142,7 +139,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         registrationRequest: false,
         registrationFailed: false,
-        registrationSuccess: false,
       }
     }
     case LOGIN_FORM_SUBMIT: {
@@ -150,7 +146,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         loginRequest: true,
         loginFailed: false,
-        loginSuccess: false,
       }
     }
     case LOGIN_FORM_SUBMIT_SUCCESS: {
@@ -158,7 +153,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: false,
-        loginSuccess: true,
         loginForm: {
           ...initialState.loginForm
         },
@@ -170,7 +164,6 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: false,
-        loginSuccess: false,
       }
     }
     case FORGOT_PASSWORD_FORM_SUBMIT: {
@@ -178,6 +171,7 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         forgotPasswordRequest: true,
         forgotPasswordFailed: false,
+        emailSent: false,
       }
     }
     case FORGOT_PASSWORD_FORM_SUBMIT_SUCCESS: {
@@ -188,6 +182,7 @@ export const userInfoReducer = (state = initialState, action) => {
         forgotPasswordForm: {
           ...initialState.forgotPasswordForm
         },
+        emailSent: true,
       }
     }
     case FORGOT_PASSWORD_FORM_SUBMIT_FAILED: {
@@ -195,6 +190,7 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         forgotPasswordRequest: false,
         forgotPasswordFailed: false,
+        emailSent: false,
       }
     }
     case RESET_PASSWORD_FORM_SUBMIT: {
@@ -202,6 +198,7 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         resetPasswordRequest: true,
         resetPasswordFailed: false,
+        resetSuccess: false,
       }
     }
     case RESET_PASSWORD_FORM_SUBMIT_SUCCESS: {
@@ -212,6 +209,7 @@ export const userInfoReducer = (state = initialState, action) => {
         resetPasswordForm: {
           ...initialState.resetPasswordForm
         },
+        resetSuccess: true,
       }
     }
     case RESET_PASSWORD_FORM_SUBMIT_FAILED: {
@@ -219,6 +217,7 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         resetPasswordRequest: false,
         resetPasswordFailed: false,
+        resetSuccess: false,
       }
     }
     case GET_USER_INFO_REQUEST: {
@@ -290,6 +289,7 @@ export const userInfoReducer = (state = initialState, action) => {
         logoutRequest: false,
         logoutRequestFailed: false,
         logoutSuccess: true,
+        loginSuccess: false,
       }
     }
     case LOGOUT_REQUEST_FAILED: {

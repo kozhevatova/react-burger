@@ -7,7 +7,7 @@
   padding: 120px 0 0 0;
 }
 
-.linkList {
+/* .linkList {
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -29,9 +29,9 @@
 
 .activeLink {
   color: var(--text-primary-light);
-}
+} */
 
-.inputList {
+/* .inputList {
   list-style: none;
   width: 480px;
   padding: 0;
@@ -46,4 +46,4 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-}
+} */

@@ -1,0 +1,16 @@
+.inputList {
+  list-style: none;
+  width: 480px;
+  padding: 0;
+  margin: 0 0 0 60px;
+}
+
+.inputListItem {
+  margin: 0 0 24px 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

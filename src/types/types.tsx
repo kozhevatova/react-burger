@@ -13,3 +13,10 @@ export const dataItemProptypes = PropTypes.shape({
    image_mobile: PropTypes.string.isRequired, 
    image_large: PropTypes.string.isRequired, 
  });
+
+ export interface LocationState {
+  from: {
+    pathname: string;
+  };
+  state: string[];
+}
