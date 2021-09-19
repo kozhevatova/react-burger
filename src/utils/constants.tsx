@@ -66,7 +66,7 @@ export const profileMenuLinks = [
   },
   {
     text: 'Выход',
-    link: '/',
+    link: '/login',
     id: 'logout'
   }
 ]
