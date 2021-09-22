@@ -32,7 +32,7 @@ const AppHeader = () => {
   return (
     <header className={styles.header}>
       <NavLink
-        to="#"
+        to="/"
         className={linkClassName}
         onMouseOver={() => changeIconType("burger", false)}
         onMouseLeave={() => changeIconType("burger", true)}
@@ -45,7 +45,7 @@ const AppHeader = () => {
         <p className={textClassName}>Конструктор</p>
       </NavLink>
       <NavLink
-        to="#"
+        to="/profile/orders"
         className={linkClassName}
         onMouseOver={() => changeIconType("list", false)}
         onMouseLeave={() => changeIconType("list", true)}
@@ -57,9 +57,11 @@ const AppHeader = () => {
         )}
         <p className={textClassName}>Лента заказов</p>
       </NavLink>
-      <Logo />
+      <NavLink to="/" className={linkClassName}>
+        <Logo />
+      </NavLink>
       <NavLink
-        to="#"
+        to="/profile"
         className={linkClassName}
         onMouseOver={() => changeIconType("profile", false)}
         onMouseLeave={() => changeIconType("profile", true)}

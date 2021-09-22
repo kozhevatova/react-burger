@@ -13,6 +13,7 @@ import {
   OPEN_INGREDIENT_MODAL,
 } from "../../services/actions/ingredients";
 import { useDrag } from "react-dnd";
+import { NavLink } from "react-router-dom";
 
 const IngredientItem = ({
   item,
@@ -49,7 +50,8 @@ const IngredientItem = ({
   };
 
   return (
-    <div
+    <NavLink
+      to={`/ingredients/${item._id}`}
       className={cardClassName}
       onClick={handleCardClick}
       ref={dragRef}
@@ -62,7 +64,7 @@ const IngredientItem = ({
         <CurrencyIcon type="primary" />
       </div>
       <p className={textClassName}>{item.name}</p>
-    </div>
+    </NavLink>
   );
 };
 

@@ -1,0 +1,16 @@
+.page {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 120px auto 0;
+}
+
+.title {
+  font-size: 80px;
+}
+
+.text {
+  margin: 32px 0;
+}

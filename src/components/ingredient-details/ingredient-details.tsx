@@ -2,9 +2,17 @@ import classNames from "classnames";
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
-const IngredientDetails = () => {
-  const item = useSelector((store: any) => store.ingredients.currentIngredient);
+const IngredientDetails = ({ itemId }: { itemId?: string }) => {
+  const selectedItem = useSelector(
+    (store: any) => store.ingredients.currentIngredient
+  );
+  const ingredients = localStorage.getItem("ingredients");
+  const item =
+    itemId && ingredients
+      ? JSON.parse(ingredients).find((item: any) => item._id === itemId)
+      : selectedItem;
   const nameClassName = classNames(
     styles.name,
     "text text_type_main-medium",
@@ -37,6 +45,10 @@ const IngredientDetails = () => {
       </div>
     </div>
   );
+};
+
+IngredientDetails.propTypes = {
+  itemId: PropTypes.string,
 };
 
 export default IngredientDetails;

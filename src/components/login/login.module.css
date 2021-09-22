@@ -1,0 +1,11 @@
+.inputField{
+  margin: 0 0 24px 0;
+}
+
+div.input + .input_size_default {
+  width: 480px;
+}
+
+.login_inputField__2FwU1 > div.input__container > div.input + div.input_size_default {
+  width: 480px;
+}
