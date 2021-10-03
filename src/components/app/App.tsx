@@ -9,7 +9,10 @@ import {
   getAllIngredients,
 } from "../../services/actions/ingredients";
 import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_ORDER_MODAL } from "../../services/actions/order";
+import {
+  CLOSE_MADE_ORDER_MODAL,
+  CLOSE_ORDER_MODAL,
+} from "../../services/actions/order";
 import MainContent from "../main-content/main-content";
 import Modal from "../modal/modal";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -18,25 +21,23 @@ import Register from "../register/register";
 import ForgotPassword from "../forgot-password/forgot-password";
 import Profile from "../profile/profile";
 import ResetPassword from "../reset-password/reset-password";
-import {
-  CLOSE_UPDATE_INFO_MODAL,
-  getUserInfo,
-} from "../../services/actions/user";
+import { CLOSE_UPDATE_INFO_MODAL } from "../../services/actions/user";
 import IngredientItemPage from "../ingredient-item-page/ingredient-item-page";
 import ProtectedRoute from "../protected-route/protected-route";
-import { getCookie } from "../../utils/utils";
 import ProfileForm from "../profile-form/profile-form";
-import ProfileOrders from "../profile-orders/profile-orders";
 import NotFoundPage from "../not-found-page/not-found-page";
+import Feed from "../feed/feed";
+import OrderList from "../order-list/order-list";
+import Order from "../order/order";
 
 function App() {
   const history = useHistory();
-  const { isOrderModalOpen, isIngredientModalOpen } = useSelector(
-    (store: any) => ({
+  const { isOrderModalOpen, isIngredientModalOpen, isMadeOrderModalOpen } =
+    useSelector((store: any) => ({
       isOrderModalOpen: store.order.isOrderModalOpen,
+      isMadeOrderModalOpen: store.order.isMadeOrderModalOpen,
       isIngredientModalOpen: store.ingredients.isIngredientModalOpen,
-    })
-  );
+    }));
   const isAppLoading = useSelector(
     (store: any) => store.ingredients.ingredientsRequest
   );
@@ -46,12 +47,6 @@ function App() {
 
   useEffect(() => {
     dispatch(getAllIngredients());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (getCookie("refreshToken")) {
-      dispatch(getUserInfo());
-    }
   }, [dispatch]);
 
   const setEscListener = () => {
@@ -67,6 +62,7 @@ function App() {
     dispatch({ type: CLOSE_ORDER_MODAL });
     dispatch({ type: CLOSE_INGREDIENT_MODAL });
     dispatch({ type: CLOSE_UPDATE_INFO_MODAL });
+    dispatch({ type: CLOSE_MADE_ORDER_MODAL });
     removeEscListener();
     history.replace({ pathname: "/" });
   };
@@ -107,8 +103,21 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile/orders">
           <Profile>
-            <ProfileOrders />
+            <OrderList wide setEscListener={setEscListener} />
           </Profile>
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders/:id">
+          {isMadeOrderModalOpen ? (
+            <Modal
+              title=""
+              handleModalClose={handleModalsClose}
+              handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
+            >
+              <Order isModal={true} />
+            </Modal>
+          ) : (
+            <Order isModal={false} />
+          )}
         </ProtectedRoute>
         <Route exact path="/login">
           <Login />
@@ -133,6 +142,22 @@ function App() {
             </Modal>
           ) : (
             <IngredientItemPage />
+          )}
+        </Route>
+        <Route exact path="/feed">
+          <Feed setEscListener={setEscListener} />
+        </Route>
+        <Route path="/feed/:id">
+          {isMadeOrderModalOpen ? (
+            <Modal
+              title=""
+              handleModalClose={handleModalsClose}
+              handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
+            >
+              <Order isModal={true} />
+            </Modal>
+          ) : (
+            <Order isModal={false} />
           )}
         </Route>
         <Route path="*">

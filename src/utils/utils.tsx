@@ -1,4 +1,4 @@
-import {profileCaption, ordersCaption} from './constants';
+import { profileCaption, ordersCaption } from "./constants";
 
 export const setCookie = (name: string, value: any, props?: any) => {
   props = props || {};
@@ -39,6 +39,7 @@ export const deleteCookie = (name: string) => {
 };
 
 export const setTokens = (data: any) => {
+  console.log("set token", data.accessToken);
   const authToken = data.accessToken.split("Bearer ")[1];
   const refreshToken = data.refreshToken;
   if (authToken) {
@@ -49,14 +50,13 @@ export const setTokens = (data: any) => {
   }
 };
 
-
 export const chooseMenuCaption = (path: string) => {
-  switch(path) {
-    case '/profile': {
+  switch (path) {
+    case "/profile": {
       return profileCaption;
     }
-    case '/profile/orders': {
+    case "/profile/orders": {
       return ordersCaption;
     }
   }
-}
+};

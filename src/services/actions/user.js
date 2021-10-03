@@ -122,7 +122,7 @@ export const forgotPasswordFormSubmit = () => {
       .requestResetPassword(email)
       .then((data) => {
         dispatch({ type: FORGOT_PASSWORD_FORM_SUBMIT_SUCCESS });
-        localStorage.setItem('emailSent', JSON.stringify(true));
+        localStorage.setItem("emailSent", JSON.stringify(true));
       })
       .catch((error) => {
         console.log(error);
@@ -141,7 +141,7 @@ export const resetPasswordFormSubmit = () => {
       .resetPassword(newPassword, token)
       .then((data) => {
         dispatch({ type: RESET_PASSWORD_FORM_SUBMIT_SUCCESS });
-        localStorage.removeItem('emailSent');
+        localStorage.removeItem("emailSent");
       })
       .catch((error) => {
         console.log(error);
@@ -158,8 +158,8 @@ export const logout = () => {
     api
       .logout()
       .then((res) => {
-        deleteCookie('token');
-        deleteCookie('refreshToken');
+        deleteCookie("token");
+        deleteCookie("refreshToken");
         dispatch({ type: LOGOUT_REQUEST_SUCCESS });
       })
       .catch((error) => {
@@ -167,10 +167,10 @@ export const logout = () => {
         dispatch({ type: LOGOUT_REQUEST_FAILED });
       });
   };
-}
+};
 
 const handleTokenExpire = (error, dispatch, repeatRequestAfterRefresh) => {
-  if (error.message==='Ошибка: 403' || error.message==='Ошибка: 401') {
+  if (error.message === "Ошибка: 403" || error.message === "Ошибка: 401") {
     api
       .refreshToken()
       .then((data) => {
@@ -179,7 +179,7 @@ const handleTokenExpire = (error, dispatch, repeatRequestAfterRefresh) => {
       })
       .catch((error) => console.log(error));
   }
-}
+};
 
 export const getUserInfo = () => {
   return (dispatch) => {
@@ -200,7 +200,7 @@ export const getUserInfo = () => {
 export const updateUserInfo = () => {
   return (dispatch, getState) => {
     dispatch({ type: UPDATE_USER_INFO_REQUEST });
-    const {name, email, password} = getState().user.profileForm;
+    const { name, email, password } = getState().user.profileForm;
     api
       .updateUserInfo(name, email, password)
       .then((data) => {
@@ -212,4 +212,4 @@ export const updateUserInfo = () => {
         dispatch({ type: UPDATE_USER_INFO_FAILED });
       });
   };
-}
+};

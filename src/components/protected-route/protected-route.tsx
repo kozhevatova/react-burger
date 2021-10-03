@@ -7,7 +7,8 @@ import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children, ...rest }: any) => {
   const dispatch = useDispatch();
-  const user = useSelector((store: any) => store.user.user);
+  const user = useSelector((store: any) => store.user.user.name);
+  const token = getCookie("token");
   const [isUserLoaded, setIsUserLoaded] = useState(false);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const ProtectedRoute = ({ children, ...rest }: any) => {
     <Route
       {...rest}
       render={({ location }) =>
-        user.name ? (
+        token && user ? (
           children
         ) : (
           <Redirect

@@ -74,3 +74,6 @@ export const profileMenuLinks = [
   export const profileCaption = 'В этом разделе вы можете изменить свои персональные данные';
  
   export const ordersCaption = 'В этом разделе вы можете просмотреть свою историю заказов';
+
+  export const maxAmountOfIngredients = 6;
+  export const maxAmountOrdersToShow = 23;

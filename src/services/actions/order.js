@@ -11,6 +11,12 @@ export const MAKE_ORDER_FAILED = "MAKE_ORDER_FAILED";
 export const OPEN_ORDER_MODAL = "OPEN_ORDER_MODAL";
 export const CLOSE_ORDER_MODAL = "CLOSE_ORDER_MODAL";
 
+export const OPEN_MADE_ORDER_MODAL = "OPEN_MADE_ORDER_MODAL";
+export const CLOSE_MADE_ORDER_MODAL = "CLOSE_MADE_ORDER_MODAL";
+
+export const GET_CURRENT_ORDER = "GET_CURRENT_ORDER";
+export const RESET_CURRENT_ORDER = "RESET_CURRENT_ORDER";
+
 export const SWAP_INGREDIENTS = "SWAP_INGREDIENTS";
 
 export const makeOrder = (orderedIngredients) => {
@@ -28,7 +34,10 @@ export const makeOrder = (orderedIngredients) => {
       )
       .then((response) => {
         if (response && response.success) {
-          dispatch({ type: MAKE_ORDER_SUCCESS, orderId: response.order.number });
+          dispatch({
+            type: MAKE_ORDER_SUCCESS,
+            orderId: response.order.number,
+          });
           dispatch({ type: OPEN_ORDER_MODAL });
         } else {
           dispatch({ type: MAKE_ORDER_FAILED });
@@ -43,5 +52,11 @@ export const makeOrder = (orderedIngredients) => {
 export const closeOrderModal = () => {
   return (dispatch) => {
     dispatch({ type: CLOSE_ORDER_MODAL });
+  };
+};
+
+export const closeMadeOrderModal = () => {
+  return (dispatch) => {
+    dispatch({ type: CLOSE_MADE_ORDER_MODAL });
   };
 };

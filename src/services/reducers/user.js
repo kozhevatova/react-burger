@@ -25,12 +25,11 @@ import {
   UPDATE_USER_INFO_REQUEST,
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_FAILED,
-  CLOSE_UPDATE_INFO_MODAL
+  CLOSE_UPDATE_INFO_MODAL,
 } from "../actions/user";
 
 const initialState = {
-  user: {
-  },
+  user: {},
   loginForm: {
     email: "",
     password: "",
@@ -123,7 +122,7 @@ export const userInfoReducer = (state = initialState, action) => {
         ...state,
         registrationRequest: true,
         registrationFailed: false,
-      }
+      };
     }
     case REGISTER_FORM_SUBMIT_SUCCESS: {
       return {
@@ -131,24 +130,24 @@ export const userInfoReducer = (state = initialState, action) => {
         registrationRequest: false,
         registrationFailed: false,
         registerForm: {
-          ...initialState.registerForm
+          ...initialState.registerForm,
         },
         user: action.data.user,
-      }
+      };
     }
     case REGISTER_FORM_SUBMIT_FAILED: {
       return {
         ...state,
         registrationRequest: false,
         registrationFailed: false,
-      }
+      };
     }
     case LOGIN_FORM_SUBMIT: {
       return {
         ...state,
         loginRequest: true,
         loginFailed: false,
-      }
+      };
     }
     case LOGIN_FORM_SUBMIT_SUCCESS: {
       return {
@@ -156,17 +155,17 @@ export const userInfoReducer = (state = initialState, action) => {
         loginRequest: false,
         loginFailed: false,
         loginForm: {
-          ...initialState.loginForm
+          ...initialState.loginForm,
         },
         user: action.data.user,
-      }
+      };
     }
     case LOGIN_FORM_SUBMIT_FAILED: {
       return {
         ...state,
         loginRequest: false,
         loginFailed: false,
-      }
+      };
     }
     case FORGOT_PASSWORD_FORM_SUBMIT: {
       return {
@@ -174,7 +173,7 @@ export const userInfoReducer = (state = initialState, action) => {
         forgotPasswordRequest: true,
         forgotPasswordFailed: false,
         emailSent: false,
-      }
+      };
     }
     case FORGOT_PASSWORD_FORM_SUBMIT_SUCCESS: {
       return {
@@ -182,10 +181,10 @@ export const userInfoReducer = (state = initialState, action) => {
         forgotPasswordRequest: false,
         forgotPasswordFailed: false,
         forgotPasswordForm: {
-          ...initialState.forgotPasswordForm
+          ...initialState.forgotPasswordForm,
         },
         emailSent: true,
-      }
+      };
     }
     case FORGOT_PASSWORD_FORM_SUBMIT_FAILED: {
       return {
@@ -193,7 +192,7 @@ export const userInfoReducer = (state = initialState, action) => {
         forgotPasswordRequest: false,
         forgotPasswordFailed: false,
         emailSent: false,
-      }
+      };
     }
     case RESET_PASSWORD_FORM_SUBMIT: {
       return {
@@ -201,7 +200,7 @@ export const userInfoReducer = (state = initialState, action) => {
         resetPasswordRequest: true,
         resetPasswordFailed: false,
         resetSuccess: false,
-      }
+      };
     }
     case RESET_PASSWORD_FORM_SUBMIT_SUCCESS: {
       return {
@@ -209,10 +208,10 @@ export const userInfoReducer = (state = initialState, action) => {
         resetPasswordRequest: false,
         resetPasswordFailed: false,
         resetPasswordForm: {
-          ...initialState.resetPasswordForm
+          ...initialState.resetPasswordForm,
         },
         resetSuccess: true,
-      }
+      };
     }
     case RESET_PASSWORD_FORM_SUBMIT_FAILED: {
       return {
@@ -220,14 +219,14 @@ export const userInfoReducer = (state = initialState, action) => {
         resetPasswordRequest: false,
         resetPasswordFailed: false,
         resetSuccess: false,
-      }
+      };
     }
     case GET_USER_INFO_REQUEST: {
       return {
         ...state,
         userInfoFailed: false,
         userInfoRequest: true,
-      }
+      };
     }
     case GET_USER_INFO_SUCCESS: {
       return {
@@ -238,16 +237,16 @@ export const userInfoReducer = (state = initialState, action) => {
         profileForm: {
           ...state.profileForm,
           name: action.user.name,
-          email: action.user.email
-        }
-      }
+          email: action.user.email,
+        },
+      };
     }
     case GET_USER_INFO_FAILED: {
       return {
         ...state,
         userInfoFailed: true,
         userInfoRequest: false,
-      }
+      };
     }
     case UPDATE_USER_INFO_REQUEST: {
       return {
@@ -255,7 +254,7 @@ export const userInfoReducer = (state = initialState, action) => {
         updateUserInfoFailed: false,
         updateUserInfoRequest: true,
         updateSuccess: false,
-      }
+      };
     }
     case UPDATE_USER_INFO_SUCCESS: {
       return {
@@ -269,7 +268,7 @@ export const userInfoReducer = (state = initialState, action) => {
           email: action.user.email,
         },
         updateSuccess: true,
-      }
+      };
     }
     case UPDATE_USER_INFO_FAILED: {
       return {
@@ -277,20 +276,20 @@ export const userInfoReducer = (state = initialState, action) => {
         updateUserInfoFailed: true,
         updateUserInfoRequest: false,
         updateSuccess: false,
-      }
+      };
     }
     case CLOSE_UPDATE_INFO_MODAL: {
       return {
         ...state,
         updateSuccess: false,
-      }
+      };
     }
     case LOGOUT_REQUEST: {
       return {
         ...state,
         logoutRequest: true,
         logoutRequestFailed: false,
-      }
+      };
     }
     case LOGOUT_REQUEST_SUCCESS: {
       return {
@@ -298,14 +297,14 @@ export const userInfoReducer = (state = initialState, action) => {
         user: {},
         logoutRequest: false,
         logoutRequestFailed: false,
-      }
+      };
     }
     case LOGOUT_REQUEST_FAILED: {
       return {
         ...state,
         logoutRequest: false,
         logoutRequestFailed: true,
-      }
+      };
     }
     default: {
       return state;
