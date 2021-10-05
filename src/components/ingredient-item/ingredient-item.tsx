@@ -56,6 +56,7 @@ const IngredientItem = ({
       onClick={handleCardClick}
       ref={dragRef}
       draggable
+      id="ingredient"
     >
       {item.qty > 0 && <Counter count={item.qty} size="default" />}
       <img src={item.image} alt={item.name} />

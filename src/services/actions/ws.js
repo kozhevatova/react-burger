@@ -5,7 +5,6 @@ export const WS_CONNECTION_CLOSED = "WS_CONNECTION_CLOSED";
 export const WS_GET_ORDERS = "WS_GET_MESSAGE";
 export const WS_SEND_MESSAGE = "WS_SEND_MESSAGE";
 export const WS_USER_NAME_UPDATE = "WS_USER_NAME_UPDATE";
-export const WS_MAKE_ORDER = "WS_MAKE_ORDER";
 
 export const wsConnectionSuccess = () => {
   return {
@@ -28,13 +27,6 @@ export const wsConnectionClosed = () => {
 export const wsGetOrders = (message) => {
   return {
     type: WS_GET_ORDERS,
-    payload: message,
-  };
-};
-
-export const wsMakeOrder = (message) => {
-  return {
-    type: WS_MAKE_ORDER,
     payload: message,
   };
 };

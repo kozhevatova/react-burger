@@ -53,6 +53,7 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
     } else {
       setEscListener();
       dispatch({ type: RESET_COUNT });
+      console.log(orderedIngredients)
       dispatch(makeOrder(orderedIngredients));
     }
   };
@@ -87,7 +88,7 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
   }, [orderedIngredients]);
 
   return !orderRequest ? (
-    <section className={containerClassName} ref={dropRef}>
+    <section className={containerClassName} ref={dropRef} id="drop-area">
       <Bun top />
       <ul className={styles.list}>{content}</ul>
       <Bun top={false} />
@@ -105,7 +106,6 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
       )}
     </section>
   ) : (
-    // временная замена лоудеру
     <p
       style={{
         minHeight: 760,

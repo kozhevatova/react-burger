@@ -3,8 +3,7 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_ORDERS,
-  WS_MAKE_ORDER,
-} from "../actions/ws";
+} from "../../actions/ws";
 
 const initialState = {
   wsConnected: false,
@@ -35,7 +34,6 @@ export const wsReducer = (state = initialState, action) => {
       };
 
     case WS_GET_ORDERS:
-      console.log(action.orders);
       return {
         ...state,
         orders:
@@ -45,10 +43,7 @@ export const wsReducer = (state = initialState, action) => {
         totalOrdersCount: action.orders.total,
         todayOrdersCount: action.orders.totalToday,
       };
-    case WS_MAKE_ORDER:
-      return {
-        ...state,
-      };
+    
     default:
       return state;
   }

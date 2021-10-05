@@ -9,15 +9,13 @@ import {
   SWAP_INGREDIENTS,
   OPEN_MADE_ORDER_MODAL,
   CLOSE_MADE_ORDER_MODAL,
-  GET_CURRENT_ORDER,
-  RESET_CURRENT_ORDER,
-} from "../actions/order";
+} from "../../actions/order";
 import { v4 } from "uuid";
 
 const initialState = {
   totalPrice: 0,
   orderedIngredients: {
-    buns: [{ id: 0, price: 0 }],
+    buns: [{ _id: 0, price: 0 }],
     filling: [],
   },
   orderRequest: false,
@@ -25,7 +23,6 @@ const initialState = {
   orderId: 0,
   isOrderModalOpen: false,
   isMadeOrderModalOpen: false,
-  currentOrder: {},
   error: "",
 };
 
@@ -121,19 +118,7 @@ export const orderReducer = (state = initialState, action) => {
         isMadeOrderModalOpen: false,
       };
     }
-    case GET_CURRENT_ORDER: {
-      console.log(action)
-      return {
-        ...state,
-        currentOrder: action.order,
-      }
-    }
-    case RESET_CURRENT_ORDER: {
-      return {
-        ...state,
-        currentOrder: initialState.currentOrder,
-      }
-    }
+    
     case SWAP_INGREDIENTS: {
       return {
         ...state,

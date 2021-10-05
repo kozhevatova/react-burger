@@ -26,7 +26,7 @@ import {
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_FAILED,
   CLOSE_UPDATE_INFO_MODAL,
-} from "../actions/user";
+} from "../../actions/user";
 
 const initialState = {
   user: {},

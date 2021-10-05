@@ -14,9 +14,6 @@ export const CLOSE_ORDER_MODAL = "CLOSE_ORDER_MODAL";
 export const OPEN_MADE_ORDER_MODAL = "OPEN_MADE_ORDER_MODAL";
 export const CLOSE_MADE_ORDER_MODAL = "CLOSE_MADE_ORDER_MODAL";
 
-export const GET_CURRENT_ORDER = "GET_CURRENT_ORDER";
-export const RESET_CURRENT_ORDER = "RESET_CURRENT_ORDER";
-
 export const SWAP_INGREDIENTS = "SWAP_INGREDIENTS";
 
 export const makeOrder = (orderedIngredients) => {

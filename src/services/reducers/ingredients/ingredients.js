@@ -9,7 +9,7 @@ import {
   INCREASE_COUNT,
   DECREASE_COUNT,
   RESET_COUNT,
-} from "../actions/ingredients";
+} from "../../actions/ingredients";
 
 const initialState = {
   ingredients: [{ qty: 0 }],
@@ -113,3 +113,4 @@ export const ingredientsReducer = (state = initialState, action) => {
     }
   }
 };
+

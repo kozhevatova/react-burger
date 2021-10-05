@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import {ingredientsReducer} from './ingredients';
-import {orderReducer} from './order';
-import {userInfoReducer} from './user';
-import {wsReducer} from './ws';
+import {ingredientsReducer} from './ingredients/ingredients';
+import {orderReducer} from './order/order';
+import {userInfoReducer} from './user/user';
+import {wsReducer} from './ws/ws';
 
 export const rootReducer = combineReducers({
   order: orderReducer,

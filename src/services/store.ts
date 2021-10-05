@@ -8,7 +8,6 @@ import {
   WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
   WS_GET_ORDERS,
-  WS_MAKE_ORDER,
 } from "./actions/ws";
 
 const wsUrl = "wss://norma.nomoreparties.space/orders";
@@ -19,7 +18,6 @@ const wsActions = {
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
   onMessage: WS_GET_ORDERS,
-  wsSendMessage: WS_MAKE_ORDER,
 };
 declare global {
   interface Window {

@@ -5,7 +5,6 @@ import style from "./order-item.module.css";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  GET_CURRENT_ORDER,
   OPEN_MADE_ORDER_MODAL,
 } from "../../services/actions/order";
 import { maxAmountOfIngredients } from "../../utils/constants";
@@ -79,7 +78,6 @@ const OrderItem = ({
   const handleOrderClick = () => {
     setEscListener();
     dispatch({ type: OPEN_MADE_ORDER_MODAL });
-    dispatch({ type: GET_CURRENT_ORDER, order });
   };
 
   return (
