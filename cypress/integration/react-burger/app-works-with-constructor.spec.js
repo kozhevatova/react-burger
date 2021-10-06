@@ -2,7 +2,7 @@ import "@4tw/cypress-drag-drop";
 
 describe("Dragtest", () => {
   it("should dragndrop", () => {
-    cy.visit("http://localhost:3001");
+    cy.visit("http://localhost:3000");
   });
 
   it("should get ingredients", () => {

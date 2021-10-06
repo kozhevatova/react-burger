@@ -11,7 +11,7 @@ import {
 } from "../../actions/ingredients";
 
 const initialState = {
-  ingredients: [{ qty: 0 }],
+  ingredients: [],
   currentIngredient: {},
   ingredientsRequest: false,
   ingredientsFailed: false,

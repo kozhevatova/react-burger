@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { FC, SyntheticEvent, useState } from "react";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { NavLink, useHistory } from "react-router-dom";
+import { IModal } from "../../types/types";
 
-const Modal = (props: any) => {
-  const [isHovered, setIsHovered] = useState(false);
+const Modal:FC<IModal> = (props) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const history = useHistory();
 
   const modalRoot = document.getElementById("react-modals");
@@ -18,7 +18,7 @@ const Modal = (props: any) => {
     setIsHovered(!isHovered);
   };
 
-  const handleClickOnOverlay = (e:any) => {
+  const handleClickOnOverlay = (e:SyntheticEvent) => {
     props.handleCloseByClickOnOverlay(e);
     history.replace({pathname: '/'})
   }
@@ -50,13 +50,6 @@ const Modal = (props: any) => {
         modalRoot
       )
     : null;
-};
-
-Modal.propTypes = {
-  handleModalClose: PropTypes.func.isRequired,
-  handleCloseByClickOnOverlay: PropTypes.func.isRequired,
-  children: PropTypes.element,
-  title: PropTypes.string.isRequired,
 };
 
 export default Modal;

@@ -1,37 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import classNames from "classnames";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./order-item.module.css";
 import { Link, useRouteMatch } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  OPEN_MADE_ORDER_MODAL,
-} from "../../services/actions/order";
+import { useDispatch } from "react-redux";
+import { OPEN_MADE_ORDER_MODAL } from "../../services/actions/order";
 import { maxAmountOfIngredients } from "../../utils/constants";
 import defaultPic from "../../images/ingredient.png";
+import { IngredientType, IOrder } from "../../types/types";
+import { AppDispatch, useSelectorHook } from "../../services/store";
+import { formatDate } from "../../utils/utils";
 
-const OrderItem = ({
-  order,
-  wide,
-  setEscListener,
-}: {
-  order: any;
-  wide: boolean;
-  setEscListener?: any;
-}) => {
-  const [isLeft, setIsLeft] = useState(false);
-  const [leftCount, setLeftCount] = useState(0);
-  const dispatch = useDispatch();
+const OrderItem: FC<IOrder> = ({ order, wide, setEscListener }) => {
+  const [isLeft, setIsLeft] = useState<boolean>(false);
+  const [leftCount, setLeftCount] = useState<number>(0);
+  const dispatch: AppDispatch = useDispatch();
   const { url } = useRouteMatch();
-  const allIngredients = useSelector(
-    (store: any) => store.ingredients.ingredients
+  const allIngredients = useSelectorHook(
+    (store) => store.ingredients.ingredients
   );
 
   const { number, createdAt, name, ingredients, status } = order;
   let price = 0;
 
   const orderIngredients = ingredients.map((id: string) => {
-    return allIngredients.find((item: any) => {
+    return allIngredients.find((item: IngredientType) => {
       if (item._id === id) {
         price += item.price;
       }
@@ -88,7 +81,7 @@ const OrderItem = ({
         onClick={handleOrderClick}
       >
         <p className={orderIdClassName}>#{number}</p>
-        <p className={dateClassName}>{createdAt}</p>
+        <p className={dateClassName}>{formatDate(createdAt)}</p>
         <div className={style.titleContainer}>
           <h3 className={titleClassName}>{name}</h3>
           {wide && (
@@ -103,7 +96,7 @@ const OrderItem = ({
             orderIngredients
               .reverse()
               .slice(0, maxAmountOfIngredients)
-              .map((ingredient: any, index: number) => {
+              .map((ingredient: IngredientType | undefined, index: number) => {
                 return (
                   <li className={style.ingredient} key={index}>
                     <img

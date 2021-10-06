@@ -1,23 +1,26 @@
-import React, { SyntheticEvent, useEffect, useMemo } from "react";
+import React, { FC, SyntheticEvent, useEffect, useMemo } from "react";
 import styles from "./burger-ingredients.module.css";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import IngredientsList from "../ingredients-list/ingredients-list";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { TAB_SWITCH } from "../../services/actions/ingredients";
+import { AppDispatch, useSelectorHook } from "../../services/store";
+import { IngredientType } from "../../types/types";
 
-const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
-  const dispatch = useDispatch();
+const BurgerIngredients: FC<{ setEscListener: () => void }> = ({
+  setEscListener,
+}) => {
+  const dispatch: AppDispatch = useDispatch();
   const titleClassName = classNames(styles.title, "text text_type_main-large");
-  const { data, currentTab } = useSelector((store: any) => ({
+  const { data, currentTab } = useSelectorHook((store) => ({
     data: store.ingredients.ingredients,
     currentTab: store.ingredients.currentTab,
   }));
 
   useEffect(() => {
-    localStorage.setItem('ingredients', JSON.stringify(data));
-  }, [data])
+    localStorage.setItem("ingredients", JSON.stringify(data));
+  }, [data]);
 
   const handleScroll = () => {
     const scrollableList = document.getElementById("scrollable-list");
@@ -60,11 +63,11 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
     }
   };
 
-  const setCurrentTab = (tab: any) => {
+  const setCurrentTab = (tab: string) => {
     dispatch({ type: TAB_SWITCH, tab });
   };
 
-  const content = useMemo(() => {
+  const content = useMemo<JSX.Element>(() => {
     return (
       <ul
         className={styles.scrollableList}
@@ -73,7 +76,7 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
       >
         <li className={styles.scrollableListItem}>
           <IngredientsList
-            data={data.filter((item: any) => item.type === "bun")}
+            data={data.filter((item: IngredientType) => item.type === "bun")}
             anchorId="type-bun"
             title="Булки"
             setEscListener={setEscListener}
@@ -81,7 +84,7 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
         </li>
         <li className={styles.scrollableListItem}>
           <IngredientsList
-            data={data.filter((item: any) => item.type === "sauce")}
+            data={data.filter((item: IngredientType) => item.type === "sauce")}
             anchorId="type-sauce"
             title="Соусы"
             setEscListener={setEscListener}
@@ -89,7 +92,7 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
         </li>
         <li className={styles.scrollableListItem}>
           <IngredientsList
-            data={data.filter((item: any) => item.type === "main")}
+            data={data.filter((item: IngredientType) => item.type === "main")}
             anchorId="type-main"
             title="Начинки"
             setEscListener={setEscListener}
@@ -137,10 +140,6 @@ const BurgerIngredients = ({ setEscListener }: { setEscListener: any }) => {
       {content}
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  setEscListener: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import classNames from "classnames";
 import OrderFeedInfo from "../order-feed-info/order-feed-info";
 import OrderList from "../order-list/order-list";
 import style from "./feed.module.css";
 import { WS_CONNECTION_START } from "../../services/actions/ws";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../services/store";
 
-const Feed = ({ setEscListener }: { setEscListener: any }) => {
-  const dispatch = useDispatch();
+const Feed: FC<{ setEscListener: () => void }> = ({ setEscListener }) => {
+  const dispatch: AppDispatch = useDispatch();
 
   const titleClassName = classNames(
     style.title,
@@ -17,7 +18,8 @@ const Feed = ({ setEscListener }: { setEscListener: any }) => {
 
   useEffect(() => {
     dispatch({ type: WS_CONNECTION_START, payload: "withoutAuth" });
-  }, [dispatch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section className={style.feed}>

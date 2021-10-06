@@ -3,9 +3,7 @@ import { orderReducer } from "./order";
 import {
   ADD_ITEM,
   DELETE_ITEM,
-  makeOrder,
   MAKE_ORDER_REQUEST,
-  MAKE_ORDER_SUCCESS,
   OPEN_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
   OPEN_MADE_ORDER_MODAL,
@@ -17,7 +15,13 @@ import { BASE_URL } from "../../../utils/constants";
 const initialState = {
   totalPrice: 0,
   orderedIngredients: {
-    buns: [{ _id: 0, price: 0 }],
+    buns: [{_id: '0',
+      price: 0,
+      name: '',
+      image: '',
+      type: "bun",
+      qty: 0,
+      }],
     filling: [],
   },
   orderRequest: false,

@@ -1,3 +1,4 @@
+import { wsUrl } from './../utils/constants';
 import { applyMiddleware, createStore, compose } from "redux";
 import { rootReducer } from "./reducers";
 import { socketMiddleware } from "./middlewares/socketMiddleware";
@@ -9,8 +10,9 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_GET_ORDERS,
 } from "./actions/ws";
-
-const wsUrl = "wss://norma.nomoreparties.space/orders";
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import {Action, ActionCreator} from 'redux';
+import {ThunkAction} from 'redux-thunk';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
@@ -37,3 +39,12 @@ export const initStore = (initialState = {}) =>
       applyMiddleware(thunkMiddleware, socketMiddleware(wsUrl, wsActions))
     )
   );
+
+const store = initStore();
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useSelectorHook:TypedUseSelectorHook<RootState> = useSelector;
+export type ThunkType = ActionCreator<ThunkAction<Promise<Action>, RootState, void, any>>
+
+export default store;

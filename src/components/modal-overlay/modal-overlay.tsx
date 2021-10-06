@@ -1,8 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { FC, SyntheticEvent } from "react";
 import styles from "./modal-overlay.module.css";
 
-const ModalOverlay = (props: any) => {
+const ModalOverlay: FC<{
+  handleCloseByClickOnOverlay: (e: SyntheticEvent) => void;
+}> = (props) => {
   return (
     <section
       className={styles.overlay}
@@ -11,11 +12,6 @@ const ModalOverlay = (props: any) => {
       {props.children}
     </section>
   );
-};
-
-ModalOverlay.propTypes = {
-  handleCloseByClickOnOverlay: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
 };
 
 export default ModalOverlay;

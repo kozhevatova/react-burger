@@ -60,3 +60,8 @@ export const chooseMenuCaption = (path: string) => {
     }
   }
 };
+
+export const formatDate = (date: string) => {
+  const [day, time] = Array.from(date.split('.'))[0].split('T');
+  return time + ' ' + day;
+}

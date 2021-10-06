@@ -1,17 +1,15 @@
 import classNames from "classnames";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { FC, useEffect } from "react";
+import { useSelectorHook } from "../../services/store";
+import { OrderType } from "../../types/types";
 import OrderItem from "../order-item/order-item";
 import style from "./order-list.module.css";
 
-const OrderList = ({
+const OrderList: FC<{ wide: boolean; setEscListener: () => void }> = ({
   wide,
   setEscListener,
-}: {
-  wide: boolean;
-  setEscListener: any;
 }) => {
-  const orders = useSelector((store: any) => store.ws.orders);
+  const { orders } = useSelectorHook((store:any) => store.ws);
 
   useEffect(() => {
     if (orders) {
@@ -24,7 +22,7 @@ const OrderList = ({
     <ul className={listClassName}>
       {orders &&
         orders.length &&
-        orders.map((order: any) => {
+        orders.map((order: OrderType) => {
           return (
             <OrderItem
               order={order}

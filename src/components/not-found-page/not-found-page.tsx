@@ -1,10 +1,10 @@
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
-import React from "react";
+import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "./not-found-page.module.css";
 
-const NotFoundPage = () => {
+const NotFoundPage:FC = () => {
   const history = useHistory();
 
   const titleClassName = classNames(styles.title, "text text_type_main-large");

@@ -178,7 +178,7 @@ describe("Проверка экшенов и редюсеров пользова
       userInfoReducer(initialState, { type: UPDATE_USER_INFO_REQUEST })
     ).toEqual({
       ...initialState,
-      updateUserInfoFailed: false,
+      updateUserInfoRequestFailed: false,
       updateUserInfoRequest: true,
       updateSuccess: false,
     });

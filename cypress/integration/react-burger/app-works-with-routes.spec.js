@@ -1,5 +1,5 @@
 before(function() {
-  cy.visit('http://localhost:3001');
+  cy.visit('http://localhost:3000');
 });
 
 it('should load burger constructor', () => {

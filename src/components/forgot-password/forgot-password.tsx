@@ -1,28 +1,33 @@
-import React, { useEffect } from "react";
+import React, { FC, SyntheticEvent, useEffect } from "react";
 import {
   forgotPasswordLinks,
   forgotPasswordTitles,
 } from "../../utils/constants";
 import AuthForm from "../auth-form/auth-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   forgotPasswordFormSubmit,
   setForgotPasswordFormValue,
 } from "../../services/actions/user";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+import { AppDispatch, useSelectorHook } from "../../services/store";
+import { getCookie } from "../../utils/utils";
 
-const ForgotPassword = () => {
+const ForgotPassword:FC = () => {
   const history = useHistory();
-  const { email } = useSelector((store: any) => ({
+  const { email } = useSelectorHook((store) => ({
     ...store.user.forgotPasswordForm,
   }));
-  const emailSent = useSelector((store: any) => store.user.emailSent);
-  const dispatch = useDispatch();
+  const user  = useSelectorHook((store) => store.user);
+  const emailSent = useSelectorHook((store) => store.user.emailSent);
+  const dispatch: AppDispatch = useDispatch();
 
   const { formTitle, buttonTitle } = forgotPasswordTitles;
-  const onChange = (e: any) => {
-    dispatch(setForgotPasswordFormValue(e.target.name, e.target.value));
+  
+  const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    const {name, value} = e.target as HTMLInputElement;
+    dispatch(setForgotPasswordFormValue(name, value));
   };
 
   useEffect(() => {
@@ -32,10 +37,21 @@ const ForgotPassword = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailSent]);
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(forgotPasswordFormSubmit());
   };
+
+  if (getCookie("token") && user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
+  
   return (
     <AuthForm
       title={formTitle}

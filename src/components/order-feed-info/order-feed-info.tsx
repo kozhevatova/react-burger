@@ -15,9 +15,11 @@ const OrderFeedInfo = () => {
   );
   const doneOrders = orders
     .filter((order: any) => order.status === "done")
+    .reverse()
     .slice(orders.length - maxAmountOrdersToShow, orders.length);
   const inProgressOrders = orders
     .filter((order: any) => order.status !== "done")
+    .reverse()
     .slice(orders.length - maxAmountOrdersToShow, orders.length);
   const countClassName = classNames(style.count, "text text_type_digits-large");
 

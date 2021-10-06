@@ -1,18 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
 import styles from "./auth-form.module.css";
 import classNames from "classnames";
 import { Redirect, useLocation } from "react-router";
-import { useSelector } from "react-redux";
-import { LocationState } from "../../types/types";
-import PropTypes from "prop-types";
+import { IAuthForm, LinkType, LocationState } from "../../types/types";
 import "./form.css";
+import { useSelectorHook } from "../../services/store";
 
-const AuthForm = (props: any) => {
+const AuthForm:FC<IAuthForm> = (props) => {
   const { children, title, buttonTitle, links, onSubmit } = props;
   const location = useLocation<LocationState>();
-  const user = useSelector((store: any) => store.user.user);
+  const user = useSelectorHook((store) => store.user.user);
 
   if (user.name) {
     const { from } = location.state || { from: { pathname: "/" } };
@@ -23,6 +22,7 @@ const AuthForm = (props: any) => {
   const textClassName = classNames("text text_type_main-small", styles.text);
 
   const linkClassName = classNames("text text_type_main-small", styles.link);
+
   return (
     <form className={styles.form} onSubmit={onSubmit}>
       <h2 className={titleClassname}>{title}</h2>
@@ -31,7 +31,7 @@ const AuthForm = (props: any) => {
         {buttonTitle}
       </Button>
       <ul className={styles.list}>
-        {links.map((link: any, index: number) => {
+        {links.map((link: LinkType, index: number) => {
           return (
             <li className={styles.listItem} key={index}>
               <p className={textClassName}>{link.text}</p>
@@ -44,17 +44,6 @@ const AuthForm = (props: any) => {
       </ul>
     </form>
   );
-};
-
-AuthForm.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object).isRequired,
-    PropTypes.object.isRequired,
-  ]),
-  title: PropTypes.string.isRequired,
-  buttonTitle: PropTypes.string.isRequired,
-  links: PropTypes.array.isRequired,
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default AuthForm;

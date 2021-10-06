@@ -1,12 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import classNames from "classnames";
 import styles from "./ingredient-item.module.css";
-import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { dataItemProptypes } from "../../types/types";
 import { useDispatch } from "react-redux";
 import {
   GET_INGREDIENT_DETAILS,
@@ -14,15 +12,11 @@ import {
 } from "../../services/actions/ingredients";
 import { useDrag } from "react-dnd";
 import { NavLink } from "react-router-dom";
+import { IIngredientItem } from "../../types/types";
+import { AppDispatch } from "../../services/store";
 
-const IngredientItem = ({
-  item,
-  setEscListener,
-}: {
-  item: any;
-  setEscListener: any;
-}) => {
-  const dispatch = useDispatch();
+const IngredientItem: FC<IIngredientItem> = ({ item, setEscListener }) => {
+  const dispatch: AppDispatch = useDispatch();
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: () => {
@@ -48,7 +42,7 @@ const IngredientItem = ({
     dispatch({ type: OPEN_INGREDIENT_MODAL });
     dispatch({ type: GET_INGREDIENT_DETAILS, item });
   };
-
+  
   return (
     <NavLink
       to={`/ingredients/${item._id}`}
@@ -58,7 +52,7 @@ const IngredientItem = ({
       draggable
       id="ingredient"
     >
-      {item.qty > 0 && <Counter count={item.qty} size="default" />}
+      {(item.qty > 0) && (<Counter count={item.qty} size="default" />)}
       <img src={item.image} alt={item.name} />
       <div className={styles.price}>
         <p className={digitClassName}>{item.price}</p>
@@ -67,11 +61,6 @@ const IngredientItem = ({
       <p className={textClassName}>{item.name}</p>
     </NavLink>
   );
-};
-
-IngredientItem.propTypes = {
-  item: dataItemProptypes.isRequired,
-  setEscListener: PropTypes.func.isRequired,
 };
 
 export default IngredientItem;

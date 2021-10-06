@@ -8,7 +8,7 @@ import {
   CLOSE_INGREDIENT_MODAL,
   getAllIngredients,
 } from "../../services/actions/ingredients";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   CLOSE_MADE_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
@@ -29,21 +29,18 @@ import NotFoundPage from "../not-found-page/not-found-page";
 import Feed from "../feed/feed";
 import OrderList from "../order-list/order-list";
 import Order from "../order/order";
+import { AppDispatch, useSelectorHook } from '../../services/store';
 
 function App() {
   const history = useHistory();
-  const { isOrderModalOpen, isIngredientModalOpen, isMadeOrderModalOpen } =
-    useSelector((store: any) => ({
-      isOrderModalOpen: store.order.isOrderModalOpen,
-      isMadeOrderModalOpen: store.order.isMadeOrderModalOpen,
-      isIngredientModalOpen: store.ingredients.isIngredientModalOpen,
-    }));
-  const isAppLoading = useSelector(
-    (store: any) => store.ingredients.ingredientsRequest
+  const { isOrderModalOpen, isMadeOrderModalOpen } = useSelectorHook((store) => store.order);
+  const { isIngredientModalOpen } = useSelectorHook((store) => store.ingredients);
+  const isAppLoading = useSelectorHook(
+    (store) => store.ingredients.ingredientsRequest
   );
-  const updateSuccess = useSelector((store: any) => store.user.updateSuccess);
+  const updateSuccess = useSelectorHook((store) => store.user.updateSuccess);
 
-  const dispatch = useDispatch();
+  const dispatch:AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllIngredients());

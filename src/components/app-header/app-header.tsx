@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { NavLink } from "react-router-dom";
 import classNames from "classnames";
 import styles from "./app-header.module.css";
@@ -8,8 +8,9 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IconTypeKey } from "../../types/types";
 
-const AppHeader = () => {
+const AppHeader:FC = () => {
   const [iconType, setIconType] = useState({
     burger: "secondary",
     list: "secondary",
@@ -17,9 +18,6 @@ const AppHeader = () => {
   });
   const linkClassName = classNames(styles.link, "p-5", "mt-4", "mb-4", "mr-2");
   const textClassName = classNames("text", "text_type_main-default", "ml-2");
-
-  type IconType = { burger: string; list: string; profile: string };
-  type IconTypeKey = keyof IconType;
 
   //меняет тип иконки  при hover
   const changeIconType = (iconName: IconTypeKey, primary: Boolean) => {

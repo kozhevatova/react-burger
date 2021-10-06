@@ -1,6 +1,6 @@
-import React from "react";
+import React, { FC, SyntheticEvent } from "react";
 import { loginLinks, loginTitles } from "../../utils/constants";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import AuthForm from "../auth-form/auth-form";
 import {
   Input,
@@ -10,19 +10,36 @@ import {
   loginFormSubmit,
   setLoginFormValue,
 } from "../../services/actions/user";
+import { AppDispatch, useSelectorHook } from "../../services/store";
+import { getCookie } from "../../utils/utils";
+import { Redirect } from "react-router-dom";
 
-const Login = () => {
-  const { email, password } = useSelector((store: any) => ({
+const Login: FC = () => {
+  const { email, password } = useSelectorHook((store) => ({
     ...store.user.loginForm,
   }));
+  const user  = useSelectorHook((store) => store.user);
 
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+
   const { formTitle, buttonTitle } = loginTitles;
-  const onChange = (e: any) => {
-    dispatch(setLoginFormValue(e.target.name, e.target.value));
+
+  if (getCookie("token") && user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
+
+  const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
+    dispatch(setLoginFormValue(name, value));
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(loginFormSubmit());
   };

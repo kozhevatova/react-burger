@@ -11,8 +11,11 @@ import {
   RESET_COUNT,
 } from "../../actions/ingredients";
 
-const initialState = {
-  ingredients: [{ qty: 0 }],
+import { TIngredientsActions } from "../../../types/action-types/ingredient-types";
+import { TIngredientsState } from "../../../types/types";
+
+const initialState: TIngredientsState = {
+  ingredients: [],
   currentIngredient: {},
   ingredientsRequest: false,
   ingredientsFailed: false,
@@ -22,7 +25,10 @@ const initialState = {
   currentTab: "bun",
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (
+  state = initialState,
+  action: TIngredientsActions
+): TIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
@@ -113,4 +119,3 @@ export const ingredientsReducer = (state = initialState, action) => {
     }
   }
 };
-

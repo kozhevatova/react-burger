@@ -2,32 +2,17 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import React, { FC, useRef } from "react";
+import { MonitorEventEmitter, useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { DECREASE_COUNT } from "../../services/actions/ingredients";
 import { DELETE_ITEM } from "../../services/actions/order";
 import styles from "./filling-item.module.css";
-import PropTypes from "prop-types";
+import { IFillingItem } from "../../types/types";
 
-const FillingItem = ({
-  index,
-  swapIngredients,
-  name,
-  _id,
-  uid,
-  image,
-  price,
-}: {
-  index: any;
-  swapIngredients: any;
-  name: any;
-  _id: any;
-  uid: any;
-  image: any;
-  price: any;
-}) => {
+const FillingItem: FC<IFillingItem> = ({ index, swapIngredients, item }) => {
   const ref = useRef<HTMLLIElement>(null);
+  const { name, _id, uid, image, price } = item;
   const dispatch = useDispatch();
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient1",
@@ -43,7 +28,7 @@ const FillingItem = ({
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    hover(item: any, monitor: any) {
+    hover(item: { _id: string; index: number }, monitor: MonitorEventEmitter) {
       const dragIndex = item.index;
       const hoverIndex = index;
       if (!ref.current) {
@@ -60,7 +45,7 @@ const FillingItem = ({
 
   drag(drop(ref));
 
-  const handleItemDelete = (deletedItem: any) => {
+  const handleItemDelete = (deletedItem: {_id: string; price: number; uid: string | undefined;}) => {
     dispatch({ type: DELETE_ITEM, item: deletedItem });
     dispatch({ type: DECREASE_COUNT, item: deletedItem });
   };
@@ -81,16 +66,6 @@ const FillingItem = ({
       />
     </li>
   );
-};
-
-FillingItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  swapIngredients: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  _id: PropTypes.string.isRequired,
-  uid: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
 };
 
 export default FillingItem;

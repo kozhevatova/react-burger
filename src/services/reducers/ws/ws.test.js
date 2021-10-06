@@ -3,15 +3,14 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
-  WS_GET_ORDERS,
 } from "../../actions/ws";
 
 const initialState = {
   wsConnected: false,
+  wsStarted: false,
   orders: [],
   totalOrdersCount: 0,
   todayOrdersCount: 0,
-  history: [],
 };
 
 describe("Проверка экшенов и редюсеров сокета", () => {

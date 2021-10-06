@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, SyntheticEvent, useEffect, useState } from "react";
 import {
   forgotPasswordLinks,
   resetPasswordTitles,
 } from "../../utils/constants";
 import AuthForm from "../auth-form/auth-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   resetPasswordFormSubmit,
   setResetPasswordFormValue,
 } from "../../services/actions/user";
 import { Redirect, useHistory } from "react-router";
+import { AppDispatch, useSelectorHook } from "../../services/store";
+import { getCookie } from "../../utils/utils";
 
-const ResetPassword = () => {
-  const [isPasswordShown, setIsPasswordShown] = useState(false);
+const ResetPassword:FC = () => {
+  const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
   const history = useHistory();
-  const resetSuccess = useSelector((store: any) => store.user.resetSuccess);
-  const { token, newPassword } = useSelector((store: any) => ({
+  const resetSuccess = useSelectorHook((store) => store.user.resetSuccess);
+  const { token, newPassword } = useSelectorHook((store) => ({
     ...store.user.resetPasswordForm,
   }));
-
-  const dispatch = useDispatch();
+  const user  = useSelectorHook((store) => store.user);
+  const dispatch: AppDispatch = useDispatch();
   const { formTitle, buttonTitle } = resetPasswordTitles;
 
   useEffect(() => {
@@ -29,24 +31,33 @@ const ResetPassword = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetSuccess]);
+  
+  if (getCookie("token") && user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   if (!localStorage.getItem("emailSent")) {
     return <Redirect to={{ pathname: "/forgot-password" }} />;
   }
 
-  const onChange = (e: any) => {
-    dispatch(setResetPasswordFormValue(e.target.name, e.target.value));
+  const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
+    dispatch(setResetPasswordFormValue(name, value));
   };
+
   const onIconClick = () => {
     setIsPasswordShown(!isPasswordShown);
   };
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(resetPasswordFormSubmit());
-    // if(localStorage.getItem('resetSuccess')) {
-    //   history.replace({pathname:'/login'});
-    // }
   };
 
   return (

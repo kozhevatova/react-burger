@@ -1,28 +1,29 @@
 import classNames from "classnames";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./order.module.css";
+import { IngredientType, OrderType } from "../../types/types";
 
-const Order = ({ isModal }: { isModal: boolean }) => {
+const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
   const { id } = useParams<{ id?: string }>();
 
   const orders = localStorage.getItem("orders");
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
   const order =
     orders &&
     id &&
-    JSON.parse(orders).find((order: any) => order.number === Number(id));
+    JSON.parse(orders).find((order: OrderType) => order.number && order.number === Number(id));
   const { number, createdAt, name, ingredients, status } = order;
-  const [ingredientsToShow, setIngredientsToShow] = useState<Array<any>>([]);
+  const [ingredientsToShow, setIngredientsToShow] = useState<Array<IngredientType>>([]);
   const allIngredients = localStorage.getItem("ingredients");
 
   useEffect(() => {
     if (order && allIngredients && ingredients) {
       let price = 0;
-      const ingredientsList = ingredients.map((id: any) => {
+      const ingredientsList = ingredients.map((id: string) => {
         const ingredient = JSON.parse(allIngredients).find(
-          (ingredient: any) => {
+          (ingredient: IngredientType) => {
             if (ingredient._id === id) {
               price += ingredient.price;
             }
@@ -33,7 +34,7 @@ const Order = ({ isModal }: { isModal: boolean }) => {
       });
       setIngredientsToShow(
         ingredientsList
-          .reduce((prev: any, item: any) => {
+          .reduce((prev: IngredientType[], item: IngredientType) => {
             const index = prev.findIndex(
               (ingredient: any) => ingredient._id === item._id
             );
@@ -84,7 +85,7 @@ const Order = ({ isModal }: { isModal: boolean }) => {
       <ul className={style.ingredients}>
         {ingredientsToShow &&
           ingredientsToShow.length &&
-          ingredientsToShow.map((item: any) => {
+          ingredientsToShow.map((item: IngredientType) => {
             return (
               <li className={style.ingredient} key={item._id}>
                 <img

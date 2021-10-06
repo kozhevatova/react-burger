@@ -1,3 +1,5 @@
+import { TUserActions } from './../../../types/action-types/user-types';
+import { TUserState } from './../../../types/types';
 import {
   LOGIN_FORM_SET_VALUE,
   REGISTER_FORM_SET_VALUE,
@@ -28,8 +30,8 @@ import {
   CLOSE_UPDATE_INFO_MODAL,
 } from "../../actions/user";
 
-const initialState = {
-  user: {},
+const initialState:TUserState = {
+  user: {email:"", name: ""},
   loginForm: {
     email: "",
     password: "",
@@ -70,7 +72,7 @@ const initialState = {
   logoutRequestFailed: false,
 };
 
-export const userInfoReducer = (state = initialState, action) => {
+export const userInfoReducer = (state = initialState, action: TUserActions): TUserState => {
   switch (action.type) {
     case LOGIN_FORM_SET_VALUE: {
       return {
@@ -251,7 +253,7 @@ export const userInfoReducer = (state = initialState, action) => {
     case UPDATE_USER_INFO_REQUEST: {
       return {
         ...state,
-        updateUserInfoFailed: false,
+        updateUserInfoRequestFailed: false,
         updateUserInfoRequest: true,
         updateSuccess: false,
       };
@@ -259,7 +261,7 @@ export const userInfoReducer = (state = initialState, action) => {
     case UPDATE_USER_INFO_SUCCESS: {
       return {
         ...state,
-        updateUserInfoFailed: false,
+        updateUserInfoRequestFailed: false,
         updateUserInfoRequest: false,
         user: action.user,
         profileForm: {
@@ -273,7 +275,7 @@ export const userInfoReducer = (state = initialState, action) => {
     case UPDATE_USER_INFO_FAILED: {
       return {
         ...state,
-        updateUserInfoFailed: true,
+        updateUserInfoRequestFailed: true,
         updateUserInfoRequest: false,
         updateSuccess: false,
       };
@@ -294,7 +296,7 @@ export const userInfoReducer = (state = initialState, action) => {
     case LOGOUT_REQUEST_SUCCESS: {
       return {
         ...state,
-        user: {},
+        user: initialState.user,
         logoutRequest: false,
         logoutRequestFailed: false,
       };

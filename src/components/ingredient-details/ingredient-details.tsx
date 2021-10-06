@@ -1,17 +1,17 @@
 import classNames from "classnames";
-import React from "react";
+import React, { FC } from "react";
 import styles from "./ingredient-details.module.css";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelectorHook } from "../../services/store";
+import { IngredientType } from "../../types/types";
 
-const IngredientDetails = ({ itemId }: { itemId?: string }) => {
-  const selectedItem = useSelector(
-    (store: any) => store.ingredients.currentIngredient
+const IngredientDetails:FC<{ itemId?: string }> = ({ itemId }) => {
+  const selectedItem = useSelectorHook(
+    (store) => store.ingredients.currentIngredient
   );
   const ingredients = localStorage.getItem("ingredients");
   const item =
     itemId && ingredients
-      ? JSON.parse(ingredients).find((item: any) => item._id === itemId)
+      ? JSON.parse(ingredients).find((item: IngredientType) => item._id === itemId)
       : selectedItem;
   const nameClassName = classNames(
     styles.name,
@@ -45,10 +45,6 @@ const IngredientDetails = ({ itemId }: { itemId?: string }) => {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  itemId: PropTypes.string,
 };
 
 export default IngredientDetails;

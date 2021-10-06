@@ -21,7 +21,6 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       if (socket) {
         socket.onopen = (event) => {
           dispatch({ type: onOpen, payload: event });
-          console.log("open", socket);
         };
 
         socket.onerror = (event) => {
@@ -46,7 +45,6 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       }
 
       if (socket && type === onClose) {
-        console.log("closed", socket);
         socket.close();
       }
 

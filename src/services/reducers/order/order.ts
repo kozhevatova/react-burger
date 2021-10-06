@@ -1,3 +1,5 @@
+import { TOrderState } from "./../../../types/types";
+import { TOrderActions } from "./../../../types/action-types/order-types";
 import {
   ADD_ITEM,
   DELETE_ITEM,
@@ -10,12 +12,19 @@ import {
   OPEN_MADE_ORDER_MODAL,
   CLOSE_MADE_ORDER_MODAL,
 } from "../../actions/order";
+
 import { v4 } from "uuid";
 
-const initialState = {
+const initialState: TOrderState = {
   totalPrice: 0,
   orderedIngredients: {
-    buns: [{ _id: 0, price: 0 }],
+    buns: [{_id: '0',
+      price: 0,
+      name: '',
+      image: '',
+      type: "bun",
+      qty: 0,
+      }],
     filling: [],
   },
   orderRequest: false,
@@ -26,7 +35,10 @@ const initialState = {
   error: "",
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (
+  state = initialState,
+  action: TOrderActions
+): TOrderState => {
   switch (action.type) {
     case ADD_ITEM: {
       return {
@@ -118,7 +130,6 @@ export const orderReducer = (state = initialState, action) => {
         isMadeOrderModalOpen: false,
       };
     }
-    
     case SWAP_INGREDIENTS: {
       return {
         ...state,
@@ -128,7 +139,8 @@ export const orderReducer = (state = initialState, action) => {
         },
       };
     }
-    default:
+    default: {
       return state;
+    }
   }
 };
