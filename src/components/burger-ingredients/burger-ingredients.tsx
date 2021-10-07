@@ -1,26 +1,19 @@
-import React, { FC, SyntheticEvent, useEffect, useMemo } from "react";
+import React, { FC, SyntheticEvent, useMemo } from "react";
 import styles from "./burger-ingredients.module.css";
 import classNames from "classnames";
 import IngredientsList from "../ingredients-list/ingredients-list";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
 import { TAB_SWITCH } from "../../services/actions/ingredients";
-import { AppDispatch, useSelectorHook } from "../../services/store";
+import {  useAppDispatch, useSelectorHook } from "../../services/store";
 import { IngredientType } from "../../types/types";
 
-const BurgerIngredients: FC<{ setEscListener: () => void }> = ({
-  setEscListener,
-}) => {
-  const dispatch: AppDispatch = useDispatch();
+const BurgerIngredients: FC = () => {
+  const dispatch = useAppDispatch();
   const titleClassName = classNames(styles.title, "text text_type_main-large");
   const { data, currentTab } = useSelectorHook((store) => ({
     data: store.ingredients.ingredients,
     currentTab: store.ingredients.currentTab,
   }));
-
-  useEffect(() => {
-    localStorage.setItem("ingredients", JSON.stringify(data));
-  }, [data]);
 
   const handleScroll = () => {
     const scrollableList = document.getElementById("scrollable-list");
@@ -79,7 +72,6 @@ const BurgerIngredients: FC<{ setEscListener: () => void }> = ({
             data={data.filter((item: IngredientType) => item.type === "bun")}
             anchorId="type-bun"
             title="Булки"
-            setEscListener={setEscListener}
           />
         </li>
         <li className={styles.scrollableListItem}>
@@ -87,7 +79,6 @@ const BurgerIngredients: FC<{ setEscListener: () => void }> = ({
             data={data.filter((item: IngredientType) => item.type === "sauce")}
             anchorId="type-sauce"
             title="Соусы"
-            setEscListener={setEscListener}
           />
         </li>
         <li className={styles.scrollableListItem}>
@@ -95,7 +86,6 @@ const BurgerIngredients: FC<{ setEscListener: () => void }> = ({
             data={data.filter((item: IngredientType) => item.type === "main")}
             anchorId="type-main"
             title="Начинки"
-            setEscListener={setEscListener}
           />
         </li>
       </ul>

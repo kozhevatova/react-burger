@@ -10,7 +10,6 @@ import {
   makeOrder,
   SWAP_INGREDIENTS,
 } from "../../services/actions/order";
-import { useDispatch } from "react-redux";
 import Bun from "../bun/bun";
 import { useDrop } from "react-dnd";
 import FillingItem from "../filling-item/filling-item";
@@ -19,10 +18,10 @@ import {
   RESET_COUNT,
 } from "../../services/actions/ingredients";
 import { useHistory } from "react-router-dom";
-import { AppDispatch, useSelectorHook } from "../../services/store";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
 import { IngredientType, OrderedIngredientsType } from "../../types/types";
 
-const BurgerConstructor: FC<{ setEscListener: () => void }> = ({ setEscListener }) => {
+const BurgerConstructor: FC = () => {
   const { orderedIngredients, totalPrice, orderRequest } = useSelectorHook(
     (store) =>
       store.order as {
@@ -34,7 +33,7 @@ const BurgerConstructor: FC<{ setEscListener: () => void }> = ({ setEscListener 
   const user = useSelectorHook((store) => store.user.user);
   const history = useHistory();
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",
@@ -55,7 +54,6 @@ const BurgerConstructor: FC<{ setEscListener: () => void }> = ({ setEscListener 
     if (!user.name) {
       history.replace({ pathname: "/login" });
     } else {
-      setEscListener();
       dispatch({ type: RESET_COUNT });
       console.log(orderedIngredients);
       dispatch(makeOrder(orderedIngredients));
@@ -77,7 +75,7 @@ const BurgerConstructor: FC<{ setEscListener: () => void }> = ({ setEscListener 
     return (
       orderedIngredients.filling &&
       orderedIngredients.filling.length > 0 &&
-      orderedIngredients.filling.map((item: any, index: number) => {
+      orderedIngredients.filling.map((item: IngredientType, index: number) => {
         return (
           <FillingItem
             key={item.uid}

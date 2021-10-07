@@ -5,6 +5,7 @@ import {
   WS_CONNECTION_CLOSED,
   WS_GET_ORDERS,
   WS_CONNECTION_START,
+  WS_SEND_MESSAGE,
 } from "../../services/actions/ws";
 
 export interface IWsConnectionSuccess {
@@ -30,6 +31,11 @@ export interface IWsGetOrders {
 
 export interface IWsConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
+  readonly payload: string;
+}
+
+export interface IWsSendMessage {
+  readonly type: typeof WS_SEND_MESSAGE;
   readonly payload: string;
 }
 

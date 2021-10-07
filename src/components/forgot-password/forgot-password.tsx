@@ -4,24 +4,24 @@ import {
   forgotPasswordTitles,
 } from "../../utils/constants";
 import AuthForm from "../auth-form/auth-form";
-import { useDispatch } from "react-redux";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   forgotPasswordFormSubmit,
   setForgotPasswordFormValue,
 } from "../../services/actions/user";
-import { Redirect, useHistory } from "react-router-dom";
-import { AppDispatch, useSelectorHook } from "../../services/store";
-import { getCookie } from "../../utils/utils";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
+import { LocationState } from "../../types/types";
 
 const ForgotPassword:FC = () => {
   const history = useHistory();
   const { email } = useSelectorHook((store) => ({
     ...store.user.forgotPasswordForm,
   }));
-  const user  = useSelectorHook((store) => store.user);
+  const user  = useSelectorHook((store) => store.user.user.name);
   const emailSent = useSelectorHook((store) => store.user.emailSent);
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const location = useLocation<LocationState>();
 
   const { formTitle, buttonTitle } = forgotPasswordTitles;
   
@@ -42,14 +42,9 @@ const ForgotPassword:FC = () => {
     dispatch(forgotPasswordFormSubmit());
   };
 
-  if (getCookie("token") && user) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
+  if (user) {
+    const { from } = location.state ? location.state : { from: { pathname: "/" } };
+    return <Redirect to={from} />;
   }
   
   return (

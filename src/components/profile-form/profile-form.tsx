@@ -3,17 +3,16 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
 import {
   getUserInfo,
   setProfileFormValue,
   updateUserInfo,
 } from "../../services/actions/user";
 import styles from "./profile-form.module.css";
-import { AppDispatch } from "../../services/store";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
 
 const ProfileForm:FC = () => {
-  const { email, password, name } = useSelector((store: any) => ({
+  const { email, password, name } = useSelectorHook((store) => ({
     ...store.user.profileForm,
   }));
 
@@ -26,7 +25,7 @@ const ProfileForm:FC = () => {
     useState<{ name: boolean; email: boolean; password: boolean }>(
       initialIconState
     );
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);

@@ -1,4 +1,4 @@
-import { getCookie } from "./../../utils/utils";
+import { AppThunkDispatch } from './../store';
 import {
   ILoginFormSetValue,
   IForgotPasswordFormSetValue,
@@ -100,8 +100,8 @@ export const setProfileFormValue = (
   value,
 });
 
-export const registerFormSubmit: any = () => {
-  return (dispatch: AppDispatch, getState: typeof store.getState) => {
+export const registerFormSubmit:any = () => {
+  return (dispatch: AppThunkDispatch, getState: typeof store.getState) => {
     dispatch({
       type: REGISTER_FORM_SUBMIT,
     });
@@ -216,21 +216,9 @@ const handleTokenExpire: (
   }
 };
 
-const checkToken = () => {
-  if (!getCookie("token") && getCookie("refreshToken")) {
-    api
-      .refreshToken()
-      .then((data) => {
-        setTokens(data);
-      })
-      .catch((error) => console.log(error));
-  }
-};
-
 export const getUserInfo: any = () => {
   return (dispatch: AppDispatch) => {
     dispatch({ type: GET_USER_INFO_REQUEST });
-    checkToken();
     api
       .getUserInfo()
       .then((data) => {

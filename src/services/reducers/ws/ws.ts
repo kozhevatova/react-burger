@@ -42,12 +42,13 @@ export const wsReducer = (
 
     case WS_CONNECTION_CLOSED:
       return {
-        ...state,
+        ...initialState,
         wsConnected: false,
         wsStarted: false,
       };
 
     case WS_GET_ORDERS:
+      console.log(action.orders.orders)
       return {
         ...state,
         orders:

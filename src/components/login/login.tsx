@@ -1,6 +1,5 @@
 import React, { FC, SyntheticEvent } from "react";
 import { loginLinks, loginTitles } from "../../utils/constants";
-import { useDispatch } from "react-redux";
 import AuthForm from "../auth-form/auth-form";
 import {
   Input,
@@ -10,28 +9,25 @@ import {
   loginFormSubmit,
   setLoginFormValue,
 } from "../../services/actions/user";
-import { AppDispatch, useSelectorHook } from "../../services/store";
-import { getCookie } from "../../utils/utils";
-import { Redirect } from "react-router-dom";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
+import { Redirect, useLocation } from "react-router-dom";
+import { LocationState } from "../../types/types";
 
 const Login: FC = () => {
   const { email, password } = useSelectorHook((store) => ({
     ...store.user.loginForm,
   }));
-  const user  = useSelectorHook((store) => store.user);
+  const user = useSelectorHook((store) => store.user.user.name);
+  const location = useLocation<LocationState>();
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { formTitle, buttonTitle } = loginTitles;
 
-  if (getCookie("token") && user) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
+  if (user) {
+    console.log('redirect')
+    const { from } = location.state ? location.state : { from: { pathname: "/" } };
+    return <Redirect to={from} />;
   }
 
   const onChange = (e: SyntheticEvent<HTMLInputElement>) => {

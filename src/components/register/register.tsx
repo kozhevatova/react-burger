@@ -1,7 +1,6 @@
 import React, { FC, SyntheticEvent } from "react";
 import { registerLinks, registerTitles } from "../../utils/constants";
 import AuthForm from "../auth-form/auth-form";
-import { useDispatch } from "react-redux";
 import {
   PasswordInput,
   Input,
@@ -10,17 +9,19 @@ import {
   registerFormSubmit,
   setRegisterFormValue,
 } from "../../services/actions/user";
-import { AppDispatch, useSelectorHook } from "../../services/store";
-import { getCookie } from "../../utils/utils";
-import { Redirect } from "react-router-dom";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
+import { Redirect, useLocation } from "react-router-dom";
+import { LocationState } from "../../types/types";
 
 const Register:FC = () => {
   const { email, password, name } = useSelectorHook((store) => ({
     ...store.user.registerForm,
   }));
-  const user  = useSelectorHook((store) => store.user);
-  const dispatch:AppDispatch = useDispatch();
+  const user  = useSelectorHook((store) => store.user.user.name);
+  const dispatch = useAppDispatch();
   const { formTitle, buttonTitle } = registerTitles;
+  const location = useLocation<LocationState>();
+
 
   const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
@@ -32,14 +33,9 @@ const Register:FC = () => {
     dispatch(registerFormSubmit());
   };
 
-  if (getCookie("token") && user) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
+  if (user) {
+    const { from } = location.state ? location.state : { from: { pathname: "/" } };
+    return <Redirect to={from} />;
   }
 
   return (

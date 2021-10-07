@@ -2,19 +2,19 @@ import React, { FC, useEffect, useState } from "react";
 import classNames from "classnames";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./order-item.module.css";
-import { Link, useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import { OPEN_MADE_ORDER_MODAL } from "../../services/actions/order";
 import { maxAmountOfIngredients } from "../../utils/constants";
 import defaultPic from "../../images/ingredient.png";
-import { IngredientType, IOrder } from "../../types/types";
-import { AppDispatch, useSelectorHook } from "../../services/store";
+import { IngredientType, IOrder, LocationState } from "../../types/types";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
 import { formatDate } from "../../utils/utils";
 
-const OrderItem: FC<IOrder> = ({ order, wide, setEscListener }) => {
+const OrderItem: FC<IOrder> = ({ order, wide }) => {
   const [isLeft, setIsLeft] = useState<boolean>(false);
   const [leftCount, setLeftCount] = useState<number>(0);
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const location = useLocation<LocationState>();
   const { url } = useRouteMatch();
   const allIngredients = useSelectorHook(
     (store) => store.ingredients.ingredients
@@ -69,14 +69,13 @@ const OrderItem: FC<IOrder> = ({ order, wide, setEscListener }) => {
   }, []);
 
   const handleOrderClick = () => {
-    setEscListener();
     dispatch({ type: OPEN_MADE_ORDER_MODAL });
   };
 
   return (
     <li>
       <Link
-        to={`${url}/${number}`}
+        to={{pathname: `${url}/${number}`, state:{background: location}}}
         className={orderClassName}
         onClick={handleOrderClick}
       >

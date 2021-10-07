@@ -4,15 +4,14 @@ import {
   resetPasswordTitles,
 } from "../../utils/constants";
 import AuthForm from "../auth-form/auth-form";
-import { useDispatch } from "react-redux";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   resetPasswordFormSubmit,
   setResetPasswordFormValue,
 } from "../../services/actions/user";
-import { Redirect, useHistory } from "react-router";
-import { AppDispatch, useSelectorHook } from "../../services/store";
-import { getCookie } from "../../utils/utils";
+import { Redirect, useHistory, useLocation } from "react-router";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
+import { LocationState } from "../../types/types";
 
 const ResetPassword:FC = () => {
   const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
@@ -21,9 +20,10 @@ const ResetPassword:FC = () => {
   const { token, newPassword } = useSelectorHook((store) => ({
     ...store.user.resetPasswordForm,
   }));
-  const user  = useSelectorHook((store) => store.user);
-  const dispatch: AppDispatch = useDispatch();
+  const user  = useSelectorHook((store) => store.user.user.name);
+  const dispatch = useAppDispatch();
   const { formTitle, buttonTitle } = resetPasswordTitles;
+  const location = useLocation<LocationState>();
 
   useEffect(() => {
     if (resetSuccess) {
@@ -32,14 +32,9 @@ const ResetPassword:FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetSuccess]);
   
-  if (getCookie("token") && user) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
+  if (user) {
+    const { from } = location.state ? location.state : { from: { pathname: "/" } };
+    return <Redirect to={from} />;
   }
 
   if (!localStorage.getItem("emailSent")) {

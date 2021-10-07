@@ -1,21 +1,22 @@
 import React, { FC, useEffect } from "react";
 import styles from "./profile.module.css";
 import ProfileMenu from "../profile-menu/profile-menu";
-import PropTypes from "prop-types";
-import { WS_CONNECTION_START } from "../../services/actions/ws";
-import { useDispatch } from "react-redux";
-import { getCookie } from "../../utils/utils";
-import { AppDispatch } from "../../services/store";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../services/actions/ws";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
 
 const Profile:FC = (props) => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const user  = useSelectorHook((store) => store.user.user.name);
 
   useEffect(() => {
-    if (getCookie("token")) {
+    if (user) {
       dispatch({ type: WS_CONNECTION_START, payload: "withAuth" });
     }
+    return(() => {
+      dispatch({type: WS_CONNECTION_CLOSED});
+    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch]);
 
   return (
     <section className={styles.profile}>
@@ -23,10 +24,6 @@ const Profile:FC = (props) => {
       {props.children}
     </section>
   );
-};
-
-Profile.propTypes = {
-  children: PropTypes.element.isRequired,
 };
 
 export default Profile;

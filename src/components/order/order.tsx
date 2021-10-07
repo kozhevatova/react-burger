@@ -4,25 +4,22 @@ import { useParams } from "react-router";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./order.module.css";
 import { IngredientType, OrderType } from "../../types/types";
+import { useSelectorHook } from "../../services/store";
 
 const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
   const { id } = useParams<{ id?: string }>();
 
-  const orders = localStorage.getItem("orders");
+  const orders = useSelectorHook((store) => store.ws.orders);
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  const order =
-    orders &&
-    id &&
-    JSON.parse(orders).find((order: OrderType) => order.number && order.number === Number(id));
-  const { number, createdAt, name, ingredients, status } = order;
+  const order = orders.find((order: OrderType) => order.number && order.number === Number(id));
   const [ingredientsToShow, setIngredientsToShow] = useState<Array<IngredientType>>([]);
-  const allIngredients = localStorage.getItem("ingredients");
+  const allIngredients = useSelectorHook((store) => store.ingredients.ingredients)
 
   useEffect(() => {
-    if (order && allIngredients && ingredients) {
+    if (order && allIngredients && order.ingredients) {
       let price = 0;
-      const ingredientsList = ingredients.map((id: string) => {
-        const ingredient = JSON.parse(allIngredients).find(
+      const ingredientsList = order.ingredients.map((id: string) => {
+        const ingredient = allIngredients.find(
           (ingredient: IngredientType) => {
             if (ingredient._id === id) {
               price += ingredient.price;
@@ -33,10 +30,10 @@ const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
         return { ...ingredient, qty: 1 };
       });
       setIngredientsToShow(
-        ingredientsList
-          .reduce((prev: IngredientType[], item: IngredientType) => {
+        (ingredientsList as (IngredientType[]))
+          .reduce((prev: Array<IngredientType>, item: IngredientType) => {
             const index = prev.findIndex(
-              (ingredient: any) => ingredient._id === item._id
+              (ingredient: IngredientType) => ingredient._id === item._id
             );
             if (index < 0) {
               return [...prev, item];
@@ -76,10 +73,10 @@ const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
 
   return (
     <section className={style.order}>
-      <p className={orderIdClassName}>#{number}</p>
-      <h3 className={textClassName}>{name}</h3>
+      <p className={orderIdClassName}>#{order && order.number ? order.number : 0}</p>
+      <h3 className={textClassName}>{order && order.name ? order.name : ''}</h3>
       <p className={statusClassName}>
-        {status === "done" ? "Выполнен" : "Создан"}
+        {order && order.status === "done" ? "Выполнен" : "Создан"}
       </p>
       <p className={textClassName}>Состав:</p>
       <ul className={style.ingredients}>
@@ -105,7 +102,7 @@ const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
           })}
       </ul>
       <div className={style.total}>
-        <p className={dateClassName}>{createdAt}</p>
+        <p className={dateClassName}>{order && order.createdAt ? order.createdAt : ''}</p>
         <p className={priceClassName}>
           {totalPrice} <CurrencyIcon type="primary" />
         </p>

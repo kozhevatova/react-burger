@@ -2,14 +2,13 @@ import React, { FC, SyntheticEvent } from "react";
 import { profileMenuLinks } from "../../utils/constants";
 import { NavLink, useRouteMatch } from "react-router-dom";
 import styles from "./profile-menu.module.css";
-import { useDispatch } from "react-redux";
 import { logout } from "../../services/actions/user";
 import classNames from "classnames";
 import { chooseMenuCaption } from "../../utils/utils";
-import { AppDispatch } from "../../services/store";
+import { useAppDispatch } from "../../services/store";
 
 const ProfileMenu:FC = () => {
-  const dispatch:AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { path } = useRouteMatch();
   const linkClassName = classNames(styles.link, "text text_type_main-medium");
   const textClassName = classNames(

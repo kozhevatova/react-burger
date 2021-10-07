@@ -1,3 +1,4 @@
+import { getIngredientsRequest, getIngredientsSuccess, getIngredientsFailed } from './../../types/action-types/ingredient-types';
 import { IngredientType } from './../../types/types';
 import api from "../../utils/api";
 import { AppDispatch } from "../store";
@@ -17,29 +18,18 @@ export const INCREASE_COUNT = "INCREASE_COUNT" as const;
 export const DECREASE_COUNT = "DECREASE_COUNT" as const;
 export const RESET_COUNT = "RESET_COUNT" as const;
 
-export const getAllIngredients: any = () => {
+export const getAllIngredients:any = () => {
   return (dispatch: AppDispatch) => {
-    dispatch({
-      type: GET_INGREDIENTS_REQUEST,
-    });
+    dispatch(getIngredientsRequest());
     api.getIngredients().then((response) => {
       if(response && response.success) {
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredients: response.data.map((item: IngredientType) => ({...item, qty: 0})),
-        });
+        dispatch(getIngredientsSuccess(response.data.map((item: IngredientType) => ({...item, qty: 0}))));
       } else {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED,
-          error: ''
-        })
+        dispatch(getIngredientsFailed(''))
       }
     })
     .catch((error) => {
-      dispatch({
-        type: GET_INGREDIENTS_FAILED,
-        error: error.message,
-      })
+      dispatch(getIngredientsFailed(error.message))
     });
   };
 };

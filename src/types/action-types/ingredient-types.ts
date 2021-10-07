@@ -18,12 +18,12 @@ export interface IGetIngredientsRequest {
 
 export interface IGetIngredientsSuccess {
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  readonly ingredients: Array<IngredientType>
+  readonly ingredients: Array<IngredientType>;
 }
 
 export interface IGetIngredientsFailed {
   readonly type: typeof GET_INGREDIENTS_FAILED;
-  readonly error: string
+  readonly error: string;
 }
 
 export interface IGetIngredientDetails {
@@ -69,3 +69,18 @@ export type TIngredientsActions =
   | IIncreaseCount
   | IDecreaseCount
   | IResetCount;
+
+
+  export const getIngredientsRequest = (): IGetIngredientsRequest => ({
+    type: GET_INGREDIENTS_REQUEST
+  });
+
+  export const getIngredientsSuccess = (ingredients: Array<IngredientType>): IGetIngredientsSuccess => ({
+    type: GET_INGREDIENTS_SUCCESS,
+    ingredients
+  });
+
+  export const getIngredientsFailed = (error: string): IGetIngredientsFailed => ({
+    type: GET_INGREDIENTS_FAILED,
+    error
+  });

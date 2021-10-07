@@ -5,18 +5,18 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
 import {
   GET_INGREDIENT_DETAILS,
   OPEN_INGREDIENT_MODAL,
 } from "../../services/actions/ingredients";
 import { useDrag } from "react-dnd";
-import { NavLink } from "react-router-dom";
-import { IIngredientItem } from "../../types/types";
-import { AppDispatch } from "../../services/store";
+import { NavLink, useLocation } from "react-router-dom";
+import { IngredientType, LocationState } from "../../types/types";
+import { useAppDispatch } from "../../services/store";
 
-const IngredientItem: FC<IIngredientItem> = ({ item, setEscListener }) => {
-  const dispatch: AppDispatch = useDispatch();
+const IngredientItem: FC<{item:IngredientType}> = ({ item }) => {
+  const dispatch = useAppDispatch();
+  const location = useLocation<LocationState>();
   const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
     item: () => {
@@ -38,14 +38,13 @@ const IngredientItem: FC<IIngredientItem> = ({ item, setEscListener }) => {
     "mt-1 mb-1"
   );
   const handleCardClick = () => {
-    setEscListener();
     dispatch({ type: OPEN_INGREDIENT_MODAL });
     dispatch({ type: GET_INGREDIENT_DETAILS, item });
   };
   
   return (
     <NavLink
-      to={`/ingredients/${item._id}`}
+      to={{pathname: `/ingredients/${item._id}`, state: {background: location}}}
       className={cardClassName}
       onClick={handleCardClick}
       ref={dragRef}

@@ -8,7 +8,6 @@ const IngredientsList:FC<IIngredientList> = ({
   anchorId,
   title,
   data,
-  setEscListener,
 }) => {
   const titleClassName = classNames("text text_type_main-medium", styles.title);
 
@@ -21,7 +20,6 @@ const IngredientsList:FC<IIngredientList> = ({
             <IngredientItem
               item={item}
               key={item._id + index}
-              setEscListener={setEscListener}
             />
           );
         })}

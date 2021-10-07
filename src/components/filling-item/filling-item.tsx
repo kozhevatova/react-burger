@@ -4,16 +4,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { FC, useRef } from "react";
 import { MonitorEventEmitter, useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
 import { DECREASE_COUNT } from "../../services/actions/ingredients";
 import { DELETE_ITEM } from "../../services/actions/order";
 import styles from "./filling-item.module.css";
-import { IFillingItem } from "../../types/types";
+import { IFillingItem, IngredientType } from "../../types/types";
+import { useAppDispatch } from "../../services/store";
 
 const FillingItem: FC<IFillingItem> = ({ index, swapIngredients, item }) => {
   const ref = useRef<HTMLLIElement>(null);
   const { name, _id, uid, image, price } = item;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [{ isDragging }, drag] = useDrag({
     type: "ingredient1",
     item: () => {
@@ -46,8 +46,8 @@ const FillingItem: FC<IFillingItem> = ({ index, swapIngredients, item }) => {
   drag(drop(ref));
 
   const handleItemDelete = (deletedItem: {_id: string; price: number; uid: string | undefined;}) => {
-    dispatch({ type: DELETE_ITEM, item: deletedItem });
-    dispatch({ type: DECREASE_COUNT, item: deletedItem });
+    dispatch({ type: DELETE_ITEM, item: deletedItem as IngredientType});
+    dispatch({ type: DECREASE_COUNT, item: deletedItem as IngredientType });
   };
 
   return (

@@ -1,24 +1,8 @@
 import { SyntheticEvent } from "react";
 
-// export const dataItemProptypes = PropTypes.shape({
-//   _id: PropTypes.string.isRequired,
-//   name: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   proteins: PropTypes.number.isRequired,
-//   fat: PropTypes.number.isRequired,
-//   carbohydrates: PropTypes.number.isRequired,
-//   calories: PropTypes.number.isRequired,
-//   price: PropTypes.number.isRequired,
-//   image: PropTypes.string.isRequired,
-//   image_mobile: PropTypes.string.isRequired,
-//   image_large: PropTypes.string.isRequired,
-// });
-
-export interface LocationState {
-  from: {
-    pathname: string;
-  };
-  state: string[];
+export type LocationState = {
+  from: Location;
+  background?: any;
 }
 
 export type IconType = { burger: string; list: string; profile: string };
@@ -34,12 +18,12 @@ export interface IAuthForm {
 }
 
 export type IngredientType = {
-  readonly _id: string;
-  readonly price: number;
-  readonly name: string;
-  readonly image: string;
-  readonly type: "bun" | "main" | "sauce";
-  readonly uid?: string;
+  _id: string;
+  price: number;
+  name: string;
+  image: string;
+  type: "bun" | "main" | "sauce";
+  uid?: string;
   qty: number;
   proteins?: number;
   fat?: number;
@@ -67,28 +51,21 @@ export interface IFillingItem {
   index: number;
 }
 
-export interface IIngredientItem {
-  item: IngredientType;
-  setEscListener: () => void;
-}
 
 export interface IIngredientList {
   anchorId: string;
   title: string;
   data: IngredientType[];
-  setEscListener: () => void;
 }
 
 export interface IModal {
   handleModalClose: () => void;
-  handleCloseByClickOnOverlay: (e: SyntheticEvent) => void;
   title: string;
 }
 
 export interface IOrder {
   order: OrderType;
   wide: boolean;
-  setEscListener: () => void;
 }
 
 export type TIngredientsState = {

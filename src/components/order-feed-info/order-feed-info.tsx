@@ -1,12 +1,13 @@
 import classNames from "classnames";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelectorHook } from "../../services/store";
+import { OrderType } from "../../types/types";
 import { maxAmountOrdersToShow } from "../../utils/constants";
 import style from "./order-feed-info.module.css";
 
 const OrderFeedInfo = () => {
-  const { totalOrdersCount, todayOrdersCount, orders } = useSelector(
-    (store: any) => store.ws
+  const { totalOrdersCount, todayOrdersCount, orders } = useSelectorHook(
+    (store) => store.ws
   );
   const textClassName = classNames(style.text, "text text_type_main-medium");
   const orderIdClassName = classNames(
@@ -14,11 +15,11 @@ const OrderFeedInfo = () => {
     "text text_type_digits-default"
   );
   const doneOrders = orders
-    .filter((order: any) => order.status === "done")
+    .filter((order: OrderType) => order.status === "done")
     .reverse()
     .slice(orders.length - maxAmountOrdersToShow, orders.length);
   const inProgressOrders = orders
-    .filter((order: any) => order.status !== "done")
+    .filter((order: OrderType) => order.status !== "done")
     .reverse()
     .slice(orders.length - maxAmountOrdersToShow, orders.length);
   const countClassName = classNames(style.count, "text text_type_digits-large");
@@ -30,7 +31,7 @@ const OrderFeedInfo = () => {
         <ul className={style.list}>
           {doneOrders &&
             doneOrders.length &&
-            doneOrders.map((order: any) => {
+            doneOrders.map((order: OrderType) => {
               return (
                 <p className={orderIdClassName} key={order._id}>
                   {order.number}
@@ -44,7 +45,7 @@ const OrderFeedInfo = () => {
         <ul className={style.list}>
           {inProgressOrders &&
             inProgressOrders.length &&
-            inProgressOrders.map((order: any) => {
+            inProgressOrders.map((order: OrderType) => {
               return (
                 <p className={orderIdClassName} key={order._id}>
                   {order.number}

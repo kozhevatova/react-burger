@@ -1,6 +1,6 @@
 import { profileCaption, ordersCaption } from "./constants";
 
-export const setCookie = (name: string, value: any, props?: any) => {
+export const setCookie = (name: string, value: string, props?: any) => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
@@ -38,7 +38,7 @@ export const deleteCookie = (name: string) => {
   }
 };
 
-export const setTokens = (data: any) => {
+export const setTokens = (data: {accessToken: string, refreshToken: string}) => {
   console.log("set token", data.accessToken);
   const authToken = data.accessToken.split("Bearer ")[1];
   const refreshToken = data.refreshToken;
