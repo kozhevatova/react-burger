@@ -1,3 +1,4 @@
+import { AnyAction } from 'redux';
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
@@ -23,7 +24,7 @@ export const socketMiddleware = (
   return (store: { dispatch: AppDispatch }) => {
     let socket: WebSocket | null = null;
 
-    return (next: any) => (action: { type: string; payload: string }) => {
+    return (next: (action: AnyAction)=> void) => (action: { type: string; payload: string }) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } =
@@ -61,12 +62,6 @@ export const socketMiddleware = (
       if (type === wsSendMessage) {
         const message = { ...(payload as any), token: token };
         socket?.send(JSON.stringify(message));
-      }
-
-      if (type === onClose) {
-        if (socket) {
-          socket.close();
-        }
       }
 
       next(action);

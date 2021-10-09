@@ -1,4 +1,3 @@
-import { AppThunkDispatch } from './../store';
 import {
   ILoginFormSetValue,
   IForgotPasswordFormSetValue,
@@ -8,7 +7,7 @@ import {
 import { IRegisterFormSetValue } from "../../types/action-types/user-types";
 import api from "../../utils/api";
 import { setTokens, deleteCookie } from "../../utils/utils";
-import store, { AppDispatch } from "../store";
+import { AppDispatch, ThunkType, RootState } from "../store";
 
 export const LOGIN_FORM_SET_VALUE = "LOGIN_FORM_SET_VALUE" as const;
 export const REGISTER_FORM_SET_VALUE = "REGISTER_FORM_SET_VALUE" as const;
@@ -100,8 +99,8 @@ export const setProfileFormValue = (
   value,
 });
 
-export const registerFormSubmit:any = () => {
-  return (dispatch: AppThunkDispatch, getState: typeof store.getState) => {
+export const registerFormSubmit:ThunkType = () => {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch({
       type: REGISTER_FORM_SUBMIT,
     });
@@ -124,8 +123,8 @@ export const registerFormSubmit:any = () => {
   };
 };
 
-export const loginFormSubmit: any = () => {
-  return (dispatch: AppDispatch, getState: typeof store.getState) => {
+export const loginFormSubmit: ThunkType = () => {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch({
       type: LOGIN_FORM_SUBMIT,
     });
@@ -143,8 +142,8 @@ export const loginFormSubmit: any = () => {
   };
 };
 
-export const forgotPasswordFormSubmit: any = () => {
-  return (dispatch: AppDispatch, getState: typeof store.getState) => {
+export const forgotPasswordFormSubmit: ThunkType = () => {
+  return (dispatch: AppDispatch, getState: ()=> RootState) => {
     dispatch({
       type: FORGOT_PASSWORD_FORM_SUBMIT,
     });
@@ -162,8 +161,8 @@ export const forgotPasswordFormSubmit: any = () => {
   };
 };
 
-export const resetPasswordFormSubmit: any = () => {
-  return (dispatch: AppDispatch, getState: typeof store.getState) => {
+export const resetPasswordFormSubmit: ThunkType = () => {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch({
       type: RESET_PASSWORD_FORM_SUBMIT,
     });
@@ -181,7 +180,7 @@ export const resetPasswordFormSubmit: any = () => {
   };
 };
 
-export const logout: any = () => {
+export const logout: ThunkType = () => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: LOGOUT_REQUEST,
@@ -203,7 +202,7 @@ export const logout: any = () => {
 const handleTokenExpire: (
   error: { message: string },
   dispatch: AppDispatch,
-  repeatRequestAfterRefresh: any
+  repeatRequestAfterRefresh: ThunkType
 ) => void = (error, dispatch, repeatRequestAfterRefresh) => {
   if (error.message === "Ошибка: 403" || error.message === "Ошибка: 401") {
     api
@@ -216,7 +215,7 @@ const handleTokenExpire: (
   }
 };
 
-export const getUserInfo: any = () => {
+export const getUserInfo: ThunkType = () => {
   return (dispatch: AppDispatch) => {
     dispatch({ type: GET_USER_INFO_REQUEST });
     api
@@ -232,8 +231,8 @@ export const getUserInfo: any = () => {
   };
 };
 
-export const updateUserInfo: any = () => {
-  return (dispatch: AppDispatch, getState: typeof store.getState) => {
+export const updateUserInfo: ThunkType = () => {
+  return (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch({ type: UPDATE_USER_INFO_REQUEST });
     const { name, email, password } = getState().user.profileForm;
     api

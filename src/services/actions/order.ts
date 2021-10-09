@@ -18,8 +18,10 @@ export const CLOSE_MADE_ORDER_MODAL = "CLOSE_MADE_ORDER_MODAL" as const;
 
 export const SWAP_INGREDIENTS = "SWAP_INGREDIENTS" as const;
 
-export const makeOrder:any = (orderedIngredients: OrderedIngredientsType) => {
-  return (dispatch: AppDispatch) => {
+export const makeOrder: (
+  orderedIngredients: OrderedIngredientsType
+) => (dispatch: AppDispatch) => void = (orderedIngredients) => {
+  return (dispatch) => {
     dispatch({
       type: MAKE_ORDER_REQUEST,
     });
@@ -39,7 +41,7 @@ export const makeOrder:any = (orderedIngredients: OrderedIngredientsType) => {
           });
           dispatch({ type: OPEN_ORDER_MODAL });
         } else {
-          dispatch({ type: MAKE_ORDER_FAILED, error: '' });
+          dispatch({ type: MAKE_ORDER_FAILED, error: "" });
         }
       })
       .catch((error) => {

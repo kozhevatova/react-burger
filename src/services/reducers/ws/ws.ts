@@ -48,7 +48,6 @@ export const wsReducer = (
       };
 
     case WS_GET_ORDERS:
-      console.log(action.orders.orders)
       return {
         ...state,
         orders:

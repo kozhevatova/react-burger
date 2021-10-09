@@ -1,3 +1,4 @@
+import { ThunkType } from './../store';
 import { getIngredientsRequest, getIngredientsSuccess, getIngredientsFailed } from './../../types/action-types/ingredient-types';
 import { IngredientType } from './../../types/types';
 import api from "../../utils/api";
@@ -18,7 +19,7 @@ export const INCREASE_COUNT = "INCREASE_COUNT" as const;
 export const DECREASE_COUNT = "DECREASE_COUNT" as const;
 export const RESET_COUNT = "RESET_COUNT" as const;
 
-export const getAllIngredients:any = () => {
+export const getAllIngredients:ThunkType = () => {
   return (dispatch: AppDispatch) => {
     dispatch(getIngredientsRequest());
     api.getIngredients().then((response) => {
