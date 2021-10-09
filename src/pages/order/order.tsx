@@ -1,19 +1,38 @@
 import classNames from "classnames";
 import React, { FC, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useRouteMatch } from "react-router";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./order.module.css";
 import { IngredientType, OrderType } from "../../types/types";
-import { useSelectorHook } from "../../services/store";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../services/actions/ws";
+import { formatDate } from "../../utils/utils";
 
 const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
   const { id } = useParams<{ id?: string }>();
-
+  const {url} = useRouteMatch();
+  const dispatch = useAppDispatch();
   const orders = useSelectorHook((store) => store.ws.orders);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const order = orders.find((order: OrderType) => order.number && order.number === Number(id));
   const [ingredientsToShow, setIngredientsToShow] = useState<Array<IngredientType>>([]);
-  const allIngredients = useSelectorHook((store) => store.ingredients.ingredients)
+  const allIngredients = useSelectorHook((store) => store.ingredients.ingredients);
+
+  useEffect(() => {
+    if(!orders.length){
+      if(url.match('feed')) {
+        dispatch({type: WS_CONNECTION_START, payload: 'withoutAuth'})
+      } else {
+        dispatch({type: WS_CONNECTION_START, payload: 'withAuth'})
+      }
+    }
+    return(() => {
+      if(orders){
+        dispatch({type: WS_CONNECTION_CLOSED});
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   useEffect(() => {
     if (order && allIngredients && order.ingredients) {
@@ -46,9 +65,7 @@ const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
       );
       setTotalPrice(price);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [allIngredients, order]);
 
   const orderIdClassName = classNames({
     [style.orderId]: true,
@@ -102,7 +119,7 @@ const Order:FC<{ isModal: boolean }> = ({ isModal }) => {
           })}
       </ul>
       <div className={style.total}>
-        <p className={dateClassName}>{order && order.createdAt ? order.createdAt : ''}</p>
+        <p className={dateClassName}>{order && order.createdAt ? formatDate(order.createdAt) : ''}</p>
         <p className={priceClassName}>
           {totalPrice} <CurrencyIcon type="primary" />
         </p>

@@ -25,9 +25,8 @@ const Login: FC = () => {
   const { formTitle, buttonTitle } = loginTitles;
 
   if (user) {
-    console.log('redirect')
     const { from } = location.state ? location.state : { from: { pathname: "/" } };
-    return <Redirect to={from} />;
+    return <Redirect to={from.pathname} />;
   }
 
   const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
