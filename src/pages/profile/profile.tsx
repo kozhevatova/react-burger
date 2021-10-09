@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import styles from "./profile.module.css";
-import ProfileMenu from "../profile-menu/profile-menu";
+import ProfileMenu from "../../components/profile-menu/profile-menu";
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../services/actions/ws";
 import { useAppDispatch, useSelectorHook } from "../../services/store";
 

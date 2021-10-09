@@ -3,7 +3,7 @@ import {
   forgotPasswordLinks,
   forgotPasswordTitles,
 } from "../../utils/constants";
-import AuthForm from "../auth-form/auth-form";
+import AuthForm from "../../components/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   forgotPasswordFormSubmit,

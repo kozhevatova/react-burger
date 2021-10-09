@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { FC } from "react";
 import { ingredientDetailsTitle } from "../../utils/constants";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import styles from "./ingredient-item-page.module.css";
 
 const IngredientItemPage:FC = () => {

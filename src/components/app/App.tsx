@@ -12,22 +12,22 @@ import {
   CLOSE_MADE_ORDER_MODAL,
   CLOSE_ORDER_MODAL,
 } from "../../services/actions/order";
-import MainContent from "../main-content/main-content";
+import MainContent from "../../pages/main-content/main-content";
 import Modal from "../modal/modal";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
-import Login from "../login/login";
-import Register from "../register/register";
-import ForgotPassword from "../forgot-password/forgot-password";
-import Profile from "../profile/profile";
-import ResetPassword from "../reset-password/reset-password";
+import Login from "../../pages/login/login";
+import Register from "../../pages/register/register";
+import ForgotPassword from "../../pages/forgot-password/forgot-password";
+import Profile from "../../pages/profile/profile";
+import ResetPassword from "../../pages/reset-password/reset-password";
 import { CLOSE_UPDATE_INFO_MODAL, getUserInfo } from "../../services/actions/user";
-import IngredientItemPage from "../ingredient-item-page/ingredient-item-page";
+import IngredientItemPage from "../../pages/ingredient-item-page/ingredient-item-page";
 import ProtectedRoute from "../protected-route/protected-route";
 import ProfileForm from "../profile-form/profile-form";
-import NotFoundPage from "../not-found-page/not-found-page";
-import Feed from "../feed/feed";
+import NotFoundPage from "../../pages/not-found-page/not-found-page";
+import Feed from "../../pages/feed/feed";
 import OrderList from "../order-list/order-list";
-import Order from "../order/order";
+import Order from "../../pages/order/order";
 import { useAppDispatch, useSelectorHook } from "../../services/store";
 import { LocationState } from "../../types/types";
 

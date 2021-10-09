@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import classNames from "classnames";
-import OrderFeedInfo from "../order-feed-info/order-feed-info";
-import OrderList from "../order-list/order-list";
+import OrderFeedInfo from "../../components/order-feed-info/order-feed-info";
+import OrderList from "../../components/order-list/order-list";
 import style from "./feed.module.css";
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../../services/actions/ws";
 import { useAppDispatch } from "../../services/store";

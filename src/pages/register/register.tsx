@@ -1,51 +1,57 @@
 import React, { FC, SyntheticEvent } from "react";
-import { loginLinks, loginTitles } from "../../utils/constants";
-import AuthForm from "../auth-form/auth-form";
+import { registerLinks, registerTitles } from "../../utils/constants";
+import AuthForm from "../../components/auth-form/auth-form";
 import {
-  Input,
   PasswordInput,
+  Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
-  loginFormSubmit,
-  setLoginFormValue,
+  registerFormSubmit,
+  setRegisterFormValue,
 } from "../../services/actions/user";
 import { useAppDispatch, useSelectorHook } from "../../services/store";
 import { Redirect, useLocation } from "react-router-dom";
 import { LocationState } from "../../types/types";
 
-const Login: FC = () => {
-  const { email, password } = useSelectorHook((store) => ({
-    ...store.user.loginForm,
+const Register:FC = () => {
+  const { email, password, name } = useSelectorHook((store) => ({
+    ...store.user.registerForm,
   }));
-  const user = useSelectorHook((store) => store.user.user.name);
+  const user  = useSelectorHook((store) => store.user.user.name);
+  const dispatch = useAppDispatch();
+  const { formTitle, buttonTitle } = registerTitles;
   const location = useLocation<LocationState>();
 
-  const dispatch = useAppDispatch();
-
-  const { formTitle, buttonTitle } = loginTitles;
-
-  if (user) {
-    console.log('redirect')
-    const { from } = location.state ? location.state : { from: { pathname: "/" } };
-    return <Redirect to={from} />;
-  }
 
   const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
-    dispatch(setLoginFormValue(name, value));
+    dispatch(setRegisterFormValue(name, value));
   };
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(loginFormSubmit());
+    dispatch(registerFormSubmit());
   };
+
+  if (user) {
+    const { from } = location.state ? location.state : { from: { pathname: "/" } };
+    return <Redirect to={from} />;
+  }
+
   return (
     <AuthForm
       title={formTitle}
       buttonTitle={buttonTitle}
-      links={loginLinks}
+      links={registerLinks}
       onSubmit={onSubmit}
     >
+      <Input
+        type="text"
+        onChange={onChange}
+        value={name}
+        name={"name"}
+        placeholder={"Имя"}
+      />
       <Input
         type="email"
         onChange={onChange}
@@ -63,4 +69,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default Register;
