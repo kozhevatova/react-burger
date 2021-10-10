@@ -2,8 +2,8 @@ import { BASE_URL } from "./constants";
 import { getCookie } from "./utils";
 
 class Api {
-  baseUrl: any;
-  constructor(options: { baseUrl: any }) {
+  baseUrl: string;
+  constructor(options: { baseUrl: string }) {
     this.baseUrl = options.baseUrl;
   }
 
@@ -23,7 +23,7 @@ class Api {
     }).then((response) => this._getResponseData(response));
   }
 
-  makeOrder(ingredients: any) {
+  makeOrder(ingredients: Array<string>) {
     return fetch(`${this.baseUrl}/orders`, {
       method: "POST",
       headers: {

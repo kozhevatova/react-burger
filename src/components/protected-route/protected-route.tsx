@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Route } from "react-router";
+import React, { FC, useEffect, useState } from "react";
+import { Redirect, Route, RouteProps } from "react-router";
 import { getUserInfo } from "../../services/actions/user";
-import { getCookie } from "../../utils/utils";
-import PropTypes from "prop-types";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
 
-const ProtectedRoute = ({ children, ...rest }: any) => {
-  const dispatch = useDispatch();
-  const user = useSelector((store: any) => store.user.user);
+const ProtectedRoute:FC<RouteProps> = ({ children, ...rest }) => {
+  const dispatch = useAppDispatch();
+  const user = useSelectorHook((store) => store.user.user.name);
   const [isUserLoaded, setIsUserLoaded] = useState(false);
 
   useEffect(() => {
-    if (getCookie("refreshToken")) {
-      dispatch(getUserInfo());
-    }
+    dispatch(getUserInfo());
     setIsUserLoaded(true);
   }, [dispatch]);
 
@@ -25,7 +21,7 @@ const ProtectedRoute = ({ children, ...rest }: any) => {
     <Route
       {...rest}
       render={({ location }) =>
-        user.name ? (
+        user ? (
           children
         ) : (
           <Redirect
@@ -38,12 +34,6 @@ const ProtectedRoute = ({ children, ...rest }: any) => {
       }
     />
   );
-};
-
-ProtectedRoute.propTypes = {
-  children: PropTypes.element.isRequired,
-  exact: PropTypes.bool,
-  path: PropTypes.string.isRequired,
 };
 
 export default ProtectedRoute;

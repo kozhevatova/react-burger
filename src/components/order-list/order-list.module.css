@@ -1,0 +1,14 @@
+.list {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  height: 870px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listWide {
+  width: 860px;
+}

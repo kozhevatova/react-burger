@@ -1,6 +1,6 @@
-import {profileCaption, ordersCaption} from './constants';
+import { profileCaption, ordersCaption } from "./constants";
 
-export const setCookie = (name: string, value: any, props?: any) => {
+export const setCookie = (name: string, value: string, props?: any) => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
@@ -38,7 +38,8 @@ export const deleteCookie = (name: string) => {
   }
 };
 
-export const setTokens = (data: any) => {
+export const setTokens = (data: {accessToken: string, refreshToken: string}) => {
+  console.log("set token", data.accessToken);
   const authToken = data.accessToken.split("Bearer ")[1];
   const refreshToken = data.refreshToken;
   if (authToken) {
@@ -49,14 +50,18 @@ export const setTokens = (data: any) => {
   }
 };
 
-
 export const chooseMenuCaption = (path: string) => {
-  switch(path) {
-    case '/profile': {
+  switch (path) {
+    case "/profile": {
       return profileCaption;
     }
-    case '/profile/orders': {
+    case "/profile/orders": {
       return ordersCaption;
     }
   }
+};
+
+export const formatDate = (date: string) => {
+  const [day, time] = Array.from(date.split('.'))[0].split('T');
+  return time + ' ' + day;
 }

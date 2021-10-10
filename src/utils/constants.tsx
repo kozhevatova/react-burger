@@ -1,4 +1,5 @@
 export const BASE_URL = "https://norma.nomoreparties.space/api";
+export const wsUrl = "wss://norma.nomoreparties.space/orders";
 
 export const ingredientDetailsTitle = "Детали ингредиента";
 export const topBunLabel = " (верх)";
@@ -74,3 +75,6 @@ export const profileMenuLinks = [
   export const profileCaption = 'В этом разделе вы можете изменить свои персональные данные';
  
   export const ordersCaption = 'В этом разделе вы можете просмотреть свою историю заказов';
+
+  export const maxAmountOfIngredients = 6;
+  export const maxAmountOrdersToShow = 23;

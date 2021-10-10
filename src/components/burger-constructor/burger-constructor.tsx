@@ -1,17 +1,15 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, FC } from "react";
 import styles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 import {
   ADD_ITEM,
   makeOrder,
   SWAP_INGREDIENTS,
 } from "../../services/actions/order";
-import { useDispatch, useSelector } from "react-redux";
 import Bun from "../bun/bun";
 import { useDrop } from "react-dnd";
 import FillingItem from "../filling-item/filling-item";
@@ -20,24 +18,29 @@ import {
   RESET_COUNT,
 } from "../../services/actions/ingredients";
 import { useHistory } from "react-router-dom";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
+import { IngredientType, OrderedIngredientsType } from "../../types/types";
 
-const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
-  const { orderedIngredients, totalPrice, orderRequest } = useSelector(
-    (store: any) => ({
-      ...store.order,
-    })
+const BurgerConstructor: FC = () => {
+  const { orderedIngredients, totalPrice, orderRequest } = useSelectorHook(
+    (store) =>
+      store.order as {
+        orderedIngredients: OrderedIngredientsType;
+        totalPrice: number;
+        orderRequest: boolean;
+      }
   );
-  const user = useSelector((store: any) => store.user.user);
+  const user = useSelectorHook((store) => store.user.user);
   const history = useHistory();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item) {
+    drop(item: IngredientType) {
       dispatch({ type: ADD_ITEM, item });
       dispatch({ type: INCREASE_COUNT, item });
     },
@@ -51,14 +54,14 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
     if (!user.name) {
       history.replace({ pathname: "/login" });
     } else {
-      setEscListener();
       dispatch({ type: RESET_COUNT });
+      console.log(orderedIngredients);
       dispatch(makeOrder(orderedIngredients));
     }
   };
 
   const swapIngredients = useCallback(
-    (dragIndex: any, hoverIndex: any) => {
+    (dragIndex: number, hoverIndex: number) => {
       const draggedItem = orderedIngredients.filling[dragIndex];
       const swappedFilling = [...orderedIngredients.filling];
       swappedFilling.splice(dragIndex, 1);
@@ -68,17 +71,17 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
     [dispatch, orderedIngredients.filling]
   );
 
-  const content = useMemo(() => {
+  const content = useMemo<false | JSX.Element[]>(() => {
     return (
       orderedIngredients.filling &&
       orderedIngredients.filling.length > 0 &&
-      orderedIngredients.filling.map((item: any, index: number) => {
+      orderedIngredients.filling.map((item: IngredientType, index: number) => {
         return (
           <FillingItem
             key={item.uid}
             index={index}
             swapIngredients={swapIngredients}
-            {...item}
+            item={item}
           />
         );
       })
@@ -87,7 +90,7 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
   }, [orderedIngredients]);
 
   return !orderRequest ? (
-    <section className={containerClassName} ref={dropRef}>
+    <section className={containerClassName} ref={dropRef} id="drop-area">
       <Bun top />
       <ul className={styles.list}>{content}</ul>
       <Bun top={false} />
@@ -105,7 +108,6 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
       )}
     </section>
   ) : (
-    // временная замена лоудеру
     <p
       style={{
         minHeight: 760,
@@ -119,10 +121,6 @@ const BurgerConstructor = ({ setEscListener }: { setEscListener: any }) => {
       Loading...
     </p>
   );
-};
-
-BurgerConstructor.propTypes = {
-  setEscListener: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./order-details.module.css";
 import classNames from "classnames";
 import done from "../../images/done.svg";
-import { useSelector } from "react-redux";
+import { useSelectorHook } from "../../services/store";
 
-const OrderDetails = () => {
-  const orderId = useSelector((store: any) => store.order.orderId);
+const OrderDetails:FC = () => {
+  const {orderId} = useSelectorHook((store) => store.order);
   const idClassName = classNames(
     styles.id,
     "text text_type_digits-large",

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import AppHeader from "../app-header/app-header";
 import styles from "./app.module.css";
 import { ingredientDetailsTitle } from "../../utils/constants";
@@ -8,97 +8,73 @@ import {
   CLOSE_INGREDIENT_MODAL,
   getAllIngredients,
 } from "../../services/actions/ingredients";
-import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_ORDER_MODAL } from "../../services/actions/order";
-import MainContent from "../main-content/main-content";
-import Modal from "../modal/modal";
-import { Route, Switch, useHistory } from "react-router-dom";
-import Login from "../login/login";
-import Register from "../register/register";
-import ForgotPassword from "../forgot-password/forgot-password";
-import Profile from "../profile/profile";
-import ResetPassword from "../reset-password/reset-password";
 import {
-  CLOSE_UPDATE_INFO_MODAL,
-  getUserInfo,
-} from "../../services/actions/user";
-import IngredientItemPage from "../ingredient-item-page/ingredient-item-page";
+  CLOSE_MADE_ORDER_MODAL,
+  CLOSE_ORDER_MODAL,
+} from "../../services/actions/order";
+import MainContent from "../../pages/main-content/main-content";
+import Modal from "../modal/modal";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import Login from "../../pages/login/login";
+import Register from "../../pages/register/register";
+import ForgotPassword from "../../pages/forgot-password/forgot-password";
+import Profile from "../../pages/profile/profile";
+import ResetPassword from "../../pages/reset-password/reset-password";
+import { CLOSE_UPDATE_INFO_MODAL, getUserInfo } from "../../services/actions/user";
+import IngredientItemPage from "../../pages/ingredient-item-page/ingredient-item-page";
 import ProtectedRoute from "../protected-route/protected-route";
-import { getCookie } from "../../utils/utils";
 import ProfileForm from "../profile-form/profile-form";
-import ProfileOrders from "../profile-orders/profile-orders";
-import NotFoundPage from "../not-found-page/not-found-page";
+import NotFoundPage from "../../pages/not-found-page/not-found-page";
+import Feed from "../../pages/feed/feed";
+import OrderList from "../order-list/order-list";
+import Order from "../../pages/order/order";
+import { useAppDispatch, useSelectorHook } from "../../services/store";
+import { LocationState } from "../../types/types";
 
 function App() {
   const history = useHistory();
-  const { isOrderModalOpen, isIngredientModalOpen } = useSelector(
-    (store: any) => ({
-      isOrderModalOpen: store.order.isOrderModalOpen,
-      isIngredientModalOpen: store.ingredients.isIngredientModalOpen,
-    })
+  const { isOrderModalOpen, isMadeOrderModalOpen } = useSelectorHook(
+    (store) => store.order
   );
-  const isAppLoading = useSelector(
-    (store: any) => store.ingredients.ingredientsRequest
+  const { isIngredientModalOpen } = useSelectorHook(
+    (store) => store.ingredients
   );
-  const updateSuccess = useSelector((store: any) => store.user.updateSuccess);
+  const isAppLoading = useSelectorHook(
+    (store) => store.ingredients.ingredientsRequest
+  );
+  const updateSuccess = useSelectorHook((store) => store.user.updateSuccess);
+  const location = useLocation<LocationState>();
+  let background: typeof location | undefined;
+  if (history.action !== "POP" && location.state) {
+    background = location.state.background;
+  }
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getAllIngredients());
   }, [dispatch]);
 
   useEffect(() => {
-    if (getCookie("refreshToken")) {
-      dispatch(getUserInfo());
-    }
+    dispatch(getUserInfo());
   }, [dispatch]);
 
-  const setEscListener = () => {
-    document.addEventListener("keydown", handleEscClose);
-  };
-
-  const removeEscListener = () => {
-    document.removeEventListener("keydown", handleEscClose);
-  };
-
-  //закрытие всех модальных окон, удаление слушателя события нажатия на Esc
+  //закрытие всех модальных окон
   const handleModalsClose = () => {
     dispatch({ type: CLOSE_ORDER_MODAL });
     dispatch({ type: CLOSE_INGREDIENT_MODAL });
     dispatch({ type: CLOSE_UPDATE_INFO_MODAL });
-    removeEscListener();
-    history.replace({ pathname: "/" });
+    dispatch({ type: CLOSE_MADE_ORDER_MODAL });
   };
-
-  //обработчик закрытия модальных окон при нажатии на фон
-  const handleCloseByClickOnOverlay = (e: SyntheticEvent) => {
-    if (e.target !== e.currentTarget) {
-      return;
-    }
-
-    handleModalsClose();
-  };
-
-  //обработчик закрытия по нажатию Esc
-  const handleEscClose = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        handleModalsClose();
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   return (
     <div className={styles.App}>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route exact path="/">
           {/* временная замена лоудеру */}
           {isAppLoading && <p>Loading...</p>}
-          {!isAppLoading && <MainContent setEscListener={setEscListener} />}
+          {!isAppLoading && <MainContent />}
         </Route>
         <ProtectedRoute exact path="/profile">
           <Profile>
@@ -107,8 +83,11 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile/orders">
           <Profile>
-            <ProfileOrders />
+            <OrderList wide />
           </Profile>
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders/:id">
+          <Order isModal={false} />
         </ProtectedRoute>
         <Route exact path="/login">
           <Login />
@@ -123,38 +102,49 @@ function App() {
           <ResetPassword />
         </Route>
         <Route path="/ingredients/:id">
-          {isIngredientModalOpen ? (
-            <Modal
-              title={ingredientDetailsTitle}
-              handleModalClose={handleModalsClose}
-              handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
-            >
-              <IngredientDetails />
-            </Modal>
-          ) : (
-            <IngredientItemPage />
-          )}
+          <IngredientItemPage />
+        </Route>
+        <Route exact path="/feed">
+          <Feed />
+        </Route>
+        <Route path="/feed/:id">
+          <Order isModal={false} />
         </Route>
         <Route path="*">
           <NotFoundPage />
         </Route>
       </Switch>
-
+      {background && isIngredientModalOpen && (
+        <Route path="/ingredients/:id">
+          <Modal
+            title={ingredientDetailsTitle}
+            handleModalClose={handleModalsClose}
+          >
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      )}
+      {background && isMadeOrderModalOpen && (
+        <Route path="/feed/:id">
+          <Modal title="" handleModalClose={handleModalsClose}>
+            <Order isModal={true} />
+          </Modal>
+        </Route>
+      )}
+      {background && isMadeOrderModalOpen && (
+        <ProtectedRoute path="/profile/orders/:id">
+          <Modal title="" handleModalClose={handleModalsClose}>
+            <Order isModal={true} />
+          </Modal>
+        </ProtectedRoute>
+      )}
       {isOrderModalOpen && (
-        <Modal
-          title=""
-          handleModalClose={handleModalsClose}
-          handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
-        >
+        <Modal title="" handleModalClose={handleModalsClose}>
           <OrderDetails />
         </Modal>
       )}
       {updateSuccess && (
-        <Modal
-          title="Уведомление"
-          handleModalClose={handleModalsClose}
-          handleCloseByClickOnOverlay={handleCloseByClickOnOverlay}
-        >
+        <Modal title="Уведомление" handleModalClose={handleModalsClose}>
           <p className="text text_type_main-medium">Данные успешно обновлены</p>
         </Modal>
       )}
