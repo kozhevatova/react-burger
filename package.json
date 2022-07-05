@@ -1,6 +1,6 @@
 {
   "name": "react-burger",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
